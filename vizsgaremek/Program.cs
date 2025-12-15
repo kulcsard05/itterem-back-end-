@@ -1,8 +1,7 @@
-
 using System.Security.Cryptography;
 using System.Text;
 using vizsgaremek.Modells;
-
+using Microsoft.EntityFrameworkCore;
 
 namespace vizsgaremek
 {
@@ -64,6 +63,90 @@ namespace vizsgaremek
 
 
             app.MapControllers();
+
+            //// Teszt: Kapcsolatok ellenõrzése
+            //using (var context = new BackEndAlapContext())
+            //{
+            //    Console.WriteLine("=== ÚJ FELHASZNÁLÓ HOZZÁADÁSA ===");
+
+            //    // Új felhasználó létrehozása
+            //    string jelszo = "teszt123";
+            //    string salt = GenerateSalt();
+            //    string hash = CreateSHA256(jelszo + salt);
+
+            //    var ujFelhasznalo = new Users
+            //    {
+            //        TeljesNev = "Kovács János2",
+            //        Email = "kovacs.janos2@email.com",
+            //        TelefonSzam = "+36 20 1234567",
+            //        Jogosultsag = 0, // Felhasználó jogosultság (szint 0)
+            //        Salt = salt,
+            //        Hash = hash
+            //    };
+
+            //    // Hozzáadás az adatbázishoz
+            //    context.Users.Add(ujFelhasznalo);
+            //    context.SaveChanges();
+
+            //    Console.WriteLine("Új felhasználó sikeresen hozzáadva!");
+            //    Console.WriteLine($"ID: {ujFelhasznalo.Id}");
+            //    Console.WriteLine($"Név: {ujFelhasznalo.TeljesNev}");
+            //    Console.WriteLine($"Email: {ujFelhasznalo.Email}");
+            //    Console.WriteLine($"Telefon: {ujFelhasznalo.TelefonSzam}");
+            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Jogosultsag}");
+            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Hash}");
+            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Salt}");
+            //    Console.WriteLine();
+
+            //    Console.WriteLine("=== ÖSSZES FELHASZNÁLÓ LISTÁZÁSA ===");
+
+            //    var users = context.Users
+            //        .Include(u => u.JogosultsagNavigation)
+            //        .ToList();
+
+            //    foreach (var user in users)
+            //    {
+            //        Console.WriteLine($"Felhasználó: {user.TeljesNev}");
+            //        Console.WriteLine($"  - ID: {user.Id}");
+            //        Console.WriteLine($"  - Email: {user.Email}");
+            //        Console.WriteLine($"  - Telefonszám: {user.TelefonSzam}");
+            //        Console.WriteLine($"  - Jogosultság: {user.JogosultsagNavigation?.Nev ?? "Nincs jogosultság"}");
+            //        Console.WriteLine($"  - Jogosultság szint: {user.Jogosultsag}");
+            //        Console.WriteLine();
+            //    }
+
+            //    Console.WriteLine("=== MENÜK TESZTELÉSE ===");
+
+            //    // Menük lekérdezése kapcsolódó adatokkal
+            //    var menuk = context.Menuks
+            //        .Include(m => m.Keszetelek)
+            //        .Include(m => m.Koretek)
+            //        .Include(m => m.Uditok)
+            //        .ToList();
+
+            //    foreach (var menu in menuk)
+            //    {
+            //        Console.WriteLine($"Menü: {menu.Menu_Nev}");
+            //        Console.WriteLine($"  - Készétel: {menu.Keszetelek.Nev}");
+            //        Console.WriteLine($"  - Köret: {menu.Koretek.Nev}");
+            //        Console.WriteLine($"  - Üdítõ: {menu.Uditok.Nev}");
+            //        Console.WriteLine();
+            //    }
+
+            //    Console.WriteLine("=== KÉSZÉTELEK ÉS HOZZÁVALÓK TESZTELÉSE ===");
+
+            //    // Készételek lekérdezése hozzávalókkal
+            //    var keszetelek = context.Keszeteleks.Include(k => k.Hozzavaloks).ToList();
+            //    foreach (var keszetel in keszetelek)
+            //    {
+            //        Console.WriteLine($"Készétel: {keszetel.Nev}");
+            //        foreach (var hozzavalo in keszetel.Hozzavaloks)
+            //        {
+            //            Console.WriteLine($"  - Hozzávaló: {hozzavalo.Hozzavalo_Nev}");
+            //        }
+            //        Console.WriteLine();
+            //    }
+            //}
 
             app.Run();
         }

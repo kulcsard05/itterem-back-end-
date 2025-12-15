@@ -1,0 +1,156 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\backendalapcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\backendalapcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\jogok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\jogok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\hozzavalok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\hozzavalok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\menuk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\menuk.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\keszetelek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\keszetelek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Menuk.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Menuk.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Menuk.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Menuk.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Menuk.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:23:50.166Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Program.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Program.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Program.cs",
+              "RelativeToolTip": "vizsgaremek\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:01:48.075Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Keszetelek.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Keszetelek.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Keszetelek.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T07:36:40.086Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BackEndAlapContext.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\BackEndAlapContext.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\BackEndAlapContext.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\BackEndAlapContext.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\BackEndAlapContext.cs",
+              "ViewState": "AgIAAEsAAAAAAAAAAAAmwDQAAAAhAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T07:32:45.348Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Hozzavalok.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Hozzavalok.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Hozzavalok.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Hozzavalok.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Hozzavalok.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T07:30:31.136Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Jogok.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Jogok.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Jogok.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Jogok.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Jogok.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T07:25:16.203Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Koretek.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Koretek.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Koretek.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Koretek.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Koretek.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:26:50.845Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Uditok.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Uditok.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Uditok.cs",
+              "ToolTip": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\Modells\\Uditok.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Uditok.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAABLAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:27:21.974Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
