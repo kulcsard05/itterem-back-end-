@@ -52,8 +52,9 @@ public partial class BackEndAlapContext : DbContext
 
             entity.ToTable("users");
 
+            // Egyedi indexek az email és telefonszam mezőkre
             entity.HasIndex(e => e.Email, "email").IsUnique();
-            entity.HasIndex(e => e.TeljesNev, "teljes_nev").IsUnique();
+            entity.HasIndex(e => e.TelefonSzam, "telefonszam").IsUnique(); // ← Telefonszám egyedi index
             entity.HasIndex(e => e.Jogosultsag, "jogosultsag");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
@@ -63,6 +64,7 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Hash).HasMaxLength(64).HasColumnName("hash");
             entity.Property(e => e.Salt).HasMaxLength(64).HasColumnName("salt");
             entity.Property(e => e.Jogosultsag).HasColumnType("int(1)");
+            entity.Property(e => e.Aktiv).HasColumnType("int(1)");
 
             entity.HasOne(d => d.JogosultsagNavigation).WithMany(p => p.Users)
                 .HasPrincipalKey(p => p.Szint)

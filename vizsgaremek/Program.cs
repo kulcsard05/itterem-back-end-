@@ -64,89 +64,100 @@ namespace vizsgaremek
 
             app.MapControllers();
 
-            //// Teszt: Kapcsolatok ellenõrzése
-            //using (var context = new BackEndAlapContext())
-            //{
-            //    Console.WriteLine("=== ÚJ FELHASZNÁLÓ HOZZÁADÁSA ===");
+            // Teszt: Kapcsolatok ellenõrzése
+            using (var context = new BackEndAlapContext())
+            {
+                Console.WriteLine("=== JOGOSULTSÁG ELLENÕRZÉSE ===");
 
-            //    // Új felhasználó létrehozása
-            //    string jelszo = "teszt123";
-            //    string salt = GenerateSalt();
-            //    string hash = CreateSHA256(jelszo + salt);
+                // Ellenõrizzük, hogy létezik-e a jogosultság
+                var existingRole = context.Jogoks.FirstOrDefault(j => j.Szint == 1);
+                if (existingRole == null)
+                {
+                    Console.WriteLine("A jogosultság nem létezik, létrehozás...");
+                    var newRole = new Jogok
+                    {
+                        Szint = 1,
+                        Nev = "Felhasználó",
+                        Leiras = "Alap jogosultság"
+                    };
+                    context.Jogoks.Add(newRole);
+                    context.SaveChanges();
+                    Console.WriteLine("Jogosultság sikeresen létrehozva!");
+                }
+                else
+                {
+                    Console.WriteLine("A jogosultság már létezik.");
+                }
 
-            //    var ujFelhasznalo = new Users
-            //    {
-            //        TeljesNev = "Kovács János2",
-            //        Email = "kovacs.janos2@email.com",
-            //        TelefonSzam = "+36 20 1234567",
-            //        Jogosultsag = 0, // Felhasználó jogosultság (szint 0)
-            //        Salt = salt,
-            //        Hash = hash
-            //    };
+                Console.WriteLine("=== ÚJ FELHASZNÁLÓ HOZZÁADÁSA ===");
 
-            //    // Hozzáadás az adatbázishoz
-            //    context.Users.Add(ujFelhasznalo);
-            //    context.SaveChanges();
+                // Ellenõrizzük, hogy létezik-e már a felhasználó
+                var existingUser = context.Users.FirstOrDefault(u => u.Email == "teszt@teszt.hu");
+                if (existingUser != null)
+                {
+                    Console.WriteLine("A felhasználó már létezik az adatbázisban.");
+                }
+                else
+                {
+                    // Jelszó hash-elése és salt generálása
+                    string salt = Program.GenerateSalt();
+                    string hashedPassword = Program.CreateSHA256("teszt123" + salt);
 
-            //    Console.WriteLine("Új felhasználó sikeresen hozzáadva!");
-            //    Console.WriteLine($"ID: {ujFelhasznalo.Id}");
-            //    Console.WriteLine($"Név: {ujFelhasznalo.TeljesNev}");
-            //    Console.WriteLine($"Email: {ujFelhasznalo.Email}");
-            //    Console.WriteLine($"Telefon: {ujFelhasznalo.TelefonSzam}");
-            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Jogosultsag}");
-            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Hash}");
-            //    Console.WriteLine($"Jogosultság szint: {ujFelhasznalo.Salt}");
-            //    Console.WriteLine();
+                    // Új felhasználó létrehozása
+                    var newUser = new Users
+                    {
+                        TeljesNev = "Teszt Felhasználó",
+                        Email = "teszt@teszt.hu",
+                        TelefonSzam = "+36 30 1234567",
+                        Hash = hashedPassword,
+                        Salt = salt,
+                        Aktiv = 1, // Aktív státusz
+                        Jogosultsag = 1 // Jogosultság szint
+                    };
 
-            //    Console.WriteLine("=== ÖSSZES FELHASZNÁLÓ LISTÁZÁSA ===");
+                    // Felhasználó hozzáadása az adatbázishoz
+                    context.Users.Add(newUser);
+                    context.SaveChanges();
 
-            //    var users = context.Users
-            //        .Include(u => u.JogosultsagNavigation)
-            //        .ToList();
+                    Console.WriteLine("Új felhasználó sikeresen létrehozva!");
+                    Console.WriteLine($"Név: {newUser.TeljesNev}");
+                    Console.WriteLine($"Email: {newUser.Email}");
+                    Console.WriteLine($"Telefon: {newUser.TelefonSzam}");
+                    Console.WriteLine($"Jogosultság szint: {newUser.Jogosultsag}");
+                    Console.WriteLine($"Aktivitás: {newUser.Aktiv}");
+                }
 
-            //    foreach (var user in users)
-            //    {
-            //        Console.WriteLine($"Felhasználó: {user.TeljesNev}");
-            //        Console.WriteLine($"  - ID: {user.Id}");
-            //        Console.WriteLine($"  - Email: {user.Email}");
-            //        Console.WriteLine($"  - Telefonszám: {user.TelefonSzam}");
-            //        Console.WriteLine($"  - Jogosultság: {user.JogosultsagNavigation?.Nev ?? "Nincs jogosultság"}");
-            //        Console.WriteLine($"  - Jogosultság szint: {user.Jogosultsag}");
-            //        Console.WriteLine();
-            //    }
+                Console.WriteLine("=== MENÜK, FELHASZNÁLÓK ÉS ÉTELEK LEKÉRDEZÉSE ===");
 
-            //    Console.WriteLine("=== MENÜK TESZTELÉSE ===");
+                // Lekérdezés a Menuk, Users és Keszetelek táblákból
+                var menus = context.Menuks
+                    .Include(m => m.Keszetelek) // Menü kapcsolódó ételek
+                    .Include(m => m.Koretek)    // Menü kapcsolódó köretek
+                    .Include(m => m.Uditok)    // Menü kapcsolódó üdítõk
+                    .ToList();
 
-            //    // Menük lekérdezése kapcsolódó adatokkal
-            //    var menuk = context.Menuks
-            //        .Include(m => m.Keszetelek)
-            //        .Include(m => m.Koretek)
-            //        .Include(m => m.Uditok)
-            //        .ToList();
+                var users = context.Users.ToList(); // Felhasználók lekérdezése
 
-            //    foreach (var menu in menuk)
-            //    {
-            //        Console.WriteLine($"Menü: {menu.Menu_Nev}");
-            //        Console.WriteLine($"  - Készétel: {menu.Keszetelek.Nev}");
-            //        Console.WriteLine($"  - Köret: {menu.Koretek.Nev}");
-            //        Console.WriteLine($"  - Üdítõ: {menu.Uditok.Nev}");
-            //        Console.WriteLine();
-            //    }
+                // Kiírás a konzolra
+                foreach (var menu in menus)
+                {
+                    Console.WriteLine($"Menü: {menu.Menu_Nev}");
+                    Console.WriteLine($"  - Készétel: {menu.Keszetelek?.Nev ?? "Nincs készétel"}");
+                    Console.WriteLine($"  - Köret: {menu.Koretek?.Nev ?? "Nincs köret"}");
+                    Console.WriteLine($"  - Üdítõ: {menu.Uditok?.Nev ?? "Nincs üdítõ"}");
+                    Console.WriteLine();
+                }
 
-            //    Console.WriteLine("=== KÉSZÉTELEK ÉS HOZZÁVALÓK TESZTELÉSE ===");
-
-            //    // Készételek lekérdezése hozzávalókkal
-            //    var keszetelek = context.Keszeteleks.Include(k => k.Hozzavaloks).ToList();
-            //    foreach (var keszetel in keszetelek)
-            //    {
-            //        Console.WriteLine($"Készétel: {keszetel.Nev}");
-            //        foreach (var hozzavalo in keszetel.Hozzavaloks)
-            //        {
-            //            Console.WriteLine($"  - Hozzávaló: {hozzavalo.Hozzavalo_Nev}");
-            //        }
-            //        Console.WriteLine();
-            //    }
-            //}
+                Console.WriteLine("=== FELHASZNÁLÓK LISTÁJA ===");
+                foreach (var user in users)
+                {
+                    Console.WriteLine($"Felhasználó: {user.TeljesNev}");
+                    Console.WriteLine($"  - Email: {user.Email}");
+                    Console.WriteLine($"  - Telefonszám: {user.TelefonSzam}");
+                    Console.WriteLine($"  - Jogosultság szint: {user.Jogosultsag}");
+                    Console.WriteLine();
+                }
+            }
 
             app.Run();
         }

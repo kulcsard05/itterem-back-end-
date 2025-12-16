@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "W3GixPyhZ2M=",
+  "dgSpecHash": "1H3crcsgCSA=",
   "success": true,
-  "projectFilePath": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
+  "projectFilePath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\kulcs\\.nuget\\packages\\bouncycastle.cryptography\\2.6.2\\bouncycastle.cryptography.2.6.2.nupkg.sha512",
     "C:\\Users\\kulcs\\.nuget\\packages\\google.protobuf\\3.32.0\\google.protobuf.3.32.0.nupkg.sha512",

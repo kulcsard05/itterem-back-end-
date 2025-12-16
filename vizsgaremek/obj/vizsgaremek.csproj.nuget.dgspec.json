@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj": {}
+    "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj": {}
   },
   "projects": {
-    "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj": {
+    "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
+        "projectUniqueName": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
         "projectName": "vizsgaremek",
-        "projectPath": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
+        "projectPath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
         "packagesPath": "C:\\Users\\kulcs\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\kulcs\\source\\repos\\itterem-back-end-\\vizsgaremek\\obj\\",
+        "outputPath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
