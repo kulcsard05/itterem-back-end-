@@ -4,6 +4,6 @@
     {
         public string email { get; set; }
 
-        public string tmpHASH { get; set; }
+        public string passwd { get; set; }
     }
 }

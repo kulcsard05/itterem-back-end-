@@ -46,7 +46,7 @@ namespace vizsgaremek.Controllers
                     }
 
                     // Szerver oldali hash-elés a Salt használatával
-                    string calculatedHash = Program.CreateSHA256(login.tmpHASH + response.Salt);
+                    string calculatedHash = Program.CreateSHA256(login.passwd + response.Salt);
 
                     // Összehasonlítjuk a hash-eket
                     if (response.Hash != calculatedHash)

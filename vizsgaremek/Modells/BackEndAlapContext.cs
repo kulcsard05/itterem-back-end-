@@ -61,8 +61,8 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Email).HasMaxLength(50);
             entity.Property(e => e.TeljesNev).HasMaxLength(64).HasColumnName("teljes_nev");
             entity.Property(e => e.TelefonSzam).HasMaxLength(20).HasColumnName("telefonszam");
-            entity.Property(e => e.Hash).HasMaxLength(64).HasColumnName("hash");
-            entity.Property(e => e.Salt).HasMaxLength(64).HasColumnName("salt");
+            entity.Property(e => e.Hash).HasMaxLength(64).HasColumnName("Hash");
+            entity.Property(e => e.Salt).HasMaxLength(64).HasColumnName("Salt");
             entity.Property(e => e.Jogosultsag).HasColumnType("int(1)");
             entity.Property(e => e.Aktiv).HasColumnType("int(1)");
 
@@ -86,9 +86,12 @@ public partial class BackEndAlapContext : DbContext
             entity.ToTable("keszetelek");
             entity.HasKey(e => e.Id).HasName("PRIMARY");
             entity.Property(e => e.Id).HasColumnType("int(11)");
-            // matches SQL: nev varchar(64), leiras varchar(100)
-            entity.Property(e => e.Nev).HasMaxLength(64);
-            entity.Property(e => e.Leiras).HasMaxLength(100);
+
+            entity.Property(e => e.Nev).HasMaxLength(64).HasColumnName("nev");
+            entity.Property(e => e.Leiras).HasMaxLength(100).HasColumnName("leiras");
+
+            // ADD THIS:
+            entity.Property(e => e.Elerheto).HasColumnType("int(1)").HasColumnName("elerheto");
         });
 
         // HIÁNYZÓ entitások konfigurációja:

@@ -92,7 +92,8 @@ namespace vizsgaremek
                 Console.WriteLine("=== ÚJ FELHASZNÁLÓ HOZZÁADÁSA ===");
 
                 // Ellenõrizzük, hogy létezik-e már a felhasználó
-                var existingUser = context.Users.FirstOrDefault(u => u.Email == "teszt@teszt.hu");
+                var email = "teszt1@teszt.hu";
+                var existingUser = context.Users.FirstOrDefault(u => u.Email == email);
                 if (existingUser != null)
                 {
                     Console.WriteLine("A felhasználó már létezik az adatbázisban.");
@@ -101,13 +102,13 @@ namespace vizsgaremek
                 {
                     // Jelszó hash-elése és salt generálása
                     string salt = Program.GenerateSalt();
-                    string hashedPassword = Program.CreateSHA256("teszt123" + salt);
+                    string hashedPassword = Program.CreateSHA256("teszt1" + salt);
 
                     // Új felhasználó létrehozása
                     var newUser = new Users
                     {
                         TeljesNev = "Teszt Felhasználó",
-                        Email = "teszt@teszt.hu",
+                        Email = email,
                         TelefonSzam = "+36 30 1234567",
                         Hash = hashedPassword,
                         Salt = salt,
@@ -125,6 +126,7 @@ namespace vizsgaremek
                     Console.WriteLine($"Telefon: {newUser.TelefonSzam}");
                     Console.WriteLine($"Jogosultság szint: {newUser.Jogosultsag}");
                     Console.WriteLine($"Aktivitás: {newUser.Aktiv}");
+                    Console.WriteLine($"{hashedPassword}");
                 }
 
                 Console.WriteLine("=== MENÜK, FELHASZNÁLÓK ÉS ÉTELEK LEKÉRDEZÉSE ===");
