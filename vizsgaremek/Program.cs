@@ -44,6 +44,22 @@ namespace vizsgaremek
             // Add services to the container.
 
             builder.Services.AddControllers();
+
+            // Dev-only CORS (e.g. React dev server)
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("DevCors", policy =>
+                {
+                    // Prefer a specific origin for dev.
+                    policy.WithOrigins("http://localhost:3000")
+                        .AllowAnyHeader()
+                        .AllowAnyMethod();
+
+                    // If you truly need "AllowAnyOrigin", replace the above with:
+                    // policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
+                });
+            });
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
@@ -55,6 +71,8 @@ namespace vizsgaremek
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
+
+                app.UseCors("DevCors");
             }
 
             app.UseHttpsRedirection();
@@ -64,99 +82,99 @@ namespace vizsgaremek
 
             app.MapControllers();
 
-            // Teszt: Kapcsolatok ellenırzÈse
+            // Teszt: Kapcsolatok ellen≈ërz√©se
             using (var context = new BackEndAlapContext())
             {
-                Console.WriteLine("=== JOGOSULTS¡G ELLEN’RZ…SE ===");
+                Console.WriteLine("=== JOGOSULTS√ÅG ELLEN≈êRZ√âSE ===");
 
-                // Ellenırizz¸k, hogy lÈtezik-e a jogosults·g
+                // Ellen≈ërizz√ºk, hogy l√©tezik-e a jogosults√°g
                 var existingRole = context.Jogoks.FirstOrDefault(j => j.Szint == 1);
                 if (existingRole == null)
                 {
-                    Console.WriteLine("A jogosults·g nem lÈtezik, lÈtrehoz·s...");
+                    Console.WriteLine("A jogosults√°g nem l√©tezik, l√©trehoz√°s...");
                     var newRole = new Jogok
                     {
                         Szint = 1,
-                        Nev = "Felhaszn·lÛ",
-                        Leiras = "Alap jogosults·g"
+                        Nev = "Felhaszn√°l√≥",
+                        Leiras = "Alap jogosults√°g"
                     };
                     context.Jogoks.Add(newRole);
                     context.SaveChanges();
-                    Console.WriteLine("Jogosults·g sikeresen lÈtrehozva!");
+                    Console.WriteLine("Jogosults√°g sikeresen l√©trehozva!");
                 }
                 else
                 {
-                    Console.WriteLine("A jogosults·g m·r lÈtezik.");
+                    Console.WriteLine("A jogosults√°g m√°r l√©tezik.");
                 }
 
-                Console.WriteLine("=== ⁄J FELHASZN¡L” HOZZ¡AD¡SA ===");
+                Console.WriteLine("=== √öJ FELHASZN√ÅL√ì HOZZ√ÅAD√ÅSA ===");
 
-                // Ellenırizz¸k, hogy lÈtezik-e m·r a felhaszn·lÛ
+                // Ellen≈ërizz√ºk, hogy l√©tezik-e m√°r a felhaszn√°l√≥
                 var email = "teszt1@teszt.hu";
                 var existingUser = context.Users.FirstOrDefault(u => u.Email == email);
                 if (existingUser != null)
                 {
-                    Console.WriteLine("A felhaszn·lÛ m·r lÈtezik az adatb·zisban.");
+                    Console.WriteLine("A felhaszn√°l√≥ m√°r l√©tezik az adatb√°zisban.");
                 }
                 else
                 {
-                    // JelszÛ hash-elÈse Ès salt gener·l·sa
+                    // Jelsz√≥ hash-el√©se √©s salt gener√°l√°sa
                     string salt = Program.GenerateSalt();
                     string hashedPassword = Program.CreateSHA256("teszt1" + salt);
 
-                    // ⁄j felhaszn·lÛ lÈtrehoz·sa
+                    // √öj felhaszn√°l√≥ l√©trehoz√°sa
                     var newUser = new Users
                     {
-                        TeljesNev = "Teszt Felhaszn·lÛ",
+                        TeljesNev = "Teszt Felhaszn√°l√≥",
                         Email = email,
                         TelefonSzam = "+36 30 1234567",
                         Hash = hashedPassword,
                         Salt = salt,
-                        Aktiv = 1, // AktÌv st·tusz
-                        Jogosultsag = 1 // Jogosults·g szint
+                        Aktiv = 1, // Akt√≠v st√°tusz
+                        Jogosultsag = 1 // Jogosults√°g szint
                     };
 
-                    // Felhaszn·lÛ hozz·ad·sa az adatb·zishoz
+                    // Felhaszn√°l√≥ hozz√°ad√°sa az adatb√°zishoz
                     context.Users.Add(newUser);
                     context.SaveChanges();
 
-                    Console.WriteLine("⁄j felhaszn·lÛ sikeresen lÈtrehozva!");
-                    Console.WriteLine($"NÈv: {newUser.TeljesNev}");
+                    Console.WriteLine("√öj felhaszn√°l√≥ sikeresen l√©trehozva!");
+                    Console.WriteLine($"N√©v: {newUser.TeljesNev}");
                     Console.WriteLine($"Email: {newUser.Email}");
                     Console.WriteLine($"Telefon: {newUser.TelefonSzam}");
-                    Console.WriteLine($"Jogosults·g szint: {newUser.Jogosultsag}");
-                    Console.WriteLine($"Aktivit·s: {newUser.Aktiv}");
+                    Console.WriteLine($"Jogosults√°g szint: {newUser.Jogosultsag}");
+                    Console.WriteLine($"Aktivit√°s: {newUser.Aktiv}");
                     Console.WriteLine($"{hashedPassword}");
                 }
 
-                Console.WriteLine("=== MEN‹K, FELHASZN¡L”K …S …TELEK LEK…RDEZ…SE ===");
+                Console.WriteLine("=== MEN√úK, FELHASZN√ÅL√ìK √âS √âTELEK LEK√âRDEZ√âSE ===");
 
-                // LekÈrdezÈs a Menuk, Users Ès Keszetelek t·bl·kbÛl
+                // Lek√©rdez√©s a Menuk, Users √©s Keszetelek t√°bl√°kb√≥l
                 var menus = context.Menuks
-                    .Include(m => m.Keszetelek) // Men¸ kapcsolÛdÛ Ètelek
-                    .Include(m => m.Koretek)    // Men¸ kapcsolÛdÛ kˆretek
-                    .Include(m => m.Uditok)    // Men¸ kapcsolÛdÛ ¸dÌtık
+                    .Include(m => m.Keszetelek) // Men√º kapcsol√≥d√≥ √©telek
+                    .Include(m => m.Koretek)    // Men√º kapcsol√≥d√≥ k√∂retek
+                    .Include(m => m.Uditok)    // Men√º kapcsol√≥d√≥ √ºd√≠t≈ëk
                     .ToList();
 
-                var users = context.Users.ToList(); // Felhaszn·lÛk lekÈrdezÈse
+                var users = context.Users.ToList(); // Felhaszn√°l√≥k lek√©rdez√©se
 
-                // KiÌr·s a konzolra
+                // Ki√≠r√°s a konzolra
                 foreach (var menu in menus)
                 {
-                    Console.WriteLine($"Men¸: {menu.Menu_Nev}");
-                    Console.WriteLine($"  - KÈszÈtel: {menu.Keszetelek?.Nev ?? "Nincs kÈszÈtel"}");
-                    Console.WriteLine($"  - Kˆret: {menu.Koretek?.Nev ?? "Nincs kˆret"}");
-                    Console.WriteLine($"  - ‹dÌtı: {menu.Uditok?.Nev ?? "Nincs ¸dÌtı"}");
+                    Console.WriteLine($"Men√º: {menu.Menu_Nev}");
+                    Console.WriteLine($"  - K√©sz√©tel: {menu.Keszetelek?.Nev ?? "Nincs k√©sz√©tel"}");
+                    Console.WriteLine($"  - K√∂ret: {menu.Koretek?.Nev ?? "Nincs k√∂ret"}");
+                    Console.WriteLine($"  - √úd√≠t≈ë: {menu.Uditok?.Nev ?? "Nincs √ºd√≠t≈ë"}");
                     Console.WriteLine();
                 }
 
-                Console.WriteLine("=== FELHASZN¡L”K LIST¡JA ===");
+                Console.WriteLine("=== FELHASZN√ÅL√ìK LIST√ÅJA ===");
                 foreach (var user in users)
                 {
-                    Console.WriteLine($"Felhaszn·lÛ: {user.TeljesNev}");
+                    Console.WriteLine($"Felhaszn√°l√≥: {user.TeljesNev}");
                     Console.WriteLine($"  - Email: {user.Email}");
-                    Console.WriteLine($"  - Telefonsz·m: {user.TelefonSzam}");
-                    Console.WriteLine($"  - Jogosults·g szint: {user.Jogosultsag}");
+                    Console.WriteLine($"  - Telefonsz√°m: {user.TelefonSzam}");
+                    Console.WriteLine($"  - Jogosults√°g szint: {user.Jogosultsag}");
                     Console.WriteLine();
                 }
             }
