@@ -46,5 +46,26 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "BackendAlap.Controllers.RegistrationController",
+    "Method": "ActivateAccount",
+    "RelativePath": "api/Registration",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "felhasznaloNev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

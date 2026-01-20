@@ -38,6 +38,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
+                    string HASH = Program.CreateSHA256(login.passwd);
                     // Lekérjük a felhasználót az email alapján
                     var response = cx.Users.FirstOrDefault(f => f.Email == login.email);
                     if (response == null)
@@ -45,11 +46,9 @@ namespace vizsgaremek.Controllers
                         return Ok("Hibás név vagy jelszó");
                     }
 
-                    // Szerver oldali hash-elés a Salt használatával
-                    string calculatedHash = Program.CreateSHA256(login.passwd + response.Salt);
 
                     // Összehasonlítjuk a hash-eket
-                    if (response.Hash != calculatedHash)
+                    if (response.Hash != HASH)
                     {
                         return Ok("Hibás név vagy jelszó");
                     }

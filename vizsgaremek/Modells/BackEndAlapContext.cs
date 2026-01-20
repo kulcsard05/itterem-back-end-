@@ -66,10 +66,12 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Jogosultsag).HasColumnType("int(1)");
             entity.Property(e => e.Aktiv).HasColumnType("int(1)");
 
-            entity.HasOne(d => d.JogosultsagNavigation).WithMany(p => p.Users)
-                .HasPrincipalKey(p => p.Szint)
-                .HasForeignKey(d => d.Jogosultsag)
-                .HasConstraintName("users_ibfk_1");
+            entity.HasOne(d => d.JogosultsagNavigation)
+      .WithMany(p => p.Users)
+      .HasPrincipalKey(p => p.Szint)
+      .HasForeignKey(d => d.Jogosultsag)
+      .OnDelete(DeleteBehavior.ClientSetNull) // Opcionálissá teszi
+      .HasConstraintName("users_ibfk_1");
         });
 
         modelBuilder.Entity<Hozzavalok>(entity =>

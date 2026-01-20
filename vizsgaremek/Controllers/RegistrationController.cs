@@ -16,34 +16,16 @@ namespace BackendAlap.Controllers
             {
                 try
                 {
-                    // Ellenőrizzük, hogy létezik-e már a felhasználó teljes név alapján
-                    if (cx.Users.FirstOrDefault(f => f.TeljesNev == user.TeljesNev) != null)
-                    {
-                        return Ok("MÁR VAN ILYEN FELHASZNÁLÓ");
-                    }
-
-                    // Ellenőrizzük, hogy az email már regisztrálva van-e
                     if (cx.Users.FirstOrDefault(f => f.Email == user.Email) != null)
                     {
-                        return Ok("EZT AZ EMAIL MÁR REGISZTRÁLTÁK");
+                        return Ok("Már létezik ez az email cím!");
                     }
-
-                    // Ellenőrizzük, hogy a telefonszám már regisztrálva van-e
-                    if (cx.Users.FirstOrDefault(f => f.TelefonSzam == user.TelefonSzam) != null)
-                    {
-                        return Ok("EZT A TELEFONSZÁMOT MÁR REGISZTRÁLTÁK");
-                    }
-
-                    // Alapértelmezett értékek beállítása
-                    user.Jogosultsag = 1; // Alap jogosultság
-                    user.Aktiv = 2; // Inaktív státusz
-                    user.Hash = Program.CreateSHA256(user.Hash); // Jelszó hash-elése
-
-                    // Felhasználó hozzáadása az adatbázishoz
+                    user.Jogosultsag = 1;
+                    user.Aktiv = 2;
+                    user.Hash = Program.CreateSHA256(user.Hash);
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
-
-                    return Ok("Sikeres regisztráció");
+                    return Ok("Sikeres regisztráció.");
                 }
                 catch (Exception ex)
                 {
@@ -51,5 +33,41 @@ namespace BackendAlap.Controllers
                 }
             }
         }
+
+        [HttpGet]
+
+        public async Task<IActionResult> ActivateAccount(string felhasznaloNev, string email)
+        {
+            using (var cx = new BackEndAlapContext())
+            {
+                try
+                {
+                    Users? user = cx.Users.FirstOrDefault(f => f.Email == email);
+                    if (user == null)
+                    {
+                        return BadRequest("Sikertelen regisztráció");
+                    }
+                    else
+                    {
+                        if (user.Aktiv != 2)
+                        {
+                            return Ok("A regisztráció már megtörtént!");
+                        }
+                        else
+                        {
+                            user.Aktiv = 1;
+                            cx.Users.Update(user);
+                            await cx.SaveChangesAsync();
+                            return Ok("Sikeres fiók aktiválás.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
     }
 }

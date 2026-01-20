@@ -12,7 +12,7 @@
 
         public string TelefonSzam { get; set; } = null!;
 
-        public virtual Jogok JogosultsagNavigation { get; set; } = null!;
+        public virtual Jogok? JogosultsagNavigation { get; set; }
 
     }
 }

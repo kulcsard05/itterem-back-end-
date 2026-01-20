@@ -120,7 +120,7 @@ namespace vizsgaremek
                 {
                     // Jelszó hash-elése és salt generálása
                     string salt = Program.GenerateSalt();
-                    string hashedPassword = Program.CreateSHA256("teszt1" + salt);
+                    string hashedPassword = Program.CreateSHA256("teszt1");
 
                     // Új felhasználó létrehozása
                     var newUser = new Users
