@@ -23,6 +23,7 @@ namespace vizsgaremek
             }
             return salt;
         }
+        
         public static string CreateSHA256(string input)
         {
             using (SHA256 sha256 = SHA256.Create())
@@ -35,6 +36,11 @@ namespace vizsgaremek
                 }
                 return sBuilder.ToString();
             }
+        }
+        
+        public static string CreatePasswordHash(string password, string salt)
+        {
+            return CreateSHA256($"{salt}:{password}");
         }
 
         private static bool TryCheckDatabaseConnection(out string? error)
@@ -58,7 +64,7 @@ namespace vizsgaremek
                 return false;
             }
         }
-
+        
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -143,7 +149,7 @@ namespace vizsgaremek
                     Console.WriteLine("=== ÚJ FELHASZNÁLÓ HOZZÁADÁSA ===");
 
                     // Ellenőrizzük, hogy létezik-e már a felhasználó
-                    var email = "teszt1@teszt.hu";
+                    var email = "teszt12@teszt.hu";
                     var existingUser = context.Users.FirstOrDefault(u => u.Email == email);
                     if (existingUser != null)
                     {
@@ -153,6 +159,8 @@ namespace vizsgaremek
                     {
                         // Jelszó hash-elése és salt generálása
                         string salt = Program.GenerateSalt();
+                        Console.WriteLine($"[DEBUG] Generated salt for '{email}': {salt}");
+
                         string hashedPassword = Program.CreateSHA256("teszt1");
 
                         // Új felhasználó létrehozása

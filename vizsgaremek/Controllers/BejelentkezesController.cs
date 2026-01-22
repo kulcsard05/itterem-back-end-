@@ -38,7 +38,6 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    string HASH = Program.CreateSHA256(login.passwd);
                     // Lekérjük a felhasználót az email alapján
                     var response = cx.Users.FirstOrDefault(f => f.Email == login.email);
                     if (response == null)
@@ -46,18 +45,13 @@ namespace vizsgaremek.Controllers
                         return Ok("Hibás név vagy jelszó");
                     }
 
-
-                    // Összehasonlítjuk a hash-eket
-                    if (response.Hash != HASH)
-                    {
-                        return Ok("Hibás név vagy jelszó");
+                    var computedHash = Program.CreateSHA256($"{response.Salt}:{login.passwd}");
+                    if (response.Hash != computedHash)
+                    { 
+                        return Ok("Hibás név vagy jelszó"); 
                     }
 
-                    // Ellenőrizzük, hogy a felhasználó aktív-e
-                    if (response.Aktiv == 0)
-                    {
-                        return Ok("Jelenleg nem aktív a státusza");
-                    }
+
 
                     // Bejelentkezés sikeres, létrehozzuk a LoggedUser objektumot
                     LoggedUser loggeduser = new LoggedUser

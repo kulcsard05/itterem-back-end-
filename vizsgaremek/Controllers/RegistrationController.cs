@@ -22,7 +22,8 @@ namespace BackendAlap.Controllers
                     }
                     user.Jogosultsag = 1;
                     user.Aktiv = 2;
-                    user.Hash = Program.CreateSHA256(user.Hash);
+                    user.Salt = Program.GenerateSalt();
+                    user.Hash = Program.CreatePasswordHash(user.Hash, user.Salt);
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres regisztráció.");
