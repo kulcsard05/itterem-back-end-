@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
@@ -30,7 +29,6 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
         [HttpPost]
         public IActionResult Login(LoginDTO login)
         {
@@ -47,8 +45,8 @@ namespace vizsgaremek.Controllers
 
                     var computedHash = Program.CreateSHA256($"{response.Salt}:{login.passwd}");
                     if (response.Hash != computedHash)
-                    { 
-                        return Ok("Hibás név vagy jelszó"); 
+                    {
+                        return Ok("Hibás név vagy jelszó");
                     }
 
 

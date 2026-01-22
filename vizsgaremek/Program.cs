@@ -2,6 +2,7 @@ using System.Security.Cryptography;
 using System.Text;
 using vizsgaremek.Modells;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography;
 
 namespace vizsgaremek
 {
@@ -12,17 +13,22 @@ namespace vizsgaremek
 
         const int SaltLength = 64;
 
-        public static string GenerateSalt()
+
+
+        public static string GenerateSalt(int lengthInBytes = 16)
         {
-            Random random = new Random();
-            string karakterek = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            string salt = "";
-            for (int i = 0; i < SaltLength; i++)
-            {
-                salt += karakterek[random.Next(karakterek.Length)];
-            }
-            return salt;
+            RNGCryptoServiceProvider asd = new RNGCryptoServiceProvider();
+            byte[] saltBytes = new byte[lengthInBytes];
+            asd.GetBytes(saltBytes);
+            string saltString = Convert.ToBase64String(saltBytes);
+            asd.Dispose();
+
+            return saltString;
         }
+
+
+
+
         
         public static string CreateSHA256(string input)
         {
