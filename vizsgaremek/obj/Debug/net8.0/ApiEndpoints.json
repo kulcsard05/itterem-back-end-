@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "login",
-        "Type": "vizsgaremek.Controllers.LoginDTO",
+        "Type": "vizsgaremek.DTOs.LoginDTO",
         "IsRequired": true
       }
     ],
@@ -24,7 +24,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "email",
+        "Name": "nev",
         "Type": "System.String",
         "IsRequired": false
       }

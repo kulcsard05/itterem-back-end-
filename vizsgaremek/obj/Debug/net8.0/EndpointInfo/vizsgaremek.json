@@ -12,7 +12,7 @@
         ],
         "parameters": [
           {
-            "name": "email",
+            "name": "nev",
             "in": "query",
             "schema": {
               "type": "string"

@@ -2,8 +2,8 @@
 {
     public class LoginDTO
     {
-        public string userName { get; set; }
+        public string email { get; set; }
 
-        public string tmpHASH { get; set; }
+        public string passwd { get; set; }
     }
 }

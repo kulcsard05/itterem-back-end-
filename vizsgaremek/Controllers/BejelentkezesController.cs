@@ -11,13 +11,13 @@ namespace vizsgaremek.Controllers
     {
         [HttpGet("GetSalt")]
 
-        public IActionResult GetSalt(string email)
+        public IActionResult GetSalt(string nev)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var response = cx.Users.FirstOrDefault(f => f.Email == email);
+                    var response = cx.Users.FirstOrDefault(f => f.TeljesNev == nev);
                     if (response == null)
                     {
                         return NotFound("Nincs ilyen nevű felhasználó.");
