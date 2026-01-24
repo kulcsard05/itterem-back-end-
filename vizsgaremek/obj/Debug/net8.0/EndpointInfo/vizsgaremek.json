@@ -5,6 +5,112 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Keszetelek": {
+      "get": {
+        "tags": [
+          "Keszetelek"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Keszetelek"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Keszetelek"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Keszetelek"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/Keszetelek"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Keszetelek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leiras",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "elerheto",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Keszetelek/{id}": {
+      "delete": {
+        "tags": [
+          "Keszetelek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Login/GetSalt": {
       "get": {
         "tags": [
@@ -117,6 +223,27 @@
   },
   "components": {
     "schemas": {
+      "Hozzavalok": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hozzavalo_Nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "keszeteleks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Keszetelek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "Jogok": {
         "type": "object",
         "properties": {
@@ -146,6 +273,67 @@
         },
         "additionalProperties": false
       },
+      "Keszetelek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "leiras": {
+            "type": "string",
+            "nullable": true
+          },
+          "elerheto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "hozzavaloks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Hozzavalok"
+            },
+            "nullable": true
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Koretek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "leiras": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginDTO": {
         "type": "object",
         "properties": {
@@ -155,6 +343,62 @@
           },
           "passwd": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Menuk": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "menu_Nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "keszetel_Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "koret_Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "udito_Id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keszetelek": {
+            "$ref": "#/components/schemas/Keszetelek"
+          },
+          "koretek": {
+            "$ref": "#/components/schemas/Koretek"
+          },
+          "uditok": {
+            "$ref": "#/components/schemas/Uditok"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Uditok": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
             "nullable": true
           }
         },

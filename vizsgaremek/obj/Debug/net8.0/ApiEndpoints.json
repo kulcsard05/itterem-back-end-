@@ -1,5 +1,78 @@
 [
   {
+    "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
+    "Method": "GetKeszetelek",
+    "RelativePath": "api/Keszetelek",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
+    "Method": "PostKeszetelek",
+    "RelativePath": "api/Keszetelek",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "keszetel",
+        "Type": "vizsgaremek.Modells.Keszetelek",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
+    "Method": "Put",
+    "RelativePath": "api/Keszetelek",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leiras",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
+    "Method": "DeleteKEszetel",
+    "RelativePath": "api/Keszetelek/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "vizsgaremek.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/Login",
