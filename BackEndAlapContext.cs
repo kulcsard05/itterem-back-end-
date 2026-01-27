@@ -1,4 +1,4 @@
-﻿namespace vizsgaremek.Modells;
+namespace vizsgaremek.Modells;
 using Microsoft.EntityFrameworkCore;
 
 public partial class BackEndAlapContext : DbContext
@@ -13,15 +13,19 @@ public partial class BackEndAlapContext : DbContext
     }
 
     public virtual DbSet<Jogok> Jogoks { get; set; }
+
     public virtual DbSet<Users> Users { get; set; }
+
     public virtual DbSet<Hozzavalok> Hozzavaloks { get; set; }
+
     public virtual DbSet<Keszetelek> Keszeteleks { get; set; }
     public virtual DbSet<Menuk> Menuks { get; set; }
+
     public virtual DbSet<Koretek> Koreteks { get; set; }
+
     public virtual DbSet<Uditok> Uditoks { get; set; }
 
-    // Model class name in your project is `kategoria`
-    public virtual DbSet<kategoria> Kategoras { get; set; }
+    public virtual DbSet<Kategora> Kategoras { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
@@ -80,27 +84,29 @@ public partial class BackEndAlapContext : DbContext
         {
             entity.ToTable("keszetelek");
             entity.HasKey(e => e.Id).HasName("PRIMARY");
+            entity.Property(e => e.Id).HasColumnType("int(11)");
 
-            entity.Property(e => e.Id).HasColumnType("int(11)").HasColumnName("id");
             entity.Property(e => e.Nev).HasMaxLength(64).HasColumnName("nev");
             entity.Property(e => e.Leiras).HasMaxLength(100).HasColumnName("leiras");
             entity.Property(e => e.Elerheto).HasColumnType("tinyint(4)").HasColumnName("elerheto");
 
-            // Your model property is `Kategoria` (int), SQL column is `kategoria_id`
-            entity.Property(e => e.Kategoria).HasColumnType("int(11)").HasColumnName("kategoria_id");
-            entity.HasIndex(e => e.Kategoria, "kategoria_id");
+            entity.Property(e => e.KategoriaId).HasColumnType("int(11)").HasColumnName("kategoria_id");
 
-            // FK exists in DB, but you have no navigation property in the model.
-            // Keeping it unmapped here avoids compile errors.
+            entity.HasIndex(e => e.KategoriaId, "kategoria_id");
+
+            entity.HasOne(d => d.Kategoria)
+                .WithMany(p => p.Keszeteleks)
+                .HasForeignKey(d => d.KategoriaId)
+                .OnDelete(DeleteBehavior.Cascade)
+                .HasConstraintName("kat");
         });
 
-        modelBuilder.Entity<kategoria>(entity =>
+        modelBuilder.Entity<Kategora>(entity =>
         {
-            entity.ToTable("kategora"); // matches your SQL (`REFERENCES kategora(id)`)
+            entity.ToTable("kategora"); // matches your SQL FK target
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
             entity.Property(e => e.Id).HasColumnType("int(11)");
-            entity.Property(e => e.Nev).HasMaxLength(64).HasColumnName("nev");
         });
 
         modelBuilder.Entity<Koretek>(entity =>

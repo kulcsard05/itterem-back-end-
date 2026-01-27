@@ -50,13 +50,13 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Put(int id, string? nev, string? leiras, int? elerheto)
+        public async Task<IActionResult> Put(int id, string? nev, string? leiras, int? elerheto,int? kategoria)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
+                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Nev == nev);
                     if (keszetel == null)
                     {
                         return NotFound("Nincs ilyen készétel!");
@@ -75,6 +75,10 @@ namespace vizsgaremek.Controllers
                     if (elerheto.HasValue)
                     {
                         keszetel.Elerheto = elerheto.Value;
+                    }
+                    if (kategoria.HasValue)
+                    {
+                        keszetel.Kategoria = kategoria.Value;
                     }
 
                     await cx.SaveChangesAsync();
