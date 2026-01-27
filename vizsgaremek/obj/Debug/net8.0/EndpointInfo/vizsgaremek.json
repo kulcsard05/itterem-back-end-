@@ -5,6 +5,87 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Hozzavalok": {
+      "get": {
+        "tags": [
+          "Hozzavalok"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Hozzavalok"
+        ],
+        "parameters": [
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Hozzavalok"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Hozzavalok/{id}": {
+      "delete": {
+        "tags": [
+          "Hozzavalok"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Jogosultsag": {
       "get": {
         "tags": [
@@ -20,25 +101,30 @@
         "tags": [
           "Jogosultsag"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Jogok"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Jogok"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Jogok"
-              }
+        "parameters": [
+          {
+            "name": "szint",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leiras",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -103,6 +189,87 @@
         }
       }
     },
+    "/api/Kategoria": {
+      "get": {
+        "tags": [
+          "Kategoria"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Kategoria"
+        ],
+        "parameters": [
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Kategoria"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Kategoria/{id}": {
+      "delete": {
+        "tags": [
+          "Kategoria"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Keszetelek": {
       "get": {
         "tags": [
@@ -118,25 +285,38 @@
         "tags": [
           "Keszetelek"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Keszetelek"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Keszetelek"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Keszetelek"
-              }
+        "parameters": [
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leiras",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "elerheto",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "katid",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -217,6 +397,117 @@
         }
       }
     },
+    "/api/Koretek": {
+      "get": {
+        "tags": [
+          "Koretek"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Koretek"
+        ],
+        "parameters": [
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leiras",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "elerheto",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Koretek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "leiras",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "elerheto",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Koretek/{id}": {
+      "delete": {
+        "tags": [
+          "Koretek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Login/GetSalt": {
       "get": {
         "tags": [
@@ -274,25 +565,36 @@
         "tags": [
           "Registration"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Users"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Users"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/Users"
-              }
+        "parameters": [
+          {
+            "name": "teljes_nev",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "email",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "jelszo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "telefonszam",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
             "description": "OK"
@@ -329,121 +631,6 @@
   },
   "components": {
     "schemas": {
-      "Hozzavalok": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hozzavalo_Nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "keszeteleks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Keszetelek"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Jogok": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "szint": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "leiras": {
-            "type": "string",
-            "nullable": true
-          },
-          "users": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Users"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Keszetelek": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "leiras": {
-            "type": "string",
-            "nullable": true
-          },
-          "elerheto": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "kategoria": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "hozzavaloks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Hozzavalok"
-            },
-            "nullable": true
-          },
-          "menuks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Menuk"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Koretek": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "leiras": {
-            "type": "string",
-            "nullable": true
-          },
-          "menuks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Menuk"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "LoginDTO": {
         "type": "object",
         "properties": {
@@ -454,103 +641,6 @@
           "passwd": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Menuk": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "menu_Nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "keszetel_Id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "koret_Id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "udito_Id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "keszetelek": {
-            "$ref": "#/components/schemas/Keszetelek"
-          },
-          "koretek": {
-            "$ref": "#/components/schemas/Koretek"
-          },
-          "uditok": {
-            "$ref": "#/components/schemas/Uditok"
-          }
-        },
-        "additionalProperties": false
-      },
-      "Uditok": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nev": {
-            "type": "string",
-            "nullable": true
-          },
-          "menuks": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/Menuk"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "Users": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "jogosultsag": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "teljesNev": {
-            "type": "string",
-            "nullable": true
-          },
-          "email": {
-            "type": "string",
-            "nullable": true
-          },
-          "hash": {
-            "type": "string",
-            "nullable": true
-          },
-          "salt": {
-            "type": "string",
-            "nullable": true
-          },
-          "aktiv": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "telefonSzam": {
-            "type": "string",
-            "nullable": true
-          },
-          "jogosultsagNavigation": {
-            "$ref": "#/components/schemas/Jogok"
           }
         },
         "additionalProperties": false

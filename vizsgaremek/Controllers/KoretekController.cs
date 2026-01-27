@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.Modells;
 
@@ -6,16 +7,16 @@ namespace vizsgaremek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JogosultsagController : ControllerBase
+    public class KoretekController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetJogosultsagok()
+        public async Task<IActionResult> Getkoretek()
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var response = await cx.Jogoks.ToListAsync();
+                    var response = await cx.Koreteks.ToListAsync();
                     return Ok(response);
                 }
                 catch (Exception ex)
@@ -25,26 +26,28 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostJogosultsag(int szint, string nev, string leiras)
+        public async Task<IActionResult> Postkoret(string nev, string leiras, int? elerheto)
         {
-
             using (var cx = new BackEndAlapContext())
             {
-
                 try
                 {
-                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
+                    if (await cx.Koreteks.AnyAsync(f => f.Nev == nev))
                     {
-                        return Ok("Létezik ilyen Jogosultág!");
+                        return Ok("Létezik ilyen Köret!");
                     }
-                    Jogok jog = new Jogok();
-                    jog.Szint = szint;
-                    jog.Nev = nev;
-                    jog.Leiras = leiras;
 
-                    cx.Jogoks.Add(jog);
-                    cx.SaveChanges();
-                    return Ok("Sikeres Jogosultág Mentés");
+                    Koretek koret = new Koretek();
+
+
+                        koret.Nev = nev;
+                        koret.Leiras = leiras;
+                        koret.elerheto = elerheto ?? 0;
+
+
+                    await cx.Koreteks.AddAsync(koret);
+                    await cx.SaveChangesAsync();
+                    return Ok("Sikeres Köret Mentés");
                 }
                 catch (Exception ex)
                 {
@@ -57,30 +60,32 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutJogosultsag(int id, string? nev, string? leiras)
+        public async Task<IActionResult> PutKoretek(int id, string? nev, string? leiras,int? elerheto)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var Jog = await cx.Jogoks.FirstOrDefaultAsync(k => k.Id == id);
-                    if (Jog == null)
+                    var Koret = await cx.Koreteks.FirstOrDefaultAsync(k => k.Id == id);
+                    if (Koret == null)
                     {
-                        return NotFound("Nincs ilyen Jogosultág!");
+                        return NotFound("Nincs ilyen Köret!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
                     {
-                        Jog.Nev = nev;
+                        Koret.Nev = nev;
                     }
-
                     if (!string.IsNullOrWhiteSpace(leiras))
                     {
-                        Jog.Leiras = leiras;
+                        Koret.Leiras = leiras;
                     }
-
+                    if (elerheto.HasValue)
+                    {
+                        Koret.elerheto = elerheto.Value;
+                    }
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág módosítás");
+                    return Ok("Sikeres Köret módosítás");
                 }
                 catch (Exception ex)
                 {
@@ -90,16 +95,16 @@ namespace vizsgaremek.Controllers
         }
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteJogosultsag(int id)
+        public async Task<IActionResult> DeleteKoret(int id)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    Jogok jog = new Jogok { Id = id };
-                    cx.Remove(jog);
+                    Koretek koret = new Koretek { Id = id };
+                    cx.Remove(koret);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág törlés.");
+                    return Ok("Sikeres Köret törlés.");
                 }
                 catch (Exception ex)
                 {
@@ -109,4 +114,3 @@ namespace vizsgaremek.Controllers
         }
     }
 }
-

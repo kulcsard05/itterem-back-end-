@@ -10,16 +10,21 @@ namespace BackendAlap.Controllers
     public class RegistrationController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Registration(Users user)
+        public async Task<IActionResult> Registration(string teljes_nev, string email,string jelszo,string telefonszam)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    if (cx.Users.FirstOrDefault(f => f.Email == user.Email) != null)
+                    if (cx.Users.FirstOrDefault(f => f.Email == email) != null)
                     {
                         return Ok("Már létezik ez az email cím!");
                     }
+                    Users user = new Users();
+                    user.TeljesNev = teljes_nev;
+                    user.Email = email;
+                    user.Hash = jelszo;
+                    user.TelefonSzam = telefonszam;
                     user.Jogosultsag = 1;
                     user.Aktiv = 2;
                     user.Salt = Program.GenerateSalt();

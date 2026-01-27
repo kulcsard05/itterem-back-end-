@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.Modells;
 
@@ -6,16 +7,16 @@ namespace vizsgaremek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JogosultsagController : ControllerBase
+    public class HozzavalokController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetJogosultsagok()
+        public async Task<IActionResult> GetHozzavalok()
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var response = await cx.Jogoks.ToListAsync();
+                    var response = await cx.Hozzavaloks.ToListAsync();
                     return Ok(response);
                 }
                 catch (Exception ex)
@@ -25,26 +26,25 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostJogosultsag(int szint, string nev, string leiras)
+        public IActionResult PostHozzavalok(string nev)
         {
 
             using (var cx = new BackEndAlapContext())
             {
+                Hozzavalok hozzavalo = new Hozzavalok();
+
 
                 try
                 {
-                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
+                    if (cx.Hozzavaloks.FirstOrDefault(f => f.Hozzavalo_Nev == hozzavalo.Hozzavalo_Nev) != null)
                     {
-                        return Ok("Létezik ilyen Jogosultág!");
+                        return Ok("Létezik ilyen Hozzávaló!");
                     }
-                    Jogok jog = new Jogok();
-                    jog.Szint = szint;
-                    jog.Nev = nev;
-                    jog.Leiras = leiras;
+                    hozzavalo.Hozzavalo_Nev = nev;
 
-                    cx.Jogoks.Add(jog);
+                    cx.Hozzavaloks.Add(hozzavalo);
                     cx.SaveChanges();
-                    return Ok("Sikeres Jogosultág Mentés");
+                    return Ok("Sikeres Hozzávaló Mentés");
                 }
                 catch (Exception ex)
                 {
@@ -57,30 +57,24 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutJogosultsag(int id, string? nev, string? leiras)
+        public async Task<IActionResult> PutHozzavalok(int id, string? nev)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var Jog = await cx.Jogoks.FirstOrDefaultAsync(k => k.Id == id);
-                    if (Jog == null)
+                    var hozzavalo = await cx.Hozzavaloks.FirstOrDefaultAsync(k => k.Id == id);
+                    if (hozzavalo == null)
                     {
-                        return NotFound("Nincs ilyen Jogosultág!");
+                        return NotFound("Nincs ilyen Hozzávaló!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
                     {
-                        Jog.Nev = nev;
+                        hozzavalo.Hozzavalo_Nev = nev;
                     }
-
-                    if (!string.IsNullOrWhiteSpace(leiras))
-                    {
-                        Jog.Leiras = leiras;
-                    }
-
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág módosítás");
+                    return Ok("Sikeres Hozzávaló módosítás");
                 }
                 catch (Exception ex)
                 {
@@ -90,16 +84,16 @@ namespace vizsgaremek.Controllers
         }
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteJogosultsag(int id)
+        public async Task<IActionResult> DeleteHozzavalok(int id)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    Jogok jog = new Jogok { Id = id };
-                    cx.Remove(jog);
+                    Hozzavalok hozzavalo = new Hozzavalok { Id = id };
+                    cx.Remove(hozzavalo);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág törlés.");
+                    return Ok("Sikeres Hozzávaló törlés.");
                 }
                 catch (Exception ex)
                 {
@@ -109,4 +103,3 @@ namespace vizsgaremek.Controllers
         }
     }
 }
-

@@ -27,17 +27,21 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> PostKeszetelek(Keszetelek keszetel)
+        public async Task<IActionResult> PostKeszetelek(string nev,string leiras, int? elerheto,int katid)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == keszetel.Nev) != null)
+                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
                     {
                         return Ok("Létezik ilyen készétel!");
                     }
-
+                    Keszetelek keszetel = new Keszetelek();
+                    keszetel.Nev = nev;
+                    keszetel.Leiras = leiras;
+                    keszetel.Elerheto = elerheto ?? 0;
+                    keszetel.Kategoria = katid;
                     await cx.Keszeteleks.AddAsync(keszetel);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres készétel Mentés");
@@ -50,7 +54,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> Put(int id, string? nev, string? leiras, int? elerheto,int? kategoria)
+        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? kategoria)
         {
             using (var cx = new BackEndAlapContext())
             {

@@ -1,5 +1,68 @@
 [
   {
+    "ContainingType": "vizsgaremek.Controllers.HozzavalokController",
+    "Method": "GetHozzavalok",
+    "RelativePath": "api/Hozzavalok",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.HozzavalokController",
+    "Method": "PostHozzavalok",
+    "RelativePath": "api/Hozzavalok",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.HozzavalokController",
+    "Method": "PutHozzavalok",
+    "RelativePath": "api/Hozzavalok",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.HozzavalokController",
+    "Method": "DeleteHozzavalok",
+    "RelativePath": "api/Hozzavalok/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "vizsgaremek.Controllers.JogosultsagController",
     "Method": "GetJogosultsagok",
     "RelativePath": "api/Jogosultsag",
@@ -18,16 +81,26 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "jog",
-        "Type": "vizsgaremek.Modells.Jogok",
-        "IsRequired": true
+        "Name": "szint",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leiras",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "vizsgaremek.Controllers.JogosultsagController",
-    "Method": "Put",
+    "Method": "PutJogosultsag",
     "RelativePath": "api/Jogosultsag",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -68,6 +141,69 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "vizsgaremek.Controllers.KategoriaController",
+    "Method": "GetKategoria",
+    "RelativePath": "api/Kategoria",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KategoriaController",
+    "Method": "PostKategoria",
+    "RelativePath": "api/Kategoria",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KategoriaController",
+    "Method": "PutKategoria",
+    "RelativePath": "api/Kategoria",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KategoriaController",
+    "Method": "DeleteKategoria",
+    "RelativePath": "api/Kategoria/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
     "Method": "GetKeszetelek",
     "RelativePath": "api/Keszetelek",
@@ -86,16 +222,31 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "keszetel",
-        "Type": "vizsgaremek.Modells.Keszetelek",
-        "IsRequired": true
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leiras",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      },
+      {
+        "Name": "katid",
+        "Type": "System.Int32",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []
   },
   {
     "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
-    "Method": "Put",
+    "Method": "PutKezsetelek",
     "RelativePath": "api/Keszetelek",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -133,6 +284,89 @@
     "ContainingType": "vizsgaremek.Controllers.KeszetelekController",
     "Method": "DeleteKEszetel",
     "RelativePath": "api/Keszetelek/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KoretekController",
+    "Method": "Getkoretek",
+    "RelativePath": "api/Koretek",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KoretekController",
+    "Method": "Postkoret",
+    "RelativePath": "api/Koretek",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leiras",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KoretekController",
+    "Method": "PutKoretek",
+    "RelativePath": "api/Koretek",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "leiras",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.KoretekController",
+    "Method": "DeleteKoret",
+    "RelativePath": "api/Koretek/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -186,9 +420,24 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "vizsgaremek.Modells.Users",
-        "IsRequired": true
+        "Name": "teljes_nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "email",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "jelszo",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "telefonszam",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

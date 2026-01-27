@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.Modells;
 
@@ -6,16 +7,16 @@ namespace vizsgaremek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JogosultsagController : ControllerBase
+    public class KategoriaController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetJogosultsagok()
+        public async Task<IActionResult> GetKategoria()
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var response = await cx.Jogoks.ToListAsync();
+                    var response = await cx.Kategoras.ToListAsync();
                     return Ok(response);
                 }
                 catch (Exception ex)
@@ -25,7 +26,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostJogosultsag(int szint, string nev, string leiras)
+        public IActionResult PostKategoria(string nev)
         {
 
             using (var cx = new BackEndAlapContext())
@@ -33,18 +34,15 @@ namespace vizsgaremek.Controllers
 
                 try
                 {
-                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
+                    if (cx.Kategoras.FirstOrDefault(f => f.Nev == nev) != null)
                     {
-                        return Ok("Létezik ilyen Jogosultág!");
+                        return Ok("Létezik ilyen Kategória!");
                     }
-                    Jogok jog = new Jogok();
-                    jog.Szint = szint;
-                    jog.Nev = nev;
-                    jog.Leiras = leiras;
-
-                    cx.Jogoks.Add(jog);
+                    kategoria kat = new kategoria();
+                    kat.Nev = nev;
+                    cx.Kategoras.Add(kat);
                     cx.SaveChanges();
-                    return Ok("Sikeres Jogosultág Mentés");
+                    return Ok("Sikeres kategória  Mentés");
                 }
                 catch (Exception ex)
                 {
@@ -57,30 +55,25 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutJogosultsag(int id, string? nev, string? leiras)
+        public async Task<IActionResult> PutKategoria(int id, string? nev)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var Jog = await cx.Jogoks.FirstOrDefaultAsync(k => k.Id == id);
-                    if (Jog == null)
+                    var kat = await cx.Kategoras.FirstOrDefaultAsync(k => k.Id == id);
+                    if (kat == null)
                     {
-                        return NotFound("Nincs ilyen Jogosultág!");
+                        return NotFound("Nincs ilyen kategória!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
                     {
-                        Jog.Nev = nev;
-                    }
-
-                    if (!string.IsNullOrWhiteSpace(leiras))
-                    {
-                        Jog.Leiras = leiras;
+                        kat.Nev = nev;
                     }
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág módosítás");
+                    return Ok("Sikeres Kategória módosítás");
                 }
                 catch (Exception ex)
                 {
@@ -90,16 +83,16 @@ namespace vizsgaremek.Controllers
         }
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteJogosultsag(int id)
+        public async Task<IActionResult> DeleteKategoria(int id)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    Jogok jog = new Jogok { Id = id };
-                    cx.Remove(jog);
+                    kategoria kat = new kategoria { Id = id };
+                    cx.Remove(kat);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág törlés.");
+                    return Ok("Sikeres Kategória törlés.");
                 }
                 catch (Exception ex)
                 {
@@ -109,4 +102,3 @@ namespace vizsgaremek.Controllers
         }
     }
 }
-
