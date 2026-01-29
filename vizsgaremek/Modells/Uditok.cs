@@ -4,6 +4,7 @@
     {
         public int Id { get; set; }
         public string Nev { get; set; } = null!;
+        public int elerheto { get; set; }
         public ICollection<Menuk> menuks { get; set; } = new List<Menuk>();
     }
 }

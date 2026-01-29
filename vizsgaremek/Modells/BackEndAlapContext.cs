@@ -118,6 +118,7 @@ public partial class BackEndAlapContext : DbContext
             entity.HasKey(e => e.Id).HasName("PRIMARY");
             entity.Property(e => e.Id).HasColumnType("int(11)");
             entity.Property(e => e.Nev).HasMaxLength(20);
+            entity.Property(e => e.elerheto).HasMaxLength(4);
         });
 
         modelBuilder.Entity<Menuk>(entity =>

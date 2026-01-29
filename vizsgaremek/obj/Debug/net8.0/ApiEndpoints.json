@@ -462,5 +462,78 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.UditokController",
+    "Method": "GetUditok",
+    "RelativePath": "api/Uditok",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.UditokController",
+    "Method": "PostUdito",
+    "RelativePath": "api/Uditok",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.UditokController",
+    "Method": "PutUdito",
+    "RelativePath": "api/Uditok",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
+        "Name": "nev",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "elerheto",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.UditokController",
+    "Method": "DeleteUdito",
+    "RelativePath": "api/Uditok",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
   }
 ]
