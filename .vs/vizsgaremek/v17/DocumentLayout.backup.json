@@ -3,12 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\uditokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\uditokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\koretekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\koretekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\keszetelekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\keszetelekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\kategoriacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\kategoriacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\kategora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\kategora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\hozzavalokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -23,32 +47,8 @@
       "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\uditokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\uditokcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\keszetelek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\keszetelek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\uditok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\registrationcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\controllers\\koretekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\controllers\\koretekcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\koretek.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\kategora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|solutionrelative:vizsgaremek\\modells\\kategora.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{94C61014-F830-4670-8296-2765C1DDC2F8}|vizsgaremek\\vizsgaremek.csproj|c:\\users\\kulcs\\documents\\github\\itterem-back-end-\\vizsgaremek\\modells\\jogok.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -94,24 +94,37 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Program.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Program.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Program.cs",
-              "RelativeToolTip": "vizsgaremek\\Program.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAGAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "KoretekController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KoretekController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KoretekController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KoretekController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\KoretekController.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAQwCAAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T08:01:48.075Z",
+              "WhenOpened": "2026-01-27T10:35:57.012Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 0,
+              "Title": "UditokController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\UditokController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\UditokController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\UditokController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\UditokController.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAwwGgAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-28T13:32:58.489Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "BejelentkezesController.cs",
               "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\BejelentkezesController.cs",
               "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\BejelentkezesController.cs",
@@ -119,77 +132,11 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\BejelentkezesController.cs",
               "ViewState": "AgIAADMAAAAAAAAAAIAwwDsAAAA5AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T11:08:55.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T11:08:55.726Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "KeszetelekController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KeszetelekController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KeszetelekController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KeszetelekController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\KeszetelekController.cs",
-              "ViewState": "AgIAABwAAAAAAAAAAAAQwHEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T10:14:30.362Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "Keszetelek.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Keszetelek.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
-              "RelativeToolTip": "vizsgaremek\\Modells\\Keszetelek.cs",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAzwA8AAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:36:38.294Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "HozzavalokController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\HozzavalokController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\HozzavalokController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\HozzavalokController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\HozzavalokController.cs",
-              "ViewState": "AgIAACcAAAAAAAAAAAAswCYAAABJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:30:01.295Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "UditokController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\UditokController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\UditokController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\UditokController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\UditokController.cs",
-              "ViewState": "AgIAADkAAAAAAAAAAIAwwEoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T13:32:58.489Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "KategoriaController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KategoriaController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KategoriaController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KategoriaController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\KategoriaController.cs",
-              "ViewState": "AgIAAE4AAAAAAAAAAAAtwFsAAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:25:44.201Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 4,
               "Title": "Uditok.cs",
               "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Uditok.cs",
               "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Uditok.cs",
@@ -202,33 +149,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "RegistrationController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\RegistrationController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\RegistrationController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\RegistrationController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\RegistrationController.cs",
-              "ViewState": "AgIAACYAAAAAAAAAAAAtwDIAAAAYAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T11:48:28.141Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "KoretekController.cs",
-              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KoretekController.cs",
-              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KoretekController.cs",
-              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KoretekController.cs",
-              "RelativeToolTip": "vizsgaremek\\Controllers\\KoretekController.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAIAwwFQAAAAmAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:35:57.012Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 3,
               "Title": "Koretek.cs",
               "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Koretek.cs",
               "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Koretek.cs",
@@ -241,7 +162,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 2,
+              "Title": "RegistrationController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\RegistrationController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\RegistrationController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\RegistrationController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\RegistrationController.cs",
+              "ViewState": "AgIAACYAAAAAAAAAAAAtwDIAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T11:48:28.141Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "KategoriaController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KategoriaController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KategoriaController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KategoriaController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\KategoriaController.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAAAlwBYAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T10:25:44.201Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "KeszetelekController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KeszetelekController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KeszetelekController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KeszetelekController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\KeszetelekController.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAQwFEAAAAVAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-22T10:14:30.362Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
               "Title": "Kategora.cs",
               "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Kategora.cs",
               "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Kategora.cs",
@@ -254,6 +214,42 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Program.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Program.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Program.cs",
+              "RelativeToolTip": "vizsgaremek\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-15T08:01:48.075Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "HozzavalokController.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\HozzavalokController.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\HozzavalokController.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\HozzavalokController.cs",
+              "RelativeToolTip": "vizsgaremek\\Controllers\\HozzavalokController.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAswCYAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-27T10:30:01.295Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Keszetelek.cs",
+              "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
+              "RelativeDocumentMoniker": "vizsgaremek\\Modells\\Keszetelek.cs",
+              "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Keszetelek.cs",
+              "RelativeToolTip": "vizsgaremek\\Modells\\Keszetelek.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAzwA8AAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-06T09:36:38.294Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 12,
               "Title": "Jogok.cs",
               "DocumentMoniker": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\Jogok.cs",
@@ -262,8 +258,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Jogok.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:17.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:17.078Z"
             },
             {
               "$type": "Document",
@@ -275,8 +270,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Hozzavalok.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:14.064Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:14.064Z"
             },
             {
               "$type": "Document",
@@ -288,8 +282,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\BackEndAlapContext.cs",
               "ViewState": "AgIAAAcAAAAAAAAAAAAQwA4AAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T08:56:00.147Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T08:56:00.147Z"
             },
             {
               "$type": "Document",
@@ -301,8 +294,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:44.608Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:44.608Z"
             },
             {
               "$type": "Document",
@@ -314,8 +306,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Menuk.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:38.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:38.032Z"
             },
             {
               "$type": "Document",
@@ -327,8 +318,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\KeszetelHozzavalokKapcsolo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:32.694Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:32.694Z"
             },
             {
               "$type": "Document",
@@ -340,8 +330,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\JogosultsagController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAgwDsAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T09:18:30.453Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T09:18:30.453Z"
             },
             {
               "$type": "Document",
@@ -353,8 +342,7 @@
               "RelativeToolTip": "vizsgaremek\\Models\\ItteremContext.cs",
               "ViewState": "AgIAABkAAAAAAAAAAAAwwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T08:51:16.516Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T08:51:16.516Z"
             },
             {
               "$type": "Document",

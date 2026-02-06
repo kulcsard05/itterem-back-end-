@@ -16,7 +16,21 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var response = await cx.Kategoras.ToListAsync();
+                    var response = await cx.Kategoras.Include(f => f.Keszeteleks).Select(f => new
+                    {
+                        f.Nev,
+                        
+                        Kesziteleks = f.Keszeteleks.Select(k => new
+                        {
+                            
+                            k.Id,
+                            k.Nev,
+                            k.Leiras,
+                            k.Elerheto,
+                            Kep = k.Kep != null && k.Kep.Length > 0 ? Program.ImageConvert(k.Kep) : null
+                        })
+                    }).ToListAsync();
+                    
                     return Ok(response);
                 }
                 catch (Exception ex)

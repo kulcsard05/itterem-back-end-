@@ -11,7 +11,7 @@ namespace vizsgaremek.Controllers
     public class KeszetelekController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Getkoretek()
+        public async Task<IActionResult> Getkeszeteleks()
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -54,7 +54,7 @@ namespace vizsgaremek.Controllers
         */
 
         [HttpPost]
-        public async Task<IActionResult> PostKeszetelek(string nev,string leiras, int? elerheto,int katid)
+        public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int? elerheto, int katid, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -64,11 +64,23 @@ namespace vizsgaremek.Controllers
                     {
                         return Ok("Létezik ilyen készétel!");
                     }
+                    
                     Keszetelek keszetel = new Keszetelek();
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
                     keszetel.Elerheto = elerheto ?? 0;
                     keszetel.KategoriaId = katid;
+                    
+                    // Kép feldolgozása, ha van
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            keszetel.Kep = memoryStream.ToArray();
+                        }
+                    }
+                    
                     await cx.Keszeteleks.AddAsync(keszetel);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres készétel Mentés");
@@ -81,13 +93,13 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? Kategora)
+        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? Kategora, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Nev == nev);
+                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
                     if (keszetel == null)
                     {
                         return NotFound("Nincs ilyen készétel!");
@@ -110,6 +122,15 @@ namespace vizsgaremek.Controllers
                     if (Kategora.HasValue)
                     {
                         keszetel.KategoriaId = Kategora.Value;
+                    }
+                    // Kép feldolgozása, ha van
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            keszetel.Kep = memoryStream.ToArray();
+                        }
                     }
 
                     await cx.SaveChangesAsync();

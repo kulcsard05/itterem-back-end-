@@ -9,5 +9,5 @@ public partial class Kategora
 
     public string Nev { get; set; } = null!;
 
-    public virtual ICollection<Keszetelek> Keszeteleks { get; set; } = new List<Keszetelek>();
+    public virtual ICollection<Keszetelek>? Keszeteleks { get; set; } = new List<Keszetelek>();
 }

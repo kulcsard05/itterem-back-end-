@@ -18,7 +18,22 @@ namespace vizsgaremek.Controllers
                 using (var cx =new BackEndAlapContext())
                 {
                     var response = cx.Uditoks.ToList();
+
+                    var result = response.Select(k => new
+                    {
+                        k.Id,
+                        k.Nev,
+                        k.Elerheto,
+                        // Ha van Kep mező a Koretek táblában
+                        Kep = k.Kep != null && k.Kep.Length > 0
+                            ? Program.ImageConvert(k.Kep)
+                            : null
+                    }).ToList();
+
+                    return Ok(result);
+
                     return Ok(response);
+
                 }
             }
             catch(Exception ex) 
@@ -27,7 +42,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostUdito(string nev, int? elerheto)
+        public IActionResult PostUdito(string nev, int? elerheto,IFormFile kep)
         {
             try
             {
@@ -36,7 +51,16 @@ namespace vizsgaremek.Controllers
                     Uditok udito = new Uditok();
                     udito.Nev = nev;
                     udito.Elerheto= elerheto ?? 0;
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            kep.CopyTo(memoryStream);
+                            udito.Kep = memoryStream.ToArray();
+                        }
+                    }
                     cx.Uditoks.Update(udito);
+
                     cx.SaveChanges();
                     return Ok("sikeres udito mentes");
                 }
@@ -48,7 +72,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPut]
-        public  IActionResult PutUdito(int id, string? nev,int? elerheto)
+        public  IActionResult PutUdito(int id, string? nev,int? elerheto, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -70,6 +94,14 @@ namespace vizsgaremek.Controllers
                     if (elerheto.HasValue)
                     {
                         udito.Elerheto = elerheto.Value;
+                    }
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            kep.CopyTo(memoryStream);
+                            udito.Kep = memoryStream.ToArray();
+                        }
                     }
 
 

@@ -17,7 +17,20 @@ namespace vizsgaremek.Controllers
                 try
                 {
                     var response = await cx.Koreteks.ToListAsync();
-                    return Ok(response);
+
+                    var result = response.Select(k => new
+                    {
+                        k.Id,
+                        k.Nev,
+                        k.Leiras,
+                        k.Elerheto,
+                        // Ha van Kep mező a Koretek táblában
+                        Kep = k.Kep != null && k.Kep.Length > 0
+                            ? Program.ImageConvert(k.Kep)
+                            : null
+                    }).ToList();
+
+                    return Ok(result);
                 }
                 catch (Exception ex)
                 {
@@ -26,7 +39,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public async Task<IActionResult> Postkoret(string nev, string leiras, int? elerheto)
+        public async Task<IActionResult> Postkoret(string nev, string leiras, int? elerheto, IFormFile kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -38,9 +51,16 @@ namespace vizsgaremek.Controllers
                     }
 
                     Koretek koret = new Koretek();
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            koret.Kep = memoryStream.ToArray();
+                        }
+                    }
 
-
-                        koret.Nev = nev;
+                    koret.Nev = nev;
                         koret.Leiras = leiras;
                         koret.Elerheto = elerheto ?? 0;
 
@@ -60,7 +80,7 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutKoretek(int id, string? nev, string? leiras,int? elerheto)
+        public async Task<IActionResult> PutKoretek(int id, string? nev, string? leiras,int? elerheto, IFormFile?  kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -83,6 +103,14 @@ namespace vizsgaremek.Controllers
                     if (elerheto.HasValue)
                     {
                         Koret.Elerheto = elerheto.Value;
+                    }
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            Koret.Kep = memoryStream.ToArray();
+                        }
                     }
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Köret módosítás");
