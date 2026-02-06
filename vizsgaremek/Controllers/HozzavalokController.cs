@@ -36,11 +36,11 @@ namespace vizsgaremek.Controllers
 
                 try
                 {
-                    if (cx.Hozzavaloks.FirstOrDefault(f => f.Hozzavalo_Nev == hozzavalo.Hozzavalo_Nev) != null)
+                    if (cx.Hozzavaloks.FirstOrDefault(f => f.HozzavaloNev == nev) != null)
                     {
                         return Ok("Létezik ilyen Hozzávaló!");
                     }
-                    hozzavalo.Hozzavalo_Nev = nev;
+                    hozzavalo.HozzavaloNev = nev;
 
                     cx.Hozzavaloks.Add(hozzavalo);
                     cx.SaveChanges();
@@ -71,7 +71,7 @@ namespace vizsgaremek.Controllers
 
                     if (!string.IsNullOrWhiteSpace(nev))
                     {
-                        hozzavalo.Hozzavalo_Nev = nev;
+                        hozzavalo.HozzavaloNev = nev;
                     }
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Hozzávaló módosítás");

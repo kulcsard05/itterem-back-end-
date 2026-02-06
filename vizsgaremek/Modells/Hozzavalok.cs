@@ -1,9 +1,11 @@
-﻿namespace vizsgaremek.Modells
+﻿using System;
+using System.Collections.Generic;
+
+namespace vizsgaremek.Modells;
+
+public partial class Hozzavalok
 {
-    public class Hozzavalok
-    {
-        public int Id { get; set; }
-        public string Hozzavalo_Nev { get; set; } = null!;
-        public ICollection<Keszetelek> Keszeteleks { get; set; } = new List<Keszetelek>();
-    }
+    public int Id { get; set; }
+
+    public string HozzavaloNev { get; set; } = null!;
 }

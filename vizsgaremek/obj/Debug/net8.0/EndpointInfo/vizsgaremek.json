@@ -359,7 +359,7 @@
             }
           },
           {
-            "name": "kategoria",
+            "name": "Kategora",
             "in": "query",
             "schema": {
               "type": "integer",

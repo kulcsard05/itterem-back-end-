@@ -11,21 +11,48 @@ namespace vizsgaremek.Controllers
     public class KeszetelekController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetKeszetelek()
+        public async Task<IActionResult> Getkoretek()
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
                     var response = await cx.Keszeteleks.ToListAsync();
-                    return Ok(response);
+
+                    var result = response.Select(k => new
+                    {
+                        k.Id,
+                        k.Nev,
+                        k.Leiras,
+                        k.Elerheto,
+                        // Ha van Kep mező a Koretek táblában
+                        Kep = k.Kep != null && k.Kep.Length > 0
+                            ? Program.ImageConvert(k.Kep)
+                            : null
+                    }).ToList();
+
+                    return Ok(result);
                 }
-                catch(Exception ex)  
+                catch (Exception ex)
                 {
-                    return BadRequest(ex);
+                    return BadRequest(ex.Message);
                 }
             }
         }
+        //Front end atalakitas
+        /*
+         function indexKepBeallit() {
+        const fileInput = document.getElementById('indexKepGomb').files[0];
+        const preview = document.getElementById('indexKep');
+        let reader = new FileReader();
+        reader.onload = function (e) {
+            preview.src = e.target.result;
+            indexKep = fileInput;
+        }
+        reader.readAsDataURL(fileInput);
+    }
+        */
+
         [HttpPost]
         public async Task<IActionResult> PostKeszetelek(string nev,string leiras, int? elerheto,int katid)
         {
@@ -41,7 +68,7 @@ namespace vizsgaremek.Controllers
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
                     keszetel.Elerheto = elerheto ?? 0;
-                    keszetel.Kategoria = katid;
+                    keszetel.KategoriaId = katid;
                     await cx.Keszeteleks.AddAsync(keszetel);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres készétel Mentés");
@@ -54,7 +81,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPut]
-        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? kategoria)
+        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? Kategora)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -80,9 +107,9 @@ namespace vizsgaremek.Controllers
                     {
                         keszetel.Elerheto = elerheto.Value;
                     }
-                    if (kategoria.HasValue)
+                    if (Kategora.HasValue)
                     {
-                        keszetel.Kategoria = kategoria.Value;
+                        keszetel.KategoriaId = Kategora.Value;
                     }
 
                     await cx.SaveChangesAsync();

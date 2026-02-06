@@ -38,7 +38,7 @@ namespace vizsgaremek.Controllers
                     {
                         return Ok("Létezik ilyen Kategória!");
                     }
-                    kategoria kat = new kategoria();
+                    Kategora kat = new Kategora();
                     kat.Nev = nev;
                     cx.Kategoras.Add(kat);
                     cx.SaveChanges();
@@ -89,7 +89,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    kategoria kat = new kategoria { Id = id };
+                    Kategora kat = new Kategora { Id = id };
                     cx.Remove(kat);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Kategória törlés.");

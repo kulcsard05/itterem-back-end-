@@ -20,11 +20,11 @@ namespace BackendAlap.Controllers
                     {
                         return Ok("Már létezik ez az email cím!");
                     }
-                    Users user = new Users();
+                    User user = new User();
                     user.TeljesNev = teljes_nev;
                     user.Email = email;
                     user.Hash = jelszo;
-                    user.TelefonSzam = telefonszam;
+                    user.Telefonszam = telefonszam;
                     user.Jogosultsag = 1;
                     user.Aktiv = 2;
                     user.Salt = Program.GenerateSalt();
@@ -48,7 +48,7 @@ namespace BackendAlap.Controllers
             {
                 try
                 {
-                    Users? user = cx.Users.FirstOrDefault(f => f.Email == email);
+                    User? user = cx.Users.FirstOrDefault(f => f.Email == email);
                     if (user == null)
                     {
                         return BadRequest("Sikertelen regisztráció");

@@ -42,7 +42,7 @@ namespace vizsgaremek.Controllers
 
                         koret.Nev = nev;
                         koret.Leiras = leiras;
-                        koret.elerheto = elerheto ?? 0;
+                        koret.Elerheto = elerheto ?? 0;
 
 
                     await cx.Koreteks.AddAsync(koret);
@@ -82,7 +82,7 @@ namespace vizsgaremek.Controllers
                     }
                     if (elerheto.HasValue)
                     {
-                        Koret.elerheto = elerheto.Value;
+                        Koret.Elerheto = elerheto.Value;
                     }
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Köret módosítás");

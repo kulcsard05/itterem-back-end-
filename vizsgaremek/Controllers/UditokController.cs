@@ -35,7 +35,7 @@ namespace vizsgaremek.Controllers
                 {
                     Uditok udito = new Uditok();
                     udito.Nev = nev;
-                    udito.elerheto= elerheto ?? 0;
+                    udito.Elerheto= elerheto ?? 0;
                     cx.Uditoks.Update(udito);
                     cx.SaveChanges();
                     return Ok("sikeres udito mentes");
@@ -69,7 +69,7 @@ namespace vizsgaremek.Controllers
 
                     if (elerheto.HasValue)
                     {
-                        udito.elerheto = elerheto.Value;
+                        udito.Elerheto = elerheto.Value;
                     }
 
 

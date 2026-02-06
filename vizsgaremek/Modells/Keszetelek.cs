@@ -1,14 +1,23 @@
-﻿namespace vizsgaremek.Modells
-{
-    public class Keszetelek
-    {
-        public int Id { get; set; }
-        public string Nev { get; set; } = null!;
-        public string Leiras { get; set; } = null!;
-        public int Elerheto { get; set; }
-        public int Kategoria { get; set; }
-        public ICollection<Hozzavalok> Hozzavaloks { get; set; } = new List<Hozzavalok>();
-        public ICollection<Menuk> Menuks { get; set; } = new List<Menuk>();
+﻿using System;
+using System.Collections.Generic;
 
-    }
+namespace vizsgaremek.Modells;
+
+public partial class Keszetelek
+{
+    public int Id { get; set; }
+
+    public string Nev { get; set; } = null!;
+
+    public string Leiras { get; set; } = null!;
+
+    public int? Elerheto { get; set; }
+
+    public int? KategoriaId { get; set; }
+
+    public byte[] Kep { get; set; } = null!;
+
+    public virtual Kategora Kategoria { get; set; } = null!;
+
+    public virtual ICollection<Menuk> Menuks { get; set; } = new List<Menuk>();
 }
