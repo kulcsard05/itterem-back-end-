@@ -484,6 +484,16 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "vizsgaremek.Controllers.RendelesekController",
+    "Method": "GetRendelesek",
+    "RelativePath": "api/Rendelesek",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "vizsgaremek.Controllers.UditokController",
     "Method": "GetUditok",
     "RelativePath": "api/Uditok",

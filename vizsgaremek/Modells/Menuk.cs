@@ -15,13 +15,15 @@ public partial class Menuk
 
     public int UditoId { get; set; }
 
-    public sbyte Elerheto { get; set; }
+    public int Elerheto { get; set; }
 
     public byte[] Kep { get; set; } = null!;
 
     public virtual Keszetelek Keszetel { get; set; } = null!;
 
     public virtual Koretek Koret { get; set; } = null!;
+
+    public virtual ICollection<RendelesElemek> RendelesElemeks { get; set; } = new List<RendelesElemek>();
 
     public virtual Uditok Udito { get; set; } = null!;
 }

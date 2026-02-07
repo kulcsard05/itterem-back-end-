@@ -29,6 +29,10 @@ public partial class BackEndAlapContext : DbContext
 
     public virtual DbSet<Menuk> Menuks { get; set; }
 
+    public virtual DbSet<RendelesElemek> RendelesElemeks { get; set; }
+
+    public virtual DbSet<Rendelesek> Rendeleseks { get; set; }
+
     public virtual DbSet<Uditok> Uditoks { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -218,6 +222,91 @@ public partial class BackEndAlapContext : DbContext
             entity.HasOne(d => d.Udito).WithMany(p => p.Menuks)
                 .HasForeignKey(d => d.UditoId)
                 .HasConstraintName("udito_menu_kapcs");
+        });
+
+        modelBuilder.Entity<RendelesElemek>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("rendeles_elemek");
+
+            entity.HasIndex(e => e.KeszetelId, "fk_re_keszetel");
+
+            entity.HasIndex(e => e.MenuId, "fk_re_menu");
+
+            entity.HasIndex(e => e.RendelesId, "fk_re_rendeles");
+
+            entity.HasIndex(e => e.UditoId, "fk_re_udito");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.KeszetelId)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("int(11)")
+                .HasColumnName("keszetel_id");
+            entity.Property(e => e.Mennyiseg)
+                .HasDefaultValueSql("'1'")
+                .HasColumnType("int(11)")
+                .HasColumnName("mennyiseg");
+            entity.Property(e => e.MenuId)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("int(11)")
+                .HasColumnName("menu_id");
+            entity.Property(e => e.RendelesId)
+                .HasColumnType("int(11)")
+                .HasColumnName("rendeles_id");
+            entity.Property(e => e.UditoId)
+                .HasDefaultValueSql("'NULL'")
+                .HasColumnType("int(11)")
+                .HasColumnName("udito_id");
+
+            entity.HasOne(d => d.Keszetel).WithMany(p => p.RendelesElemeks)
+                .HasForeignKey(d => d.KeszetelId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_re_keszetel");
+
+            entity.HasOne(d => d.Menu).WithMany(p => p.RendelesElemeks)
+                .HasForeignKey(d => d.MenuId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_re_menu");
+
+            entity.HasOne(d => d.Rendeles).WithMany(p => p.RendelesElemeks)
+                .HasForeignKey(d => d.RendelesId)
+                .HasConstraintName("fk_re_rendeles");
+
+            entity.HasOne(d => d.Udito).WithMany(p => p.RendelesElemeks)
+                .HasForeignKey(d => d.UditoId)
+                .OnDelete(DeleteBehavior.SetNull)
+                .HasConstraintName("fk_re_udito");
+        });
+
+        modelBuilder.Entity<Rendelesek>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("rendelesek");
+
+            entity.HasIndex(e => e.FelhasznaloId, "felhasznalo_id");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Datum)
+                .HasDefaultValueSql("'current_timestamp()'")
+                .HasColumnType("datetime")
+                .HasColumnName("datum");
+            entity.Property(e => e.FelhasznaloId)
+                .HasColumnType("int(11)")
+                .HasColumnName("felhasznalo_id");
+            entity.Property(e => e.Statusz)
+                .HasMaxLength(50)
+                .HasDefaultValueSql("'''Függőben'''")
+                .HasColumnName("statusz");
+
+            entity.HasOne(d => d.Felhasznalo).WithMany(p => p.Rendeleseks)
+                .HasForeignKey(d => d.FelhasznaloId)
+                .HasConstraintName("fk_rendeles_user");
         });
 
         modelBuilder.Entity<Uditok>(entity =>

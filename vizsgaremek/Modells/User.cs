@@ -22,4 +22,6 @@ public partial class User
     public int Aktiv { get; set; }
 
     public virtual Jogok JogosultsagNavigation { get; set; } = null!;
+
+    public virtual ICollection<Rendelesek> Rendeleseks { get; set; } = new List<Rendelesek>();
 }
