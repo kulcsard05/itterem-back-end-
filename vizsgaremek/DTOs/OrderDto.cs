@@ -1,0 +1,26 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace vizsgaremek.DTOs
+{
+    public class OrderDto
+    {
+        // Optional: append items to an existing order when provided
+        public int? OrderId { get; set; }
+
+        [Required]
+        public int FelhasznaloId { get; set; } // User ID placing the order
+
+        [Required]
+        public List<OrderItemDto> Items { get; set; } = new List<OrderItemDto>(); // List of order items
+    }
+
+    public class OrderItemDto
+    {
+        public int? KeszetelId { get; set; } // ID of the dish (optional)
+        public int? UditoId { get; set; } // ID of the drink (optional)
+        public int? MenuId { get; set; } // ID of the menu (optional)
+        public int? KoretId { get; set; } // ID of the side dish (optional)
+        // Quantity - optional on the client. If omitted or <=0, defaults to1. The controller expands quantity into separate order item records.
+        public int Mennyiseg { get; set; } =1;
+    }
+}

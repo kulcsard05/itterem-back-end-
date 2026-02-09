@@ -2,6 +2,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.Modells;
+using System;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace vizsgaremek.Controllers
 {
@@ -10,27 +13,30 @@ namespace vizsgaremek.Controllers
     public class KategoriaController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> GetKategoria()
+        public async Task<IActionResult> Getmenu()
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var response = await cx.Kategoras.Include(f => f.Keszeteleks).Select(f => new
+                    var categories = await cx.Kategoras.ToListAsync();
+                    var dishes = await cx.Set<Keszetelek>().ToListAsync();
+                    
+                    var response = categories.Select(c => new
                     {
-                        f.Nev,
+                        c.Nev,
                         
-                        Kesziteleks = f.Keszeteleks.Select(k => new
+                        Kesziteleks = dishes.Where(d => d.KategoriaId == c.Id).Select(d => new
                         {
                             
-                            k.Id,
-                            k.Nev,
-                            k.Leiras,
-                            k.Elerheto,
-                            Kep = k.Kep != null && k.Kep.Length > 0 ? Program.ImageConvert(k.Kep) : null
-                        })
-                    }).ToListAsync();
-                    
+                            d.Id,
+                            d.Nev,
+                            d.Leiras,
+                            d.Elerheto,
+                            Kep = d.Kep != null && d.Kep.Length > 0 ? Program.ImageConvert(d.Kep) : null
+                        }).ToList()
+                    }).ToList();
+                        
                     return Ok(response);
                 }
                 catch (Exception ex)
@@ -40,7 +46,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostKategoria(string nev)
+        public IActionResult PostMenu(string nev)
         {
 
             using (var cx = new BackEndAlapContext())
@@ -69,7 +75,7 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutKategoria(int id, string? nev)
+        public async Task<IActionResult> PutMenu(int id, string? nev)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -97,7 +103,7 @@ namespace vizsgaremek.Controllers
         }
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteKategoria(int id)
+        public async Task<IActionResult> DeleteMenu(int id)
         {
             using (var cx = new BackEndAlapContext())
             {

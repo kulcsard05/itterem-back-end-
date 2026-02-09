@@ -15,9 +15,13 @@ public partial class RendelesElemek
 
     public int? MenuId { get; set; }
 
+    public int? KoretId { get; set; }
+
     public int Mennyiseg { get; set; }
 
     public virtual Keszetelek? Keszetel { get; set; }
+
+    public virtual Koretek? Koret { get; set; }
 
     public virtual Menuk? Menu { get; set; }
 

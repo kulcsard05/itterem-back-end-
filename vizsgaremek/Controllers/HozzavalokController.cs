@@ -1,17 +1,21 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    
     public class HozzavalokController : ControllerBase
     {
+        
         [HttpGet]
         public async Task<IActionResult> GetHozzavalok()
         {
+            
             using (var cx = new BackEndAlapContext())
             {
                 try

@@ -1,0 +1,206 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using vizsgaremek.Modells;
+using vizsgaremek.DTOs;
+
+namespace vizsgaremek.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RendelesekController : ControllerBase
+    {
+        [HttpGet]
+        public async Task<IActionResult> GetRendelesek()
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var response = await cx.Rendeleseks
+                        .Include(r => r.Felhasznalo)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Keszetel)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Udito)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Menu)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Koret)
+                        .Select(r => new
+                        {
+                            r.Id,
+                            r.FelhasznaloId,
+                            FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                            r.Datum,
+                            r.Statusz,
+                            RendelesElemeks = r.RendelesElemeks.Select(e => new
+                            {
+                                e.Id,
+                                e.RendelesId,
+                                KeszetelNev = e.Keszetel != null ? e.Keszetel.Nev : null,
+                                UditoNev = e.Udito != null ? e.Udito.Nev : null,
+                                MenuNev = e.Menu != null ? e.Menu.MenuNev : null,
+                                KoretNev = e.Koret != null ? e.Koret.Nev : null,
+                                e.Mennyiseg
+                            }).ToList()
+                        })
+                        .ToListAsync();
+
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] OrderDto orderDto) // Accept OrderDto from request body
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    // Step 1: Validate the incoming order data
+                    if (orderDto == null || orderDto.Items == null || !orderDto.Items.Any())
+                    {
+                        return BadRequest("Order data is invalid or empty.");
+                    }
+
+                    // Step 2: Check if the user exists
+                    var user = await cx.Users.FindAsync(orderDto.FelhasznaloId);
+                    if (user == null)
+                    {
+                        return BadRequest("User not found.");
+                    }
+
+                    // Step 3: Validate all order items before creating anything
+                    foreach (var item in orderDto.Items)
+                    {
+                        // Count how many IDs are provided
+                        int idCount = (item.KeszetelId.HasValue ? 1 : 0) +
+                                      (item.UditoId.HasValue ? 1 : 0) +
+                                      (item.MenuId.HasValue ? 1 : 0) +
+                                      (item.KoretId.HasValue ? 1 : 0);
+
+                        // Validate that exactly one of KeszetelId, UditoId, MenuId, or KoretId is provided
+                        if (idCount != 1)
+                        {
+                            return BadRequest("Each order item must specify exactly one of: dish, drink, menu, or side dish.");
+                        }
+
+                        // Check if the specified dish exists
+                        if (item.KeszetelId.HasValue && !await cx.Keszeteleks.AnyAsync(k => k.Id == item.KeszetelId))
+                        {
+                            return BadRequest($"Dish with ID {item.KeszetelId} not found.");
+                        }
+
+                        // Check if the specified drink exists (assuming Uditok table)
+                        if (item.UditoId.HasValue && !await cx.Uditoks.AnyAsync(u => u.Id == item.UditoId))
+                        {
+                            return BadRequest($"Drink with ID {item.UditoId} not found.");
+                        }
+
+                        // Check if the specified menu exists (assuming Menuks table)
+                        if (item.MenuId.HasValue && !await cx.Menuks.AnyAsync(m => m.Id == item.MenuId))
+                        {
+                            return BadRequest($"Menu with ID {item.MenuId} not found.");
+                        }
+
+                        // Check if the specified side dish exists (assuming Koretek table)
+                        if (item.KoretId.HasValue && !await cx.Koreteks.AnyAsync(k => k.Id == item.KoretId))
+                        {
+                            return BadRequest($"Side dish with ID {item.KoretId} not found.");
+                        }
+                    }
+
+                    // Step 4: Create or get the target order (Rendelesek) entity
+                    Rendelesek targetOrder;
+
+                    if (orderDto.OrderId.HasValue)
+                    {
+                        // Append items to existing order
+                        targetOrder = await cx.Rendeleseks.FindAsync(orderDto.OrderId.Value);
+                        if (targetOrder == null)
+                        {
+                            return BadRequest($"Order with ID {orderDto.OrderId.Value} not found.");
+                        }
+
+                        // Ensure the order belongs to the same user
+                        if (targetOrder.FelhasznaloId != orderDto.FelhasznaloId)
+                        {
+                            return BadRequest("Provided OrderId belongs to a different user.");
+                        }
+                    }
+                    else
+                    {
+                        // Create a new order
+                        targetOrder = new Rendelesek
+                        {
+                            FelhasznaloId = orderDto.FelhasznaloId,
+                            Datum = DateTime.Now, // Set current date and time
+                            Statusz = "Pending" // Default status; adjust as needed
+                        };
+
+                        // Add the new order to the context and save to generate ID
+                        cx.Rendeleseks.Add(targetOrder);
+                        await cx.SaveChangesAsync(); // Save to get the ID
+                    }
+
+                    // Step 5: Process each item in the order and add to context
+                    foreach (var item in orderDto.Items)
+                    {
+                        // Create a single RendelesElemek row per distinct item, preserving the requested quantity
+                        var qty = Math.Max(1, item.Mennyiseg);
+
+                        // Create a new order item (RendelesElemek) entity
+                        var orderItem = new RendelesElemek
+                        {
+                            Rendeles = targetOrder, // Set navigation property
+                            KeszetelId = item.KeszetelId,
+                            UditoId = item.UditoId,
+                            MenuId = item.MenuId,
+                            KoretId = item.KoretId, // Now nullable
+                            Mennyiseg = qty
+                        };
+
+                        // Add the order item to the context
+                        cx.RendelesElemeks.Add(orderItem);
+                    }
+
+                    // Step 6: Save all changes to the database in one transaction
+                    await cx.SaveChangesAsync(); // This saves all items atomically
+
+                    // Step 7: Return a success response with the order ID
+                    return Ok(new { OrderId = targetOrder.Id, Message = "Order items saved successfully." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Step 8: Handle any exceptions and return an error response
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+        [HttpDelete]
+        public IActionResult Delete(int id)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var result = cx.Rendeleseks.FirstOrDefault(f =>f.Id == id);
+                    cx.Rendeleseks.Remove(result);
+                    cx.SaveChanges();
+                    return Ok($"Sikeres törlés: {result}");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+    }
+}

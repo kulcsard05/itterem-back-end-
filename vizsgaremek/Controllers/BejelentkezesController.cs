@@ -64,6 +64,7 @@ namespace vizsgaremek.Controllers
                     lock (Program.LoggedUsers)
                     {
                         Program.LoggedUsers.Add(loggeduser.Token, response);
+                        
                     }
 
                     return Ok(loggeduser);

@@ -1,0 +1,146 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using vizsgaremek.Modells;
+using vizsgaremek.DTOs;
+
+namespace vizsgaremek.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class RendelesekController : ControllerBase
+    {
+        [HttpGet]
+        public async Task<IActionResult> GetRendelesek()
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var response = await cx.Rendeleseks
+                        .Include(r => r.Felhasznalo)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Keszetel)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Udito)
+                        .Include(r => r.RendelesElemeks)
+                            .ThenInclude(e => e.Menu)
+                        .Select(r => new
+                        {
+                            r.Id,
+                            r.FelhasznaloId,
+                            FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                            r.Datum,
+                            r.Statusz,
+                            RendelesElemeks = r.RendelesElemeks.Select(e => new
+                            {
+                                e.Id,
+                                e.RendelesId,
+                                KeszetelNev = e.Keszetel != null ? e.Keszetel.Nev : null,
+                                UditoNev = e.Udito != null ? e.Udito.Nev : null,
+                                MenuNev = e.Menu != null ? e.Menu.MenuNev : null,
+                                e.Mennyiseg
+                            }).ToList()
+                        })
+                        .ToListAsync();
+
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Post([FromBody] OrderDto orderDto) // Accept OrderDto from request body
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    // Step 1: Validate the incoming order data
+                    if (orderDto == null || orderDto.Items == null || !orderDto.Items.Any())
+                    {
+                        return BadRequest("Order data is invalid or empty.");
+                    }
+
+                    // Step 2: Check if the user exists
+                    var user = await cx.Users.FindAsync(orderDto.FelhasznaloId);
+                    if (user == null)
+                    {
+                        return BadRequest("User not found.");
+                    }
+
+                    // Step 3: Validate all order items before creating anything
+                    foreach (var item in orderDto.Items)
+                    {
+                        // Validate that at least one of KeszetelId, UditoId, or MenuId is provided
+                        if (item.KeszetelId == null && item.UditoId == null && item.MenuId == null)
+                        {
+                            return BadRequest("Each order item must specify a dish, drink, or menu.");
+                        }
+
+                        // Check if the specified dish exists
+                        if (item.KeszetelId.HasValue && !await cx.Keszeteleks.AnyAsync(k => k.Id == item.KeszetelId))
+                        {
+                            return BadRequest($"Dish with ID {item.KeszetelId} not found.");
+                        }
+
+                        // Check if the specified drink exists (assuming Uditok table)
+                        if (item.UditoId.HasValue && !await cx.Uditoks.AnyAsync(u => u.Id == item.UditoId))
+                        {
+                            return BadRequest($"Drink with ID {item.UditoId} not found.");
+                        }
+
+                        // Check if the specified menu exists (assuming Menuks table)
+                        if (item.MenuId.HasValue && !await cx.Menuks.AnyAsync(m => m.Id == item.MenuId))
+                        {
+                            return BadRequest($"Menu with ID {item.MenuId} not found.");
+                        }
+                    }
+
+                    // Step 4: Create a new order (Rendelesek) entity
+                    var newOrder = new Rendelesek
+                    {
+                        FelhasznaloId = orderDto.FelhasznaloId,
+                        Datum = DateTime.Now, // Set current date and time
+                        Statusz = "Pending" // Default status; adjust as needed
+                    };
+
+                    // Step 5: Add the order to the context
+                    cx.Rendeleseks.Add(newOrder);
+
+                    // Step 6: Process each item in the order and add to context
+                    foreach (var item in orderDto.Items)
+                    {
+                        // Create a new order item (RendelesElemek) entity
+                        var orderItem = new RendelesElemek
+                        {
+                            RendelesId = newOrder.Id, // This will be set after save, but since we're adding to context, it might work; alternatively, set after save
+                            KeszetelId = item.KeszetelId,
+                            UditoId = item.UditoId,
+                            MenuId = item.MenuId,
+                            Mennyiseg = item.Mennyiseg
+                        };
+
+                        // Add the order item to the context
+                        cx.RendelesElemeks.Add(orderItem);
+                    }
+
+                    // Step 7: Save all changes to the database in one transaction
+                    await cx.SaveChangesAsync(); // This saves the order and all items atomically
+
+                    // Step 8: Return a success response with the new order ID
+                    return Ok(new { OrderId = newOrder.Id, Message = "Order created successfully." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Step 9: Handle any exceptions and return an error response
+                return StatusCode(500, $"An error occurred: {ex.Message}");
+            }
+        }
+    }
+}
