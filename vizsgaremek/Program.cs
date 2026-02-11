@@ -1,40 +1,32 @@
-using System.Security.Cryptography;
-using System.Text;
-using vizsgaremek.Modells;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
+using System.Text;
+using vizsgaremek.Controllers.BackEndAlap.Services;
+using vizsgaremek.Modells;
 
 namespace vizsgaremek
 {
     public class Program
     {
-
         public static Dictionary<string, User> LoggedUsers = new Dictionary<string, User>();
-
         const int SaltLength = 64;
 
-
-
+        // --- SEGÉDFÜGGVÉNYEK ---
         public static string GenerateSalt(int lengthInBytes = 16)
         {
-            RNGCryptoServiceProvider asd = new RNGCryptoServiceProvider();
-            byte[] saltBytes = new byte[lengthInBytes];
-            asd.GetBytes(saltBytes);
-            string saltString = Convert.ToBase64String(saltBytes);
-            asd.Dispose();
-
-            return saltString;
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                byte[] saltBytes = new byte[lengthInBytes];
+                rng.GetBytes(saltBytes);
+                return Convert.ToBase64String(saltBytes);
+            }
         }
 
         public static string ImageConvert(byte[] image)
         {
             string imgBaseData = Convert.ToBase64String(image);
-            string imageURL = string.Format($"data:image/jpg;base64,{imgBaseData}");
-            return imageURL;
+            return string.Format($"data:image/jpg;base64,{imgBaseData}");
         }
-
-
-
 
         public static string CreateSHA256(string input)
         {
@@ -49,82 +41,52 @@ namespace vizsgaremek
                 return sBuilder.ToString();
             }
         }
-        
+
         public static string CreatePasswordHash(string password, string salt)
         {
             return CreateSHA256($"{salt}:{password}");
         }
 
-        private static bool TryCheckDatabaseConnection(out string? error)
-        {
-            try
-            {
-                using var context = new BackEndAlapContext();
-                var canConnect = context.Database.CanConnect();
-                if (!canConnect)
-                {
-                    error = "Cannot connect to the MySQL database (Database.CanConnect() returned false).";
-                    return false;
-                }
-
-                error = null;
-                return true;
-            }
-            catch (Exception ex)
-            {
-                error = ex.Message;
-                return false;
-            }
-        }
-        
+        // --- MAIN ---
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-
+            // 1. Szolgáltatások regisztrálása
             builder.Services.AddControllers();
-
-            // Dev-only CORS (e.g. React dev server)
-            builder.Services.AddCors(options =>
-            {
-                options.AddPolicy("DevCors", policy =>
-                {
-                    // Prefer a specific origin for dev.
-                    policy.WithOrigins("http://localhost:3000")
-                        .AllowAnyHeader()
-                        .AllowAnyMethod();
-
-                    // If you truly need "AllowAnyOrigin", replace the above with:
-                    // policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
-                });
-            });
-
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+            // SSE Szerviz regisztrálása (Singleton fontos!)
+            builder.Services.AddSingleton<OrderSignalService>();
+
+            // CORS BEÁLLÍTÁS (Engedélyezi a Live Servert és a Reactot is)
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAll", policy =>
+                {
+                    policy.AllowAnyOrigin()
+                          .AllowAnyHeader()
+                          .AllowAnyMethod();
+                });
+            });
+
             var app = builder.Build();
 
-            // Configure the HTTP request pipeline.
+            // 2. Middleware csõvezeték (A SORREND FONTOS)
+
+            // CORS-nak az elején kell lennie
+            app.UseCors("AllowAll");
+
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
-
-                app.UseCors("DevCors");
             }
 
             app.UseHttpsRedirection();
-
             app.UseAuthorization();
-
-
             app.MapControllers();
-
-           
-                
-            
 
             app.Run();
         }

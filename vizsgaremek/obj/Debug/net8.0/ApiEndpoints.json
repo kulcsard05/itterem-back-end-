@@ -142,7 +142,7 @@
   },
   {
     "ContainingType": "vizsgaremek.Controllers.KategoriaController",
-    "Method": "GetKategoria",
+    "Method": "Getmenu",
     "RelativePath": "api/Kategoria",
     "HttpMethod": "GET",
     "IsController": true,
@@ -152,7 +152,7 @@
   },
   {
     "ContainingType": "vizsgaremek.Controllers.KategoriaController",
-    "Method": "PostKategoria",
+    "Method": "PostMenu",
     "RelativePath": "api/Kategoria",
     "HttpMethod": "POST",
     "IsController": true,
@@ -168,7 +168,7 @@
   },
   {
     "ContainingType": "vizsgaremek.Controllers.KategoriaController",
-    "Method": "PutKategoria",
+    "Method": "PutMenu",
     "RelativePath": "api/Kategoria",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -189,7 +189,7 @@
   },
   {
     "ContainingType": "vizsgaremek.Controllers.KategoriaController",
-    "Method": "DeleteKategoria",
+    "Method": "DeleteMenu",
     "RelativePath": "api/Kategoria/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
@@ -597,17 +597,23 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "vizsgaremek.Controllers.RendelesekController",
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
     "Method": "GetRendelesek",
     "RelativePath": "api/Rendelesek",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [],
+    "Parameters": [
+      {
+        "Name": "response",
+        "Type": "Microsoft.AspNetCore.Http.HttpResponse",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
-    "ContainingType": "vizsgaremek.Controllers.RendelesekController",
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
     "Method": "Post",
     "RelativePath": "api/Rendelesek",
     "HttpMethod": "POST",
@@ -623,7 +629,7 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "vizsgaremek.Controllers.RendelesekController",
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
     "Method": "Delete",
     "RelativePath": "api/Rendelesek",
     "HttpMethod": "DELETE",
@@ -637,6 +643,22 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
+    "Method": "GetRendelesStream",
+    "RelativePath": "api/Rendelesek/stream",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 200
+      }
+    ]
   },
   {
     "ContainingType": "vizsgaremek.Controllers.UditokController",
