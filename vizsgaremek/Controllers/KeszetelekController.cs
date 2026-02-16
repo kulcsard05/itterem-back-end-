@@ -17,7 +17,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var response = await cx.Keszeteleks.ToListAsync();
+                    var response = await cx.Keszeteleks.Include(f=>f.Kategoria).ToListAsync();
 
                     var result = response.Select(k => new
                     {
@@ -25,6 +25,8 @@ namespace vizsgaremek.Controllers
                         k.Nev,
                         k.Leiras,
                         k.Elerheto,
+                        
+                        k.KategoriaId,
                         // Ha van Kep mező a Koretek táblában
                         Kep = k.Kep != null && k.Kep.Length > 0
                             ? Program.ImageConvert(k.Kep)

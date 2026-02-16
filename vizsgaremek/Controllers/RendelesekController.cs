@@ -75,6 +75,7 @@ namespace vizsgaremek.Controllers
                         .Include(r => r.RendelesElemeks).ThenInclude(e => e.Udito)
                         .Include(r => r.RendelesElemeks).ThenInclude(e => e.Menu)
                         .Include(r => r.RendelesElemeks).ThenInclude(e => e.Koret)
+                        
                         .Select(r => new
                         {
                             r.Id,
@@ -106,7 +107,6 @@ namespace vizsgaremek.Controllers
                 }
             }
 
-            [HttpPost]
             [HttpPost]
             public async Task<IActionResult> Post([FromBody] OrderDto orderDto) // Accept OrderDto from request body
             {
