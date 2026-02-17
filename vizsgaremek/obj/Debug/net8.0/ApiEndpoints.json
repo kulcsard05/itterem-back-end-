@@ -232,6 +232,11 @@
         "IsRequired": false
       },
       {
+        "Name": "ar",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "elerheto",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -270,6 +275,11 @@
       {
         "Name": "leiras",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ar",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -335,6 +345,11 @@
         "IsRequired": false
       },
       {
+        "Name": "ar",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "elerheto",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -368,6 +383,11 @@
       {
         "Name": "leiras",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ar",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -455,6 +475,11 @@
         "IsRequired": false
       },
       {
+        "Name": "ar",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "keszetelId",
         "Type": "System.Int32",
         "IsRequired": false
@@ -498,6 +523,11 @@
       {
         "Name": "menuNev",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ar",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {
@@ -684,6 +714,11 @@
         "IsRequired": false
       },
       {
+        "Name": "ar",
+        "Type": "System.Int32",
+        "IsRequired": false
+      },
+      {
         "Name": "elerheto",
         "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
@@ -712,6 +747,11 @@
       {
         "Name": "nev",
         "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "ar",
+        "Type": "System.Nullable\u00601[[System.Int32, System.Private.CoreLib, Version=8.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]]",
         "IsRequired": false
       },
       {

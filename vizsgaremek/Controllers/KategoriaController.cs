@@ -19,7 +19,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var categories = await cx.Kategoras.ToListAsync();
+                    var categories = await cx.Kategoria.ToListAsync();
                     var dishes = await cx.Set<Keszetelek>().ToListAsync();
                     
                     var response = categories.Select(c => new
@@ -54,13 +54,13 @@ namespace vizsgaremek.Controllers
 
                 try
                 {
-                    if (cx.Kategoras.FirstOrDefault(f => f.Nev == nev) != null)
+                    if (cx.Kategoria.FirstOrDefault(f => f.Nev == nev) != null)
                     {
                         return Ok("Létezik ilyen Kategória!");
                     }
-                    Kategora kat = new Kategora();
+                    Kategoria kat = new Kategoria();
                     kat.Nev = nev;
-                    cx.Kategoras.Add(kat);
+                    cx.Kategoria.Add(kat);
                     cx.SaveChanges();
                     return Ok("Sikeres kategória  Mentés");
                 }
@@ -81,7 +81,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var kat = await cx.Kategoras.FirstOrDefaultAsync(k => k.Id == id);
+                    var kat = await cx.Kategoria.FirstOrDefaultAsync(k => k.Id == id);
                     if (kat == null)
                     {
                         return NotFound("Nincs ilyen kategória!");

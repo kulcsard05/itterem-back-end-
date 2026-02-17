@@ -10,12 +10,11 @@ namespace vizsgaremek.Controllers
     public class UditokController : ControllerBase
     {
         [HttpGet]
-
         public IActionResult GetUditok()
         {
             try
             {
-                using (var cx =new BackEndAlapContext())
+                using (var cx = new BackEndAlapContext())
                 {
                     var response = cx.Uditoks.ToList();
 
@@ -24,33 +23,38 @@ namespace vizsgaremek.Controllers
                         k.Id,
                         k.Nev,
                         k.Elerheto,
-                        // Ha van Kep mező a Koretek táblában
+                        k.Ar,
                         Kep = k.Kep != null && k.Kep.Length > 0
                             ? Program.ImageConvert(k.Kep)
                             : null
                     }).ToList();
 
                     return Ok(result);
-
-                    return Ok(response);
-
                 }
             }
-            catch(Exception ex) 
-            { 
-            return BadRequest(ex.Message);
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
         }
+
         [HttpPost]
-        public IActionResult PostUdito(string nev, int? elerheto,IFormFile kep)
+        public async Task<IActionResult> PostUdito(string nev, int ar, int? elerheto, IFormFile kep)
         {
             try
             {
                 using (var cx = new BackEndAlapContext())
                 {
+                    if (cx.Uditoks.FirstOrDefault(u => u.Nev == nev) != null)
+                    {
+                        return Ok("Létezik ilyen Üdítő!");
+                    }
+
                     Uditok udito = new Uditok();
                     udito.Nev = nev;
-                    udito.Elerheto= elerheto ?? 0;
+                    udito.Ar = ar;
+                    udito.Elerheto = elerheto ?? 0;
+
                     if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
@@ -59,20 +63,20 @@ namespace vizsgaremek.Controllers
                             udito.Kep = memoryStream.ToArray();
                         }
                     }
-                    cx.Uditoks.Update(udito);
 
-                    cx.SaveChanges();
-                    return Ok("sikeres udito mentes");
+                    await cx.Uditoks.AddAsync(udito);
+                    await cx.SaveChangesAsync();
+                    return Ok("Sikeres üdítő mentés");
                 }
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
+
         [HttpPut]
-        public  IActionResult PutUdito(int id, string? nev,int? elerheto, IFormFile? kep)
+        public IActionResult PutUdito(int id, string? nev, int? ar, int? elerheto, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -81,7 +85,7 @@ namespace vizsgaremek.Controllers
                     var udito = cx.Uditoks.FirstOrDefault(k => k.Id == id);
                     if (udito == null)
                     {
-                        return NotFound("Nincs ilyen készétel!");
+                        return NotFound("Nincs ilyen üdítő!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -89,12 +93,16 @@ namespace vizsgaremek.Controllers
                         udito.Nev = nev;
                     }
 
-                   
+                    if (ar.HasValue)
+                    {
+                        udito.Ar = ar.Value;
+                    }
 
                     if (elerheto.HasValue)
                     {
                         udito.Elerheto = elerheto.Value;
                     }
+
                     if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
@@ -104,9 +112,8 @@ namespace vizsgaremek.Controllers
                         }
                     }
 
-
                     cx.SaveChanges();
-                    return Ok("Sikeres készétel módosítás");
+                    return Ok("Sikeres üdítő módosítás");
                 }
                 catch (Exception ex)
                 {
@@ -114,6 +121,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [HttpDelete]
         public IActionResult DeleteUdito(int id)
         {
@@ -122,15 +130,14 @@ namespace vizsgaremek.Controllers
                 using (var cx = new BackEndAlapContext())
                 {
                     var res = cx.Uditoks.FirstOrDefault(f => f.Id == id);
-                    if (res == null) return BadRequest("Nincs ilyen udito");
+                    if (res == null) return BadRequest("Nincs ilyen üdítő");
                     cx.Uditoks.Remove(res);
                     cx.SaveChanges();
-                    return Ok("sikeres törlés");
+                    return Ok("Sikeres törlés");
                 }
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }

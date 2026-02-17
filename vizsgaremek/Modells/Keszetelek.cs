@@ -15,9 +15,11 @@ public partial class Keszetelek
 
     public int KategoriaId { get; set; }
 
+    public int Ar { get; set; }
+
     public byte[] Kep { get; set; } = null!;
 
-    public virtual Kategora Kategoria { get; set; } = null!;
+    public virtual Kategoria Kategoria { get; set; } = null!;
 
     public virtual ICollection<Menuk> Menuks { get; set; } = new List<Menuk>();
 

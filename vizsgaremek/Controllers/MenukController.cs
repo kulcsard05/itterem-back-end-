@@ -24,6 +24,7 @@ namespace vizsgaremek.Controllers
                         {
                             m.Id,
                             m.MenuNev,
+                            m.Ar,
                             KeszetelNev = m.Keszetel.Nev,
                             KoretNev = m.Koret != null ? m.Koret.Nev : null,
                             UditoNev = m.Udito.Nev,
@@ -42,7 +43,7 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> PostMenu(string menuNev, int keszetelId, int? koretId, int uditoId, int? elerheto, IFormFile? kep)
+        public async Task<IActionResult> PostMenu(string menuNev, int ar, int keszetelId, int? koretId, int uditoId, int? elerheto, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -69,8 +70,10 @@ namespace vizsgaremek.Controllers
 
                     Menuk menu = new Menuk();
                     menu.MenuNev = menuNev;
+                    menu.Ar = ar;
                     menu.KeszetelId = keszetelId;
-                    menu.KoretId = koretId;
+                    if (koretId.HasValue)
+                        menu.KoretId = koretId.Value;
                     menu.UditoId = uditoId;
                     menu.Elerheto = elerheto ?? 1;
 
@@ -95,7 +98,7 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutMenu(int id, string? menuNev, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
+        public async Task<IActionResult> PutMenu(int id, string? menuNev, int? ar, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -111,6 +114,12 @@ namespace vizsgaremek.Controllers
                     {
                         menu.MenuNev = menuNev;
                     }
+
+                    if (ar.HasValue)
+                    {
+                        menu.Ar = ar.Value;
+                    }
+
                     if (keszetelId.HasValue)
                     {
                         if (!await cx.Keszeteleks.AnyAsync(k => k.Id == keszetelId))
@@ -125,7 +134,7 @@ namespace vizsgaremek.Controllers
                         {
                             return BadRequest("Invalid KoretId");
                         }
-                        menu.KoretId = koretId;
+                        menu.KoretId = koretId.Value;
                     }
                     if (uditoId.HasValue)
                     {

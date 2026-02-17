@@ -19,7 +19,7 @@ public partial class BackEndAlapContext : DbContext
 
     public virtual DbSet<Jogok> Jogoks { get; set; }
 
-    public virtual DbSet<Kategora> Kategoras { get; set; }
+    public virtual DbSet<Kategoria> Kategoria { get; set; }
 
     public virtual DbSet<KeszetelHozzavalokKapcsolo> KeszetelHozzavalokKapcsolos { get; set; }
 
@@ -79,11 +79,11 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnName("szint");
         });
 
-        modelBuilder.Entity<Kategora>(entity =>
+        modelBuilder.Entity<Kategoria>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("kategora");
+            entity.ToTable("kategoria");
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
@@ -95,17 +95,17 @@ public partial class BackEndAlapContext : DbContext
 
         modelBuilder.Entity<KeszetelHozzavalokKapcsolo>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("keszetel_hozzavalok_kapcsolo");
+            entity.HasKey(e => new { e.KeszetelId, e.HozzavalokId });
+
+            entity.ToTable("keszetel_hozzavalok_kapcsolo");
 
             entity.HasIndex(e => e.HozzavalokId, "hozzavalok_id");
-
             entity.HasIndex(e => e.KeszetelId, "keszetel_id");
 
             entity.Property(e => e.HozzavalokId)
                 .HasColumnType("int(11)")
                 .HasColumnName("hozzavalok_id");
+
             entity.Property(e => e.KeszetelId)
                 .HasColumnType("int(11)")
                 .HasColumnName("keszetel_id");
@@ -116,7 +116,7 @@ public partial class BackEndAlapContext : DbContext
 
             entity.HasOne(d => d.Keszetel).WithMany()
                 .HasForeignKey(d => d.KeszetelId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.Cascade) // match DB if you added CASCADE
                 .HasConstraintName("keszetel_hozzavalok_kapcsolo_ibfk_1");
         });
 
@@ -131,6 +131,9 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.Ar)
+                .HasColumnType("int(11)")
+                .HasColumnName("ar");
             entity.Property(e => e.Elerheto)
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
@@ -161,6 +164,9 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.Ar)
+                .HasColumnType("int(11)")
+                .HasColumnName("ar");
             entity.Property(e => e.Elerheto)
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
@@ -190,6 +196,9 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.Ar)
+                .HasColumnType("int(11)")
+                .HasColumnName("ar");
             entity.Property(e => e.Elerheto)
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
@@ -200,28 +209,29 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("keszetel_id");
             entity.Property(e => e.KoretId)
-                .IsRequired(false)
                 .HasColumnType("int(11)")
                 .HasColumnName("koret_id");
             entity.Property(e => e.MenuNev)
                 .HasMaxLength(20)
                 .HasColumnName("menu_nev");
             entity.Property(e => e.UditoId)
+                .HasDefaultValueSql("'NULL'")
                 .HasColumnType("int(11)")
                 .HasColumnName("udito_id");
 
             entity.HasOne(d => d.Keszetel).WithMany(p => p.Menuks)
                 .HasForeignKey(d => d.KeszetelId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("menuk_ibfk_1");
 
             entity.HasOne(d => d.Koret).WithMany(p => p.Menuks)
                 .HasForeignKey(d => d.KoretId)
-                .OnDelete(DeleteBehavior.Restrict)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("menuk_ibfk_2");
 
             entity.HasOne(d => d.Udito).WithMany(p => p.Menuks)
                 .HasForeignKey(d => d.UditoId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("udito_menu_kapcs");
         });
 
@@ -275,6 +285,7 @@ public partial class BackEndAlapContext : DbContext
 
             entity.HasOne(d => d.Koret).WithMany(p => p.RendelesElemeks)
                 .HasForeignKey(d => d.KoretId)
+                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("rendeles_elemek_ibfk_1");
 
             entity.HasOne(d => d.Menu).WithMany(p => p.RendelesElemeks)
@@ -310,6 +321,9 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.FelhasznaloId)
                 .HasColumnType("int(11)")
                 .HasColumnName("felhasznalo_id");
+            entity.Property(e => e.OsszesAr)
+                .HasColumnType("int(11)")
+                .HasColumnName("osszes_ar");
             entity.Property(e => e.Statusz)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'''Függőben'''")
@@ -329,6 +343,9 @@ public partial class BackEndAlapContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.Ar)
+                .HasColumnType("int(11)")
+                .HasColumnName("ar");
             entity.Property(e => e.Elerheto)
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");

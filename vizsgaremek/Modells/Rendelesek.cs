@@ -13,6 +13,8 @@ public partial class Rendelesek
 
     public string? Statusz { get; set; }
 
+    public int OsszesAr { get; set; }
+
     public virtual User Felhasznalo { get; set; } = null!;
 
     public virtual ICollection<RendelesElemek> RendelesElemeks { get; set; } = new List<RendelesElemek>();

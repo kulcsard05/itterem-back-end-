@@ -17,7 +17,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var response = await cx.Keszeteleks.Include(f=>f.Kategoria).ToListAsync();
+                    var response = await cx.Keszeteleks.Include(f => f.Kategoria).ToListAsync();
 
                     var result = response.Select(k => new
                     {
@@ -25,7 +25,7 @@ namespace vizsgaremek.Controllers
                         k.Nev,
                         k.Leiras,
                         k.Elerheto,
-                        
+                        k.Ar,
                         k.KategoriaId,
                         // Ha van Kep mező a Koretek táblában
                         Kep = k.Kep != null && k.Kep.Length > 0
@@ -41,22 +41,9 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-        //Front end atalakitas
-        /*
-         function indexKepBeallit() {
-        const fileInput = document.getElementById('indexKepGomb').files[0];
-        const preview = document.getElementById('indexKep');
-        let reader = new FileReader();
-        reader.onload = function (e) {
-            preview.src = e.target.result;
-            indexKep = fileInput;
-        }
-        reader.readAsDataURL(fileInput);
-    }
-        */
 
         [HttpPost]
-        public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int? elerheto, int katid, IFormFile? kep)
+        public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int ar, int? elerheto, int katid, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -66,13 +53,14 @@ namespace vizsgaremek.Controllers
                     {
                         return Ok("Létezik ilyen készétel!");
                     }
-                    
+
                     Keszetelek keszetel = new Keszetelek();
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
+                    keszetel.Ar = ar;
                     keszetel.Elerheto = elerheto ?? 0;
                     keszetel.KategoriaId = katid;
-                    
+
                     // Kép feldolgozása, ha van
                     if (kep != null && kep.Length > 0)
                     {
@@ -82,7 +70,7 @@ namespace vizsgaremek.Controllers
                             keszetel.Kep = memoryStream.ToArray();
                         }
                     }
-                    
+
                     await cx.Keszeteleks.AddAsync(keszetel);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres készétel Mentés");
@@ -91,11 +79,11 @@ namespace vizsgaremek.Controllers
                 {
                     return StatusCode(500, ex);
                 }
-
             }
         }
+
         [HttpPut]
-        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? elerheto,int? Kategora, IFormFile? kep)
+        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategora, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -115,6 +103,11 @@ namespace vizsgaremek.Controllers
                     if (!string.IsNullOrWhiteSpace(leiras))
                     {
                         keszetel.Leiras = leiras;
+                    }
+
+                    if (ar.HasValue)
+                    {
+                        keszetel.Ar = ar.Value;
                     }
 
                     if (elerheto.HasValue)
@@ -144,16 +137,33 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-        [HttpDelete("{id}")]
 
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKEszetel(int id)
         {
-            using(var cx = new BackEndAlapContext())
+            using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    Keszetelek keszetel = new Keszetelek { Id = id };
-                    cx.Remove(keszetel);
+                    // 1) delete dependent Menuk rows (if any)
+                    var menuk = await cx.Menuks
+                        .Where(m => m.KeszetelId == id)
+                        .ToListAsync();
+                    cx.Menuks.RemoveRange(menuk);
+
+                    // 2) delete join table rows
+                    var kapcs = await cx.KeszetelHozzavalokKapcsolos
+                        .Where(x => x.KeszetelId == id)
+                        .ToListAsync();
+                    cx.KeszetelHozzavalokKapcsolos.RemoveRange(kapcs);
+
+                    // 3) delete the Keszetelek row
+                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
+                    if (keszetel == null)
+                        return NotFound("Nincs ilyen készétel!");
+
+                    cx.Keszeteleks.Remove(keszetel);
+
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Készétel törlés.");
                 }
@@ -163,6 +173,5 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
     }
 }
