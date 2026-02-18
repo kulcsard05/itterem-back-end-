@@ -22,5 +22,6 @@ namespace vizsgaremek.DTOs
         public int? KoretId { get; set; } // ID of the side dish (optional)
         // Quantity - optional on the client. If omitted or <=0, defaults to1. The controller expands quantity into separate order item records.
         public int Mennyiseg { get; set; } =1;
+        public int OsszesAr { get; set; }
     }
 }

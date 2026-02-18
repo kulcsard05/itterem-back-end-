@@ -1,4 +1,7 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.Buffers.Text;
 using System.Security.Cryptography;
 using System.Text;
 using vizsgaremek.Controllers.BackEndAlap.Services;
@@ -21,7 +24,6 @@ namespace vizsgaremek
                 return Convert.ToBase64String(saltBytes);
             }
         }
-
         public static string ImageConvert(byte[] image)
         {
             string imgBaseData = Convert.ToBase64String(image);
@@ -48,6 +50,7 @@ namespace vizsgaremek
         }
 
         // --- MAIN ---
+
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
@@ -71,6 +74,29 @@ namespace vizsgaremek
                 });
             });
 
+            var jwtSection = builder.Configuration.GetSection("Jwt");
+            var issuer = jwtSection["Issuer"];
+            var audience = jwtSection["Audience"];
+            var key = jwtSection["Key"];
+
+            builder.Services
+                .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = issuer,
+                        ValidAudience = audience,
+                        IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(key))
+                    };
+                });
+
+            builder.Services.AddAuthorization();
+
             var app = builder.Build();
 
             // 2. Middleware csõvezeték (A SORREND FONTOS)
@@ -85,6 +111,7 @@ namespace vizsgaremek
             }
 
             app.UseHttpsRedirection();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.MapControllers();
 

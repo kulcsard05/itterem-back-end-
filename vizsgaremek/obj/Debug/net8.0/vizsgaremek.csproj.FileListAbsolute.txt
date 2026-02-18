@@ -258,3 +258,11 @@ C:\Users\Kulcsard\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.
 C:\Users\Kulcsard\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgaremek.pdb
 C:\Users\Kulcsard\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgaremek.genruntimeconfig.cache
 C:\Users\Kulcsard\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\ref\vizsgaremek.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll

@@ -2843,6 +2843,10 @@
           "mennyiseg": {
             "type": "integer",
             "format": "int32"
+          },
+          "osszesAr": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
