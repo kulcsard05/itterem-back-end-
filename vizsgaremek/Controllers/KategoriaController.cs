@@ -13,7 +13,7 @@ namespace vizsgaremek.Controllers
     public class KategoriaController : ControllerBase
     {
         [HttpGet]
-        public async Task<IActionResult> Getmenu()
+        public async Task<IActionResult> GetKategoria()
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -24,11 +24,11 @@ namespace vizsgaremek.Controllers
                     
                     var response = categories.Select(c => new
                     {
+                        c.Id,
                         c.Nev,
                         
                         Kesziteleks = dishes.Where(d => d.KategoriaId == c.Id).Select(d => new
                         {
-                            
                             d.Id,
                             d.Nev,
                             d.Leiras,
@@ -46,7 +46,7 @@ namespace vizsgaremek.Controllers
             }
         }
         [HttpPost]
-        public IActionResult PostMenu(string nev)
+        public IActionResult PostKategoria(string nev)
         {
 
             using (var cx = new BackEndAlapContext())
@@ -75,7 +75,7 @@ namespace vizsgaremek.Controllers
         [HttpPut]
 
 
-        public async Task<IActionResult> PutMenu(int id, string? nev)
+        public async Task<IActionResult> Putkategoria(int id, string? nev)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -103,7 +103,7 @@ namespace vizsgaremek.Controllers
         }
         [HttpDelete("{id}")]
 
-        public async Task<IActionResult> DeleteMenu(int id)
+        public async Task<IActionResult> DeleteKategoria(int id)
         {
             using (var cx = new BackEndAlapContext())
             {
