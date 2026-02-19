@@ -42,6 +42,24 @@ namespace vizsgaremek.Controllers
             }
         }
 
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var response = await cx.Keszeteleks.FirstOrDefaultAsync(f=>f.Id == id);
+                    if (response == null) return BadRequest("nincs ilyen ");
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex )
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpPost]
         public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int ar, int? elerheto, int katid, IFormFile? kep)
         {
@@ -83,7 +101,7 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpPut]
-        public async Task<IActionResult> PutKezsetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategora, IFormFile? kep)
+        public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategora, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {

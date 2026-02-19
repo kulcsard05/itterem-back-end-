@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
@@ -57,6 +58,8 @@ namespace vizsgaremek.Controllers
                         TeljesNev = response.TeljesNev,
                         Email = response.Email,
                         Jogosultsag = response.Jogosultsag,
+                        Telefonszam = response.Telefonszam,
+
                         Token = Guid.NewGuid().ToString()
                     };
 
@@ -73,6 +76,29 @@ namespace vizsgaremek.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
+            }
+
+        }
+        [HttpPut]
+        public IActionResult Putuser(int id , string? nev, string? email,string? telefonszam)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var users =  cx.Users.FirstOrDefault(k => k.Id == id);
+                    if (users == null) return BadRequest("Nincs ilyen felhasználó");
+                    if (!string.IsNullOrEmpty(nev)) users.TeljesNev = nev;
+                    if(email != null) users.Email = email;
+                    if (!string.IsNullOrEmpty(telefonszam)) users.Telefonszam = telefonszam;
+                    return(Ok(users));
+                     
+                }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
             }
         }
     }

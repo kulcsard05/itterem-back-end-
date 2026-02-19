@@ -188,7 +188,7 @@ namespace vizsgaremek.Controllers
                             }
 
                             // Check if the specified dish exists
-                            if (item.KeszetelId.HasValue && !await cx.Keszeteleks.AnyAsync(k => k.Id == item.KeszetelId))
+                            if (item.KeszetelId.HasValue && !await cx.Kesziteleks.AnyAsync(k => k.Id == item.KeszetelId))
                             {
                                 return BadRequest($"Dish with ID {item.KeszetelId} not found.");
                             }
@@ -258,7 +258,7 @@ namespace vizsgaremek.Controllers
                             int itemPrice;
                             if (item.KeszetelId.HasValue)
                             {
-                                itemPrice = await cx.Keszeteleks
+                                itemPrice = await cx.Kesziteleks
                                     .Where(k => k.Id == item.KeszetelId.Value)
                                     .Select(k => k.Ar)
                                     .FirstAsync();

@@ -117,7 +117,7 @@ namespace vizsgaremek.Controllers
             }
 
             [HttpGet]
-            public async Task<IActionResult> GetRendelesek(CancellationToken ct)
+            public async Task<IActionResult> GetRendelesek(HttpResponse response, CancellationToken ct)
             {
                 using (var cx = new BackEndAlapContext())
                 {
@@ -147,6 +147,13 @@ namespace vizsgaremek.Controllers
                             }).ToList()
                         })
                         .ToListAsync(ct);
+
+                    // SSE formátum: "data: JSON_SZÖVEG\n\n"
+                    var json = System.Text.Json.JsonSerializer.Serialize(responseData);
+                    await response.WriteAsync($"data: {json}\n\n", ct);
+
+                    // Ez kényszeríti ki, hogy az adat azonnal elmenjen a hálózaton
+                    await response.Body.FlushAsync(ct);
 
                     return Ok(responseData);
                 }

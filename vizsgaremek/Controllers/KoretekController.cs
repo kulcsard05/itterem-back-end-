@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Org.BouncyCastle.Crypto.Digests;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
@@ -36,6 +37,24 @@ namespace vizsgaremek.Controllers
                 {
                     return BadRequest(ex.Message);
                 }
+            }
+        }
+        [HttpGet("{id}")]
+
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext()) {
+                    var response = await cx.Koreteks.FirstOrDefaultAsync(f=>f.Id == id);
+                    if (response == null) return BadRequest("nincs ilyen");
+                    return Ok(response);
+            }
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
             }
         }
 

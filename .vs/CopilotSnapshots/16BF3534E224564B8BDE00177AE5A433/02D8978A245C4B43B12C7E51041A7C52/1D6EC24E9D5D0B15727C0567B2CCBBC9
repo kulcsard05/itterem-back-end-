@@ -47,30 +47,29 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> getbyid(int id)
+        public IActionResult getbyid(int id)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    var categories = await cx.Kategoria.FirstOrDefaultAsync(f=>f.Id == id);
-                    var dishes =  await cx.Set<Keszetelek>().ToListAsync();
-                    if (categories == null) return BadRequest("nincs ilyen kategoria");
+                    var categories =  cx.Kategoria.FirstOrDefault(f=>f.Id == id);
+                    var dishes =  cx.Set<Keszetelek>().ToListAsync();
 
-                    var response = new
+                    var response = categories(c => new
                     {
-                        categories.Id,
-                        categories.Nev,
+                        c.Id,
+                        c.Nev,
 
-                        Kesziteleks = dishes.Where(d => d.KategoriaId == categories.Id).Select(d => new
+                        Kesziteleks = dishes.Where(d => d.KategoriaId == c.Id).Select(d => new
                         {
                             d.Id,
                             d.Nev,
                             d.Leiras,
                             d.Elerheto,
                             Kep = d.Kep != null && d.Kep.Length > 0 ? Program.ImageConvert(d.Kep) : null
-                        }).ToList(),
-                    };
+                        }).ToList()
+                    }).ToList();
 
                     return Ok(response);
                 }

@@ -122,7 +122,7 @@ namespace vizsgaremek.Controllers
             }
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult DeleteUdito(int id)
         {
             try
@@ -134,6 +134,39 @@ namespace vizsgaremek.Controllers
                     cx.Uditoks.Remove(res);
                     cx.SaveChanges();
                     return Ok("Sikeres törlés");
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var udito = await cx.Uditoks.FirstOrDefaultAsync(u => u.Id == id);
+                    if (udito == null)
+                    {
+                        return NotFound("Nincs ilyen üdítő!");
+                    }
+
+                    var result = new
+                    {
+                        udito.Id,
+                        udito.Nev,
+                        udito.Elerheto,
+                        udito.Ar,
+                        Kep = udito.Kep != null && udito.Kep.Length > 0
+                            ? Program.ImageConvert(udito.Kep)
+                            : null
+                    };
+
+                    return Ok(result);
                 }
             }
             catch (Exception ex)

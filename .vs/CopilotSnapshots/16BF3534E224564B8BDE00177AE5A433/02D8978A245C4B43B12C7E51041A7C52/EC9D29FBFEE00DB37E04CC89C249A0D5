@@ -48,11 +48,10 @@ namespace vizsgaremek.Controllers
             {
                 using (var cx = new BackEndAlapContext())
                 {
-                    var response = await cx.Menuks
-                        .Include(m => m.Keszetel)
+                    var response = await cx.Menuks.FirstOrDefaultAsync(f=>f.Id == id)
+                   (m => m.Keszetel)
                         .Include(m => m.Koret)
                         .Include(m => m.Udito)
-                        .Where(m => m.Id == id)
                         .Select(m => new
                         {
                             m.Id,
@@ -64,18 +63,12 @@ namespace vizsgaremek.Controllers
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })
-                        .FirstOrDefaultAsync();
-
-                    if (response == null)
-                    {
-                        return NotFound("Nincs ilyen Menü!");
-                    }
-
-                    return Ok(response);
+                        .ToListAsync();
                 }
             }
             catch (Exception ex)
             {
+
                 return BadRequest(ex.Message);
             }
         }
