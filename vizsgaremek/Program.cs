@@ -58,7 +58,33 @@ namespace vizsgaremek
             // 1. Szolgáltatások regisztrálása
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            builder.Services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                {
+                    Name = "Authorization",
+                    Type = Microsoft.OpenApi.Models.SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT",
+                    In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+                    Description = "Add JWT token as: Bearer {token}"
+                });
+
+                options.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
+                {
+                    {
+                        new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+                        {
+                            Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                            {
+                                Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                                Id = "Bearer"
+                            }
+                        },
+                        Array.Empty<string>()
+                    }
+                });
+            });
 
             // SSE Szerviz regisztrálása (Singleton fontos!)
             builder.Services.AddSingleton<OrderSignalService>();
@@ -77,7 +103,12 @@ namespace vizsgaremek
             var jwtSection = builder.Configuration.GetSection("Jwt");
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
-            var key = jwtSection["Key"];
+            var keyValue = jwtSection["Key"];
+            if (string.IsNullOrWhiteSpace(keyValue))
+            {
+                throw new InvalidOperationException("Jwt:Key is missing from configuration.");
+            }
+            var key = Convert.FromBase64String(keyValue);
 
             builder.Services
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -91,11 +122,22 @@ namespace vizsgaremek
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = issuer,
                         ValidAudience = audience,
-                        IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(key))
+                        IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
                 });
 
-            builder.Services.AddAuthorization();
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("level1", policy =>
+                    policy.RequireClaim("jogosultsag", "1"));
+
+                options.AddPolicy("Level1Or2", policy =>
+                    policy.RequireAssertion(ctx =>
+                    {
+                        var lvl = ctx.User.FindFirst("jogosultsag")?.Value;
+                        return lvl == "1" || lvl == "2";
+                    }));
+            });
 
             var app = builder.Build();
 

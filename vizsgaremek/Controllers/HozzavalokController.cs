@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.DTOs;
@@ -29,6 +30,8 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
+        //[Authorize(Policy = "level1")]
         [HttpPost]
         public IActionResult PostHozzavalok(string nev)
         {

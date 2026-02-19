@@ -1,5 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
@@ -50,7 +55,28 @@ namespace vizsgaremek.Controllers
                         return Ok("Hibás név vagy jelszó");
                     }
 
+                    var jwt = HttpContext.RequestServices.GetRequiredService<IConfiguration>()
+                        .GetSection("Jwt");
 
+                    var key = new SymmetricSecurityKey(Convert.FromBase64String(jwt["Key"]!));
+                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+                    var claims = new[]
+{
+    new Claim(JwtRegisteredClaimNames.Sub, response.Id.ToString()),
+    new Claim(JwtRegisteredClaimNames.Email, response.Email),
+    new Claim("jogosultsag", response.Jogosultsag.ToString()),
+    new Claim("nev", response.TeljesNev)
+};
+
+                    var token = new JwtSecurityToken(
+                        issuer: jwt["Issuer"],
+                        audience: jwt["Audience"],
+                        claims: claims,
+                        expires: DateTime.UtcNow.AddMinutes(int.Parse(jwt["ExpiresMinutes"]!)),
+                        signingCredentials: creds);
+
+                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
                     // Bejelentkezés sikeres, létrehozzuk a LoggedUser objektumot
                     LoggedUser loggeduser = new LoggedUser
@@ -60,14 +86,14 @@ namespace vizsgaremek.Controllers
                         Jogosultsag = response.Jogosultsag,
                         Telefonszam = response.Telefonszam,
 
-                        Token = Guid.NewGuid().ToString()
+                        Token = tokenString
                     };
 
                     // Hozzáadjuk a felhasználót a bejelentkezett felhasználók listájához
                     lock (Program.LoggedUsers)
                     {
                         Program.LoggedUsers.Add(loggeduser.Token, response);
-                        
+
                     }
 
                     return Ok(loggeduser);
@@ -80,19 +106,19 @@ namespace vizsgaremek.Controllers
 
         }
         [HttpPut]
-        public IActionResult Putuser(int id , string? nev, string? email,string? telefonszam)
+        public IActionResult Putuser(int id, string? nev, string? email, string? telefonszam)
         {
             try
             {
                 using (var cx = new BackEndAlapContext())
                 {
-                    var users =  cx.Users.FirstOrDefault(k => k.Id == id);
+                    var users = cx.Users.FirstOrDefault(k => k.Id == id);
                     if (users == null) return BadRequest("Nincs ilyen felhasználó");
                     if (!string.IsNullOrEmpty(nev)) users.TeljesNev = nev;
-                    if(email != null) users.Email = email;
+                    if (email != null) users.Email = email;
                     if (!string.IsNullOrEmpty(telefonszam)) users.Telefonszam = telefonszam;
-                    return(Ok(users));
-                     
+                    return (Ok(users));
+
                 }
             }
             catch (Exception ex)
@@ -101,5 +127,7 @@ namespace vizsgaremek.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        
     }
 }
