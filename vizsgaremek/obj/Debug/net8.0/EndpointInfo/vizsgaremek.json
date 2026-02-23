@@ -1003,36 +1003,25 @@
         "tags": [
           "Registration"
         ],
-        "parameters": [
-          {
-            "name": "teljes_nev",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "email",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "jelszo",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "telefonszam",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "OK"
@@ -1056,6 +1045,41 @@
             "in": "query",
             "schema": {
               "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rendelesek/sajat": {
+      "get": {
+        "tags": [
+          "Rendelesek"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rendelesek/sajat/{id}": {
+      "get": {
+        "tags": [
+          "Rendelesek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -1129,6 +1153,36 @@
             "schema": {
               "type": "integer",
               "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/api/Rendelesek/{id}": {
+      "put": {
+        "tags": [
+          "Rendelesek"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -1316,6 +1370,153 @@
   },
   "components": {
     "schemas": {
+      "Jogok": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "szint": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "leiras": {
+            "type": "string",
+            "nullable": true
+          },
+          "users": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/User"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Kategoria": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "keszeteleks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Keszetelek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Keszetelek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "leiras": {
+            "type": "string",
+            "nullable": true
+          },
+          "elerheto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kategoriaId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kep": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "kategoria": {
+            "$ref": "#/components/schemas/Kategoria"
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
+            "nullable": true
+          },
+          "rendelesElemeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RendelesElemek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Koretek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "leiras": {
+            "type": "string",
+            "nullable": true
+          },
+          "elerheto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kep": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
+            "nullable": true
+          },
+          "rendelesElemeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RendelesElemek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "LoginDTO": {
         "type": "object",
         "properties": {
@@ -1326,6 +1527,62 @@
           "passwd": {
             "type": "string",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Menuk": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "menuNev": {
+            "type": "string",
+            "nullable": true
+          },
+          "keszetelId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "koretId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "uditoId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "elerheto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kep": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "keszetel": {
+            "$ref": "#/components/schemas/Keszetelek"
+          },
+          "koret": {
+            "$ref": "#/components/schemas/Koretek"
+          },
+          "rendelesElemeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RendelesElemek"
+            },
+            "nullable": true
+          },
+          "udito": {
+            "$ref": "#/components/schemas/Uditok"
           }
         },
         "additionalProperties": false
@@ -1385,6 +1642,184 @@
           "osszesAr": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RendelesElemek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "rendelesId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keszetelId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "uditoId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "menuId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "koretId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "mennyiseg": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "keszetel": {
+            "$ref": "#/components/schemas/Keszetelek"
+          },
+          "koret": {
+            "$ref": "#/components/schemas/Koretek"
+          },
+          "menu": {
+            "$ref": "#/components/schemas/Menuk"
+          },
+          "rendeles": {
+            "$ref": "#/components/schemas/Rendelesek"
+          },
+          "udito": {
+            "$ref": "#/components/schemas/Uditok"
+          }
+        },
+        "additionalProperties": false
+      },
+      "Rendelesek": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "felhasznaloId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "datum": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "statusz": {
+            "type": "string",
+            "nullable": true
+          },
+          "osszesAr": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "felhasznalo": {
+            "$ref": "#/components/schemas/User"
+          },
+          "rendelesElemeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RendelesElemek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "Uditok": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nev": {
+            "type": "string",
+            "nullable": true
+          },
+          "elerheto": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "ar": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "kep": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
+          "menuks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Menuk"
+            },
+            "nullable": true
+          },
+          "rendelesElemeks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RendelesElemek"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jogosultsag": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "teljesNev": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefonszam": {
+            "type": "string",
+            "nullable": true
+          },
+          "hash": {
+            "type": "string",
+            "nullable": true
+          },
+          "salt": {
+            "type": "string",
+            "nullable": true
+          },
+          "aktiv": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "jogosultsagNavigation": {
+            "$ref": "#/components/schemas/Jogok"
+          },
+          "rendeleseks": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/Rendelesek"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -678,24 +678,9 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "teljes_nev",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "email",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "jelszo",
-        "Type": "System.String",
-        "IsRequired": false
-      },
-      {
-        "Name": "telefonszam",
-        "Type": "System.String",
-        "IsRequired": false
+        "Name": "user",
+        "Type": "vizsgaremek.Modells.User",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -759,6 +744,53 @@
         "Name": "id",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
+    "Method": "ModifyStatus",
+    "RelativePath": "api/Rendelesek/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
+    "Method": "GetSajatRendelesek",
+    "RelativePath": "api/Rendelesek/sajat",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
+    "Method": "GetSajatRendelesById",
+    "RelativePath": "api/Rendelesek/sajat/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
