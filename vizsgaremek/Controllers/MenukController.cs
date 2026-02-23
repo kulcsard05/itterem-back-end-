@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using vizsgaremek.Modells;
@@ -79,7 +80,7 @@ namespace vizsgaremek.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostMenu(string menuNev, int ar, int keszetelId, int? koretId, int uditoId, int? elerheto, IFormFile? kep)
         {
@@ -134,7 +135,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
+        [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
         public async Task<IActionResult> PutMenu(int id, string? menuNev, int? ar, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
         {
@@ -204,7 +205,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenu(int id)
         {

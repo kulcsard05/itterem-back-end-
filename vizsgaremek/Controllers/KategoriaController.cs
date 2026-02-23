@@ -1,10 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using vizsgaremek.Modells;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
 {
@@ -80,6 +81,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public IActionResult PostKategoria(string nev)
         {
@@ -107,6 +109,7 @@ namespace vizsgaremek.Controllers
 
 
         }
+        [Authorize(Policy = "Admin")]
         [HttpPut]
 
 
@@ -136,6 +139,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
 
         public async Task<IActionResult> DeleteKategoria(int id)

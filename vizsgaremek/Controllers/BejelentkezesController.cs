@@ -1,10 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Org.BouncyCastle.Crypto.Macs;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
-using System.Text;
 using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
@@ -14,8 +13,9 @@ namespace vizsgaremek.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
+        [Authorize(Policy = "Admin")]
         [HttpGet("GetSalt")]
-
+       
         public IActionResult GetSalt(string nev)
         {
             using (var cx = new BackEndAlapContext())
@@ -105,11 +105,54 @@ namespace vizsgaremek.Controllers
             }
 
         }
+        [Authorize(Policy = "Admin_Felhasznalo")]
         [HttpPut]
         public IActionResult Putuser(int id, string? nev, string? email, string? telefonszam)
         {
             try
             {
+                // SECURITY NOTE:
+                // This endpoint modifies user data. We must ensure that a normal user can't update someone else's record
+                // by simply passing a different `id`.
+                //
+                // We do this by comparing:
+                // - the target user id coming from the request (`id` parameter)
+                // - the authenticated user's id stored inside the JWT token (`sub` claim)
+                //
+                // Only admins are allowed to modify any user. Non-admin users can only modify themselves.
+
+                // `jogosultsag` is a custom claim you add to the JWT at login time. In your app:
+                // - "3" means Admin
+                // - other values are non-admin
+                var lvl = User.FindFirst("jogosultsag")?.Value;
+
+                // `sub` (subject) is a standard JWT claim. You put `response.Id` into it when generating the token.
+                // So it uniquely identifies the logged-in user.
+                // NOTE: depending on JWT handler settings, the `sub` claim can be mapped to ClaimTypes.NameIdentifier.
+                // For safety we check both.
+                var sub = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
+                ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+                // Admin can edit any user record.
+                var isAdmin = lvl == "3";
+
+                // If the caller is NOT admin, enforce "ownership": token user id must match the requested id.
+                if (!isAdmin)
+                {
+                    // If token doesn't contain a usable user id, treat this as not authenticated properly.
+                    if (!int.TryParse(sub, out var tokenUserId))
+                    {
+                        return Unauthorized();
+                    }
+
+                    // If `sub` does not match the requested `id`, block the request.
+                    if (tokenUserId != id)
+                    {
+                        //403 Forbidden: authenticated, but not allowed to do this action.
+                        return Forbid();
+                    }
+                }
+
                 using (var cx = new BackEndAlapContext())
                 {
                     var users = cx.Users.FirstOrDefault(k => k.Id == id);
@@ -117,17 +160,19 @@ namespace vizsgaremek.Controllers
                     if (!string.IsNullOrEmpty(nev)) users.TeljesNev = nev;
                     if (email != null) users.Email = email;
                     if (!string.IsNullOrEmpty(telefonszam)) users.Telefonszam = telefonszam;
-                    return (Ok(users));
 
+                    // Persist the changes to the database
+                    cx.SaveChanges();
+
+                    return Ok(users);
                 }
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
 
-        
+
     }
 }

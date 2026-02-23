@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Org.BouncyCastle.Crypto.Digests;
@@ -57,7 +58,7 @@ namespace vizsgaremek.Controllers
                 return BadRequest(ex.Message);
             }
         }
-
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Postkoret(string nev, string leiras, int ar, int? elerheto, IFormFile kep)
         {
@@ -96,7 +97,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
+        [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
         public async Task<IActionResult> PutKoretek(int id, string? nev, string? leiras, int? ar, int? elerheto, IFormFile? kep)
         {

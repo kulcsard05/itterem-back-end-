@@ -7,6 +7,8 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading.Channels;
+using Microsoft.AspNetCore.Authorization;
+using Org.BouncyCastle.Crypto.Macs;
 
 //example json{ "felhasznaloId": 29, "items": [ { "menuId": 2, "mennyiseg": 1 }, { "keszetelId": 1, "mennyiseg": 2 } ] }
 
@@ -45,7 +47,7 @@ namespace vizsgaremek.Controllers
             {
                 _signalService = signalService;
             }
-
+            [Authorize(Policy = "Mindenki")]
             [HttpGet("stream")]
             public async Task GetRendelesStream(CancellationToken ct)
             {
@@ -116,6 +118,7 @@ namespace vizsgaremek.Controllers
                 }
             }
 
+            [Authorize(Policy = "Mindenki")]
             [HttpGet]
             public async Task<IActionResult> GetRendelesek(CancellationToken ct)
             {
@@ -151,7 +154,7 @@ namespace vizsgaremek.Controllers
                     return Ok(responseData);
                 }
             }
-
+            [Authorize(Policy = "Felhasznalo")]
             [HttpPost]
             public async Task<IActionResult> Post([FromBody] OrderDto orderDto) // Accept OrderDto from request body
             {
@@ -336,6 +339,7 @@ namespace vizsgaremek.Controllers
                     return StatusCode(500, $"An error occurred: {ex.Message}");
                 }
             }
+            [Authorize(Policy = "Admin")]
             [HttpDelete]
             public IActionResult Delete(int id)
             {

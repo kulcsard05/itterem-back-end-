@@ -12,7 +12,7 @@ namespace vizsgaremek.Controllers
     
     public class HozzavalokController : ControllerBase
     {
-        
+
         [HttpGet]
         public async Task<IActionResult> GetHozzavalok()
         {
@@ -30,8 +30,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
-        //[Authorize(Policy = "level1")]
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public IActionResult PostHozzavalok(string nev)
         {
@@ -61,7 +60,8 @@ namespace vizsgaremek.Controllers
 
 
         }
-        [HttpPut]
+		[Authorize(Policy = "Admin")]
+		[HttpPut]
 
 
         public async Task<IActionResult> PutHozzavalok(int id, string? nev)
@@ -89,7 +89,8 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-        [HttpDelete("{id}")]
+		[Authorize(Policy = "Admin")]
+		[HttpDelete("{id}")]
 
         public async Task<IActionResult> DeleteHozzavalok(int id)
         {

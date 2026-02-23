@@ -1,7 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using System.Buffers.Text;
 using System.Security.Cryptography;
 using System.Text;
 using vizsgaremek.Controllers.BackEndAlap.Services;
@@ -128,15 +126,31 @@ namespace vizsgaremek
 
             builder.Services.AddAuthorization(options =>
             {
-                options.AddPolicy("level1", policy =>
+                options.AddPolicy("Felhasznalo", policy =>
                     policy.RequireClaim("jogosultsag", "1"));
 
-                options.AddPolicy("Level1Or2", policy =>
+                options.AddPolicy("Admin_Dolgozo", policy =>
                     policy.RequireAssertion(ctx =>
                     {
                         var lvl = ctx.User.FindFirst("jogosultsag")?.Value;
-                        return lvl == "1" || lvl == "2";
+                        return lvl == "2" || lvl == "3";
                     }));
+                options.AddPolicy("Admin_Felhasznalo", policy =>
+                    policy.RequireAssertion(ctx =>
+                    {
+                        var lvl = ctx.User.FindFirst("jogosultsag")?.Value;
+                        return lvl == "1" || lvl == "3";
+                    }));
+                options.AddPolicy("Mindenki", policy =>
+                    policy.RequireAssertion(ctx =>
+                    {
+                        var lvl = ctx.User.FindFirst("jogosultsag")?.Value;
+                        return lvl == "1" || lvl == "2" || lvl == "3";
+                    }));
+                options.AddPolicy("Admin", policy =>
+                policy.RequireClaim("jogosultsag", "3"));
+
+
             });
 
             var app = builder.Build();

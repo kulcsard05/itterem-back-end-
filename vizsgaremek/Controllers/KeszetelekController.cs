@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices.Marshalling;
@@ -60,6 +61,7 @@ namespace vizsgaremek.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int ar, int? elerheto, int katid, IFormFile? kep)
         {
@@ -99,7 +101,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-
+        [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
         public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategora, IFormFile? kep)
         {
@@ -155,6 +157,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+        [Authorize(Policy = "Admin")]
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKEszetel(int id)

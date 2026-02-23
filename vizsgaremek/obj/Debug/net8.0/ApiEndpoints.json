@@ -516,16 +516,6 @@
   },
   {
     "ContainingType": "vizsgaremek.Controllers.LoginController",
-    "Method": "GetUditok",
-    "RelativePath": "api/Login",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "vizsgaremek.Controllers.LoginController",
     "Method": "GetSalt",
     "RelativePath": "api/Login/GetSalt",
     "HttpMethod": "GET",
