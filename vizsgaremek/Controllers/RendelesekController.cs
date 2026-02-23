@@ -483,7 +483,7 @@ namespace vizsgaremek.Controllers
                             return NotFound("Nincs ilyen rendelés.");
                         }
 
-                        if (status == "Függőben" || status == "Folyamatban" || status == "Átvehető")
+                        if (status == "Függőben" || status == "Folyamatban" || status == "Átvehető" || status == "Átvett")
                         {
                             result.Statusz = status;
                         }
