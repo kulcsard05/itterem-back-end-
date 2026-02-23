@@ -148,7 +148,7 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    Kategoria kat = new Kategoria { Id = id };
+                    Kategora kat = new Kategora { Id = id };
                     cx.Remove(kat);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres Kategória törlés.");

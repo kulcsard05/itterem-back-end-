@@ -3397,23 +3397,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\kulcs\\.nuget\\packages\\": {},
+    "C:\\Users\\deep\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
+      "projectUniqueName": "C:\\Users\\deep\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
       "projectName": "vizsgaremek",
-      "projectPath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
-      "packagesPath": "C:\\Users\\kulcs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\obj\\",
+      "projectPath": "C:\\Users\\deep\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\vizsgaremek.csproj",
+      "packagesPath": "C:\\Users\\deep\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\deep\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\kulcs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\deep\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -3489,7 +3489,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.306/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.311/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
