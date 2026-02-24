@@ -678,8 +678,8 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "user",
-        "Type": "vizsgaremek.Modells.User",
+        "Name": "dto",
+        "Type": "vizsgaremek.DTOs.RegistrationDto",
         "IsRequired": true
       }
     ],

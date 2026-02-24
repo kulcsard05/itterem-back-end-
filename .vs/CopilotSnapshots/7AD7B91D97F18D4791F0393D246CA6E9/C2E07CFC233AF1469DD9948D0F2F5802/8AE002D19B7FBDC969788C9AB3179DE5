@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using vizsgaremek;
-using vizsgaremek.DTOs;
 using vizsgaremek.Modells;
 
 namespace BackendAlap.Controllers
@@ -12,36 +10,24 @@ namespace BackendAlap.Controllers
     public class RegistrationController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Registration([FromBody] RegistrationDto dto)
+        public async Task<IActionResult> Registration(User user)
         {
             using (var cx = new BackEndAlapContext())
             {
                 try
                 {
-                    if (dto == null)
-                    {
-                        return BadRequest("Hiányzó adatok.");
-                    }
-
-                    if (await cx.Users.AnyAsync(f => f.Email == dto.Email))
+                    if (cx.Users.FirstOrDefault(f => f.Email == user.Email) != null)
                     {
                         return Ok("Már létezik ez az email cím!");
                     }
-
-                    var salt = Program.GenerateSalt();
-                    var hash = Program.CreatePasswordHash(dto.Jelszo, salt);
-
-                    var user = new User
-                    {
-                        TeljesNev = dto.TeljesNev,
-                        Email = dto.Email,
-                        Telefonszam = dto.Telefonszam,
-                        Jogosultsag = 1,
-                        Aktiv = 2,
-                        Salt = salt,
-                        Hash = hash
-                    };
-
+                    user.TeljesNev = user.TeljesNev;
+                    user.Email = user.Email;
+                    user.Hash = user.Hash;
+                    user.Telefonszam = user.Telefonszam;
+                    user.Jogosultsag = 1;
+                    user.Aktiv = 2;
+                    user.Salt = Program.GenerateSalt();
+                    user.Hash = Program.CreatePasswordHash(user.Hash, user.Salt);
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
                     return Ok("Sikeres regisztráció.");
@@ -54,6 +40,7 @@ namespace BackendAlap.Controllers
         }
 
         [HttpGet]
+
         public async Task<IActionResult> ActivateAccount(string felhasznaloNev, string email)
         {
             using (var cx = new BackEndAlapContext())
@@ -86,5 +73,6 @@ namespace BackendAlap.Controllers
                 }
             }
         }
+
     }
 }

@@ -29,7 +29,7 @@ namespace BackendAlap.Controllers
                     }
 
                     var salt = Program.GenerateSalt();
-                    var hash = Program.CreatePasswordHash(dto.Jelszo, salt);
+                    var hash = Program.CreatePasswordHash(dto.Password, salt);
 
                     var user = new User
                     {
