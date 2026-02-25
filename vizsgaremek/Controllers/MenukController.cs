@@ -26,9 +26,9 @@ namespace vizsgaremek.Controllers
                             m.Id,
                             m.MenuNev,
                             m.Ar,
-                            KeszetelNev = m.Keszetel.Id,
-                            KoretNev = m.Koret.Id,
-                            UditoNev = m.Udito.Id,
+                            KeszetelId = m.Keszetel.Id,
+                            KoretId = m.Koret.Id,
+                            UditoId = m.Udito.Id,
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })

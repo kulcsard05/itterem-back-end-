@@ -147,7 +147,7 @@ namespace vizsgaremek.Controllers
                 }
             }
 
-            //[Authorize(Policy = "Mindenki")]
+            [Authorize(Policy = "Mindenki")]
             [HttpGet("stream")]
             public async Task GetRendelesStream(CancellationToken ct)
             {
@@ -189,9 +189,7 @@ namespace vizsgaremek.Controllers
                     {
                         r.Id,
                         r.FelhasznaloId,
-                        FelhasznaloNev = r.Felhasznalo.TeljesNev,
-                        r.Datum,
-                        r.Statusz,
+                        r.OsszesAr,
                         RendelesElemeks = r.RendelesElemeks.Select(e => new
                         {
                             e.Id,
