@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <body>
 
@@ -7,13 +7,18 @@
     <pre id="output" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
 
     <script>
+        // 1. Cseréld ki az URL-t a sajátodra!
         const sseUrl = 'https://localhost:7200/api/Rendelesek/status-stream';
         
+        // 2. Kapcsolódás
         const eventSource = new EventSource(sseUrl);
 
+        // 3. Amikor üzenet érkezik
         eventSource.onmessage = function(event) {
             const output = document.getElementById('output');
             
+            // Kiírjuk a kapott nyers szöveget a képernyőre
+            // Mindig az újat írjuk a tetejére
             output.innerText = "ÉRKEZETT (" + new Date().toLocaleTimeString() + "):\n" 
                                + event.data + "\n\n" 
                                + output.innerText;
@@ -21,6 +26,7 @@
             console.log("Új adat:", JSON.parse(event.data));
         };
 
+        // 4. Hibaellenőrzés
         eventSource.onerror = function(err) {
             console.error("SSE hiba történt. Ellenőrizd a Backend futását és a CORS-t!");
         };

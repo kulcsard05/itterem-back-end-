@@ -154,7 +154,7 @@
               "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\RendelesekController.cs",
               "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\RendelesekController.cs",
               "RelativeToolTip": "vizsgaremek\\Controllers\\RendelesekController.cs",
-              "ViewState": "AgIAALIAAAAAAAAAAAAkwL0AAAAOAAAAAAAAAA==",
+              "ViewState": "AgIAAEsBAAAAAAAAAAAqwPIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-07T09:23:09.001Z",
               "EditorCaption": ""
@@ -167,7 +167,7 @@
               "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\MenukController.cs",
               "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\MenukController.cs",
               "RelativeToolTip": "vizsgaremek\\Controllers\\MenukController.cs",
-              "ViewState": "AgIAAGUAAAAAAAAAAAAgwIEAAAA1AAAAAAAAAA==",
+              "ViewState": "AgIAAE4AAAAAAAAAAAAYwIEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-17T10:00:47.193Z",
               "EditorCaption": ""
@@ -180,9 +180,10 @@
               "RelativeDocumentMoniker": "vizsgaremek\\TEST\\index.html",
               "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\TEST\\index.html",
               "RelativeToolTip": "vizsgaremek\\TEST\\index.html",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAxAAAAAAAAAA==",
+              "ViewState": "AgIAABUAAAAAAAAAACBjwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-18T07:43:55.308Z"
+              "WhenOpened": "2026-02-18T07:43:55.308Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -204,7 +205,7 @@
               "RelativeDocumentMoniker": "vizsgaremek\\Controllers\\KeszetelekController.cs",
               "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Controllers\\KeszetelekController.cs",
               "RelativeToolTip": "vizsgaremek\\Controllers\\KeszetelekController.cs",
-              "ViewState": "AgIAAHYAAAAAAAAAAAAwwHAAAAApAAAAAAAAAA==",
+              "ViewState": "AgIAABcAAAAAAAAAAAAuwMAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-01-22T10:14:30.362Z",
               "EditorCaption": ""
