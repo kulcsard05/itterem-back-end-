@@ -13,13 +13,10 @@ namespace vizsgaremek.Controllers
 {
     namespace BackEndAlap.Services
     {
-        public record OrderStatusUpdate(int OrderId, string Status);
-
         public class OrderSignalService
         {
             // Létrehozunk egy csatornát, ami jelzéseket továbbít
             private readonly Channel<bool> _channel = Channel.CreateBounded<bool>(1);
-            private readonly Channel<OrderStatusUpdate> _statusChannel = Channel.CreateUnbounded<OrderStatusUpdate>();
 
             // Ezt hívjuk meg, ha új rendelés jött
             public async Task NotifyChange()
@@ -27,21 +24,10 @@ namespace vizsgaremek.Controllers
                 await _channel.Writer.WriteAsync(true);
             }
 
-            // Ezt hívjuk meg, ha státusz módosult
-            public async Task NotifyStatusChange(int orderId, string status)
-            {
-                await _statusChannel.Writer.WriteAsync(new OrderStatusUpdate(orderId, status));
-            }
-
             // Ezt figyeli a Controller a ciklusban
             public IAsyncEnumerable<bool> WaitUpdates(CancellationToken ct)
             {
                 return _channel.Reader.ReadAllAsync(ct);
-            }
-
-            public IAsyncEnumerable<OrderStatusUpdate> WaitStatusUpdates(CancellationToken ct)
-            {
-                return _statusChannel.Reader.ReadAllAsync(ct);
             }
         }
 
@@ -182,30 +168,6 @@ namespace vizsgaremek.Controllers
                     await foreach (var signal in _signalService.WaitUpdates(ct))
                     {
                         lastId = await WriteNewRendelesek(Response, ct, lastId);
-                    }
-                }
-                catch (OperationCanceledException) { /* Bezárták a böngészőt */ }
-            }
-
-            //[Authorize(Policy = "Mindenki")]
-            [HttpGet("status-stream")]
-            public async Task GetStatusStream(CancellationToken ct)
-            {
-                Response.Headers.Add("Content-Type", "text/event-stream");
-                Response.Headers.Add("Cache-Control", "no-cache");
-                Response.Headers.Add("Connection", "keep-alive");
-
-                try
-                {
-                    await foreach (var update in _signalService.WaitStatusUpdates(ct))
-                    {
-                        var json = System.Text.Json.JsonSerializer.Serialize(new
-                        {
-                            id = update.OrderId,
-                            status = update.Status
-                        });
-                        await Response.WriteAsync($"data: {json}\n\n", ct);
-                        await Response.Body.FlushAsync(ct);
                     }
                 }
                 catch (OperationCanceledException) { /* Bezárták a böngészőt */ }
@@ -529,8 +491,6 @@ namespace vizsgaremek.Controllers
                         }
 
                         cx.SaveChanges();
-
-                        _signalService.NotifyStatusChange(result.Id, result.Statusz).GetAwaiter().GetResult();
                         return Ok(result);
 
                     }

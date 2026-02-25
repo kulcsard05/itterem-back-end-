@@ -1102,6 +1102,18 @@
         }
       }
     },
+    "/api/Rendelesek/status-stream": {
+      "get": {
+        "tags": [
+          "Rendelesek"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Rendelesek": {
       "get": {
         "tags": [

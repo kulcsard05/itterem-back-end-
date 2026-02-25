@@ -187,7 +187,7 @@ namespace vizsgaremek.Controllers
                 catch (OperationCanceledException) { /* Bezárták a böngészőt */ }
             }
 
-            //[Authorize(Policy = "Mindenki")]
+            [Authorize(Policy = "Mindenki")]
             [HttpGet("status-stream")]
             public async Task GetStatusStream(CancellationToken ct)
             {
