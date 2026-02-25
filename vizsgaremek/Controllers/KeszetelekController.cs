@@ -103,7 +103,7 @@ namespace vizsgaremek.Controllers
         }
         [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
-        public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategora, IFormFile? kep)
+        public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategoria, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -134,9 +134,9 @@ namespace vizsgaremek.Controllers
                     {
                         keszetel.Elerheto = elerheto.Value;
                     }
-                    if (Kategora.HasValue)
+                    if (Kategoria.HasValue)
                     {
-                        keszetel.KategoriaId = Kategora.Value;
+                        keszetel.KategoriaId = Kategoria.Value;
                     }
                     // Kép feldolgozása, ha van
                     if (kep != null && kep.Length > 0)

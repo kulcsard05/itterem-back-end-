@@ -82,7 +82,7 @@ namespace vizsgaremek.Controllers
         }
         [Authorize(Policy = "Admin")]
         [HttpPost]
-        public async Task<IActionResult> PostMenu(string menuNev, int ar, int keszetelId, int? koretId, int uditoId, int? elerheto, IFormFile? kep)
+        public async Task<IActionResult> PostMenu(string menuNev, int ar, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
         {
             using (var cx = new BackEndAlapContext())
             {
@@ -110,11 +110,11 @@ namespace vizsgaremek.Controllers
                     Menuk menu = new Menuk();
                     menu.MenuNev = menuNev;
                     menu.Ar = ar;
-                    menu.KeszetelId = keszetelId;
+                    menu.KeszetelId = keszetelId.Value;
                     if (koretId.HasValue)
                         menu.KoretId = koretId.Value;
                     menu.UditoId = uditoId;
-                    menu.Elerheto = elerheto ?? 1;
+                    menu.Elerheto = elerheto ?? 0;
 
                     if (kep != null && kep.Length > 0)
                     {
