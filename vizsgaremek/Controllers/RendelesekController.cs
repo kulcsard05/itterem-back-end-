@@ -147,7 +147,7 @@ namespace vizsgaremek.Controllers
                 }
             }
 
-            [Authorize(Policy = "Mindenki")]
+            //[Authorize(Policy = "Mindenki")]
             [HttpGet("stream")]
             public async Task GetRendelesStream(CancellationToken ct)
             {

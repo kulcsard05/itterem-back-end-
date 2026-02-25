@@ -26,9 +26,9 @@ namespace vizsgaremek.Controllers
                             m.Id,
                             m.MenuNev,
                             m.Ar,
-                            KeszetelNev = m.Keszetel.Nev,
-                            KoretNev = m.Koret != null ? m.Koret.Nev : null,
-                            UditoNev = m.Udito.Nev,
+                            KeszetelNev = m.Keszetel.Id,
+                            KoretNev = m.Koret.Id,
+                            UditoNev = m.Udito.Id,
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })
@@ -59,9 +59,9 @@ namespace vizsgaremek.Controllers
                             m.Id,
                             m.MenuNev,
                             m.Ar,
-                            KeszetelNev = m.Keszetel.Nev,
-                            KoretNev = m.Koret != null ? m.Koret.Nev : null,
-                            UditoNev = m.Udito.Nev,
+                            Keszetelid = m.Keszetel.Id,
+                            Koretid = m.Koret.Id,
+                            Uditoid= m.Udito.Id,
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })
