@@ -99,7 +99,6 @@ namespace vizsgaremek.Controllers
         {
             using (var cx = new BackEndAlapContext())
             {
-                using var transaction = await cx.Database.BeginTransactionAsync();
                 try
                 {
                     if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
@@ -111,10 +110,10 @@ namespace vizsgaremek.Controllers
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
                     keszetel.Ar = ar;
-                    keszetel.Elerheto = elerheto ??0;
+                    keszetel.Elerheto = elerheto ?? 0;
                     keszetel.KategoriaId = kategoriaid;
 
-                    if (kep != null && kep.Length >0)
+                    if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -125,27 +124,10 @@ namespace vizsgaremek.Controllers
 
                     await cx.Keszeteleks.AddAsync(keszetel);
                     await cx.SaveChangesAsync();
-
+                    
                     if (hozzavalokIds != null && hozzavalokIds.Any())
                     {
-                        // remove duplicates to avoid PK violation
-                        var distinctIds = hozzavalokIds.Distinct().ToList();
-
-                        // validate all ingredient IDs exist
-                        var existingIds = await cx.Hozzavaloks
-                            .Where(h => distinctIds.Contains(h.Id))
-                            .Select(h => h.Id)
-                            .ToListAsync();
-
-                        var missing = distinctIds.Except(existingIds).ToList();
-                        if (missing.Any())
-                        {
-                            // rollback and return error about missing ingredient IDs
-                            await transaction.RollbackAsync();
-                            return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
-                        }
-
-                        foreach (var hId in distinctIds)
+                        foreach (var hId in hozzavalokIds)
                         {
                             var kapcsolo = new KeszetelHozzavalokKapcsolo
                             {
@@ -156,14 +138,12 @@ namespace vizsgaremek.Controllers
                         }
                         await cx.SaveChangesAsync();
                     }
-
-                    await transaction.CommitAsync();
+                    
                     return Ok("Sikeres készétel mentés.");
                 }
                 catch (Exception ex)
                 {
-                    await transaction.RollbackAsync();
-                    return StatusCode(500, ex.Message);
+                    return StatusCode(500, ex);
                 }
             }
         }
@@ -173,7 +153,6 @@ namespace vizsgaremek.Controllers
         {
             using (var cx = new BackEndAlapContext())
             {
-                using var transaction = await cx.Database.BeginTransactionAsync();
                 try
                 {
                     var keszetel = await cx.Keszeteleks
@@ -208,7 +187,7 @@ namespace vizsgaremek.Controllers
                     {
                         keszetel.KategoriaId = Kategoria.Value;
                     }
-                    if (kep != null && kep.Length >0)
+                    if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -219,27 +198,9 @@ namespace vizsgaremek.Controllers
                     
                     if (hozzavalokIds != null)
                     {
-                        var distinctIds = hozzavalokIds.Distinct().ToList();
-
-                        // validate ingredient IDs
-                        var existingIds = await cx.Hozzavaloks
-                            .Where(h => distinctIds.Contains(h.Id))
-                            .Select(h => h.Id)
-                            .ToListAsync();
-
-                        var missing = distinctIds.Except(existingIds).ToList();
-                        if (missing.Any())
-                        {
-                            await transaction.RollbackAsync();
-                            return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
-                        }
-
-                        // remove current connections
                         cx.KeszetelHozzavalokKapcsolos.RemoveRange(keszetel.KeszetelHozzavalokKapcsolos);
-                        await cx.SaveChangesAsync();
-
-                        // add new connections
-                        foreach (var hId in distinctIds)
+                        
+                        foreach (var hId in hozzavalokIds)
                         {
                             var kapcsolo = new KeszetelHozzavalokKapcsolo
                             {
@@ -251,12 +212,10 @@ namespace vizsgaremek.Controllers
                     }
 
                     await cx.SaveChangesAsync();
-                    await transaction.CommitAsync();
                     return Ok("Sikeres készétel módosítás.");
                 }
                 catch (Exception ex)
                 {
-                    await transaction.RollbackAsync();
                     return BadRequest(ex.Message);
                 }
             }

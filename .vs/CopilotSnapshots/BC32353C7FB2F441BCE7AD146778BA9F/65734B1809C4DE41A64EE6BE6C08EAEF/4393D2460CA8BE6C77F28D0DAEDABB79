@@ -24,6 +24,4 @@ public partial class Keszetelek
     public virtual ICollection<Menuk> Menuks { get; set; } = new List<Menuk>();
 
     public virtual ICollection<RendelesElemek> RendelesElemeks { get; set; } = new List<RendelesElemek>();
-
-    public virtual ICollection<KeszetelHozzavalokKapcsolo> KeszetelHozzavalokKapcsolos { get; set; } = new List<KeszetelHozzavalokKapcsolo>();
 }

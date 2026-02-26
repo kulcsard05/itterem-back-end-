@@ -110,14 +110,11 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("keszetel_id");
 
-            // Make the relationships explicit to avoid EF creating shadow FK columns like 'KeszetelekId'
-            entity.HasOne(d => d.Hozzavalok)
-                .WithMany() // no navigation on Hozzavalok side
+            entity.HasOne(d => d.Hozzavalok).WithMany()
                 .HasForeignKey(d => d.HozzavalokId)
                 .HasConstraintName("keszetel_hozzavalok_kapcsolo_ibfk_2");
 
-            entity.HasOne(d => d.Keszetel)
-                .WithMany(p => p.KeszetelHozzavalokKapcsolos) // match the navigation property added to Keszetelek
+            entity.HasOne(d => d.Keszetel).WithMany()
                 .HasForeignKey(d => d.KeszetelId)
                 .OnDelete(DeleteBehavior.Cascade) // match DB if you added CASCADE
                 .HasConstraintName("keszetel_hozzavalok_kapcsolo_ibfk_1");

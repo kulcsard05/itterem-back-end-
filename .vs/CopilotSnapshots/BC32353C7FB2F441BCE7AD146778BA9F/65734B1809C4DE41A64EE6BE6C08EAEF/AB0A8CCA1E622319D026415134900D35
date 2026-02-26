@@ -1,0 +1,192 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices.Marshalling;
+using vizsgaremek.Modells;
+
+namespace vizsgaremek.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class KeszetelekController : ControllerBase
+    {
+        [HttpGet]
+        public async Task<IActionResult> Getkeszeteleks()
+        {
+            using (var cx = new BackEndAlapContext())
+            {
+                try
+                {
+                    var response = await cx.Keszeteleks.Include(f => f.Kategoria).ToListAsync();
+
+                    var result = response.Select(k => new
+                    {
+                        k.Id,
+                        k.Nev,
+                        k.Leiras,
+                        k.Elerheto,
+                        k.Ar,
+                        k.KategoriaId,
+                        Kep = k.Kep != null && k.Kep.Length > 0
+                            ? Program.ImageConvert(k.Kep)
+                            : null
+                    }).ToList();
+
+                    return Ok(result);
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            try
+            {
+                using (var cx = new BackEndAlapContext())
+                {
+                    var response = await cx.Keszeteleks.FirstOrDefaultAsync(f=>f.Id == id);
+                    if (response == null) return BadRequest("Nincs ilyen készétel.");
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex )
+            {
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize(Policy = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int ar, int? elerheto, int kategoriaid, IFormFile? kep)
+        {
+            using (var cx = new BackEndAlapContext())
+            {
+                try
+                {
+                    if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
+                    {
+                        return Ok("Létezik ilyen készétel!");
+                    }
+
+                    Keszetelek keszetel = new Keszetelek();
+                    keszetel.Nev = nev;
+                    keszetel.Leiras = leiras;
+                    keszetel.Ar = ar;
+                    keszetel.Elerheto = elerheto ?? 0;
+                    keszetel.KategoriaId = kategoriaid;
+
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            keszetel.Kep = memoryStream.ToArray();
+                        }
+                    }
+
+                    await cx.Keszeteleks.AddAsync(keszetel);
+                    await cx.SaveChangesAsync();
+                    return Ok("Sikeres készétel mentés.");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(500, ex);
+                }
+            }
+        }
+        [Authorize(Policy = "Admin_Dolgozo")]
+        [HttpPut]
+        public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategoria, IFormFile? kep)
+        {
+            using (var cx = new BackEndAlapContext())
+            {
+                try
+                {
+                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
+                    if (keszetel == null)
+                    {
+                        return NotFound("Nincs ilyen készétel!");
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(nev))
+                    {
+                        keszetel.Nev = nev;
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(leiras))
+                    {
+                        keszetel.Leiras = leiras;
+                    }
+
+                    if (ar.HasValue)
+                    {
+                        keszetel.Ar = ar.Value;
+                    }
+
+                    if (elerheto.HasValue)
+                    {
+                        keszetel.Elerheto = elerheto.Value;
+                    }
+                    if (Kategoria.HasValue)
+                    {
+                        keszetel.KategoriaId = Kategoria.Value;
+                    }
+                    if (kep != null && kep.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await kep.CopyToAsync(memoryStream);
+                            keszetel.Kep = memoryStream.ToArray();
+                        }
+                    }
+
+                    await cx.SaveChangesAsync();
+                    return Ok("Sikeres készétel módosítás.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+        [Authorize(Policy = "Admin")]
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteKEszetel(int id)
+        {
+            using (var cx = new BackEndAlapContext())
+            {
+                try
+                {
+                    var menuk = await cx.Menuks
+                        .Where(m => m.KeszetelId == id)
+                        .ToListAsync();
+                    cx.Menuks.RemoveRange(menuk);
+
+                    var kapcs = await cx.KeszetelHozzavalokKapcsolos
+                        .Where(x => x.KeszetelId == id)
+                        .ToListAsync();
+                    cx.KeszetelHozzavalokKapcsolos.RemoveRange(kapcs);
+
+                    var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
+                    if (keszetel == null)
+                        return NotFound("Nincs ilyen készétel!");
+
+                    cx.Keszeteleks.Remove(keszetel);
+
+                    await cx.SaveChangesAsync();
+                    return Ok("Sikeres készétel törlés.");
+                }
+                catch (Exception ex)
+                {
+                    return BadRequest(ex.Message);
+                }
+            }
+        }
+    }
+}
