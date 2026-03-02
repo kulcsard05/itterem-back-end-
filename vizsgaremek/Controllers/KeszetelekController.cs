@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices.Marshalling;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
@@ -14,9 +12,9 @@ namespace vizsgaremek.Controllers
         [HttpGet]
         public async Task<IActionResult> Getkeszeteleks()
         {
-            using (var cx = new BackEndAlapContext())
+            try
             {
-                try
+                using (var cx = new BackEndAlapContext())
                 {
                     var response = await cx.Keszeteleks
                         .Include(f => f.Kategoria)
@@ -24,32 +22,37 @@ namespace vizsgaremek.Controllers
                             .ThenInclude(khk => khk.Hozzavalok)
                         .ToListAsync();
 
-                    var result = response.Select(k => new
+
+                    var result = response.Select(r=>new 
                     {
-                        k.Id,
-                        k.Nev,
-                        k.Leiras,
-                        k.Elerheto,
-                        k.Ar,
-                        k.KategoriaId,
-                        Hozzavalok = k.KeszetelHozzavalokKapcsolos.Select(v => new 
+                        r.Id,
+                        r.Nev,
+                        r.Leiras,
+                        r.Elerheto,
+                        r.Ar,
+                        r.KategoriaId,
+                        Hozzavalok = r.KeszetelHozzavalokKapcsolos.Select(khk => new
                         {
-                            v.Hozzavalok.HozzavaloNev,
-                            
+                            khk.Hozzavalok.Id,
+                            khk.Hozzavalok.HozzavaloNev
                         }).ToList(),
-                        Kep = k.Kep != null && k.Kep.Length > 0
-                            ? Program.ImageConvert(k.Kep)
+                        Kep = r.Kep != null && r.Kep.Length > 0
+                            ? Program.ImageConvert(r.Kep)
                             : null
-                    }).ToList();
+                    });
 
                     return Ok(result);
-                }
-                catch (Exception ex)
-                {
-                    return BadRequest(ex.Message);
+
                 }
             }
+
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        
+    
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
@@ -62,10 +65,10 @@ namespace vizsgaremek.Controllers
                         .Include(f => f.Kategoria)
                         .Include(f => f.KeszetelHozzavalokKapcsolos)
                             .ThenInclude(khk => khk.Hozzavalok)
-                        .FirstOrDefaultAsync(f=>f.Id == id);
-                        
+                        .FirstOrDefaultAsync(f => f.Id == id);
+
                     if (response == null) return BadRequest("Nincs ilyen készétel.");
-                    
+
                     var result = new
                     {
                         response.Id,
@@ -74,7 +77,7 @@ namespace vizsgaremek.Controllers
                         response.Elerheto,
                         response.Ar,
                         response.KategoriaId,
-                        Hozzavalok = response.KeszetelHozzavalokKapcsolos.Select(khk => new 
+                        Hozzavalok = response.KeszetelHozzavalokKapcsolos.Select(khk => new
                         {
                             khk.Hozzavalok.Id,
                             khk.Hozzavalok.HozzavaloNev
@@ -83,11 +86,11 @@ namespace vizsgaremek.Controllers
                             ? Program.ImageConvert(response.Kep)
                             : null
                     };
-                    
+
                     return Ok(result);
                 }
             }
-            catch (Exception ex )
+            catch (Exception ex)
             {
 
                 return BadRequest(ex.Message);
@@ -111,10 +114,10 @@ namespace vizsgaremek.Controllers
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
                     keszetel.Ar = ar;
-                    keszetel.Elerheto = elerheto ??0;
+                    keszetel.Elerheto = elerheto ?? 0;
                     keszetel.KategoriaId = kategoriaid;
 
-                    if (kep != null && kep.Length >0)
+                    if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -179,7 +182,7 @@ namespace vizsgaremek.Controllers
                     var keszetel = await cx.Keszeteleks
                         .Include(k => k.KeszetelHozzavalokKapcsolos)
                         .FirstOrDefaultAsync(k => k.Id == id);
-                        
+
                     if (keszetel == null)
                     {
                         return NotFound("Nincs ilyen készétel!");
@@ -208,7 +211,7 @@ namespace vizsgaremek.Controllers
                     {
                         keszetel.KategoriaId = Kategoria.Value;
                     }
-                    if (kep != null && kep.Length >0)
+                    if (kep != null && kep.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -216,7 +219,7 @@ namespace vizsgaremek.Controllers
                             keszetel.Kep = memoryStream.ToArray();
                         }
                     }
-                    
+
                     if (hozzavalokIds != null)
                     {
                         var distinctIds = hozzavalokIds.Distinct().ToList();

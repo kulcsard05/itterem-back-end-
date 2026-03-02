@@ -3,27 +3,69 @@
 <body>
 
     <h3>SSE Teszt (Nyers Adatok)</h3>
-    
+
     <pre id="output" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
 
     <script>
-        const sseUrl = 'https://localhost:7200/api/Rendelesek/status-stream';
-        
-        const eventSource = new EventSource(sseUrl);
+        const TEST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMSIsImVtYWlsIjoic3RyaW5nIiwiam9nb3N1bHRzYWciOiIzIiwibmV2Ijoic3RyaW5nIiwiZXhwIjoxNzcyNDM4NTY2LCJpc3MiOiJ2aXpzZ2FyZW1layIsImF1ZCI6InZpenNnYXJlbWVrIn0.YNB3Wexaj2JCRZDO3PCKHH37-FnFsZFLWe4BG_lESMw';
+        const sseUrl = 'https://localhost:7200/api/Rendelesek/stream';        
 
-        eventSource.onmessage = function(event) {
-            const output = document.getElementById('output');
-            
-            output.innerText = "ÉRKEZETT (" + new Date().toLocaleTimeString() + "):\n" 
-                               + event.data + "\n\n" 
-                               + output.innerText;
-            
-            console.log("Új adat:", JSON.parse(event.data));
-        };
+        let retryCount = 0;
+        const maxRetries = 10; // Limit retries to avoid infinite loops
+        const baseDelay = 1000; // 1 second base delay
 
-        eventSource.onerror = function(err) {
-            console.error("SSE hiba történt. Ellenőrizd a Backend futását és a CORS-t!");
-        };
+        function connectSSE() {
+            fetch(sseUrl, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${TEST_TOKEN}`,
+                    'Accept': 'text/event-stream'
+                }
+            }).then(async response => {
+                if (!response.ok) throw new Error("Hálózati hiba vagy érvénytelen token: " + response.status);
+
+                console.log("SSE connected");
+                retryCount = 0; // Reset on success
+
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder('utf-8');
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) {
+                        console.log("Stream ended, reconnecting...");
+                        throw new Error("Stream closed");
+                    }
+
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n');
+
+                    for (let line of lines) {
+                        if (line.startsWith('data: ')) {
+                            const data = line.substring(6).trim();
+                            if (data) {
+                                const output = document.getElementById('output');
+                                output.innerText = "ÉRKEZETT (" + new Date().toLocaleTimeString() + "):\n"
+                                    + data + "\n\n"
+                                    + output.innerText;
+                                console.log("Új adat:", data);
+                            }
+                        }
+                    }
+                }
+            }).catch(err => {
+                console.error("SSE error:", err);
+                if (retryCount < maxRetries) {
+                    retryCount++;
+                    const delay = baseDelay * Math.pow(2, retryCount); // Exponential backoff
+                    console.log(`Retrying in ${delay}ms... (${retryCount}/${maxRetries})`);
+                    setTimeout(connectSSE, delay);
+                } else {
+                    console.error("Max retries reached, stopping reconnection.");
+                }
+            });
+        }
+        connectSSE();
     </script>
 
 </body>

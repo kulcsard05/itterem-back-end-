@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage.Json;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Channels;
@@ -15,7 +16,7 @@ namespace vizsgaremek.Controllers
 
         public class OrderSignalService
         {
-            private readonly Channel<bool> _channel = Channel.CreateBounded<bool>(1);
+            private readonly Channel<bool> _channel = Channel.CreateUnbounded<bool>();
             private readonly Channel<OrderStatusUpdate> _statusChannel = Channel.CreateUnbounded<OrderStatusUpdate>();
 
             public async Task NotifyChange()
@@ -158,6 +159,8 @@ namespace vizsgaremek.Controllers
                 Response.Headers.Add("Content-Type", "text/event-stream");
                 Response.Headers.Add("Cache-Control", "no-cache");
                 Response.Headers.Add("Connection", "keep-alive");
+                await Response.WriteAsync(": connected\n\n", ct);
+                await Response.Body.FlushAsync(ct);
 
                 var lastId = 0;
                 using (var cx = new BackEndAlapContext())
