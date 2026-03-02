@@ -164,8 +164,7 @@
               "RelativeToolTip": "vizsgaremek\\.env",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
-              "WhenOpened": "2026-03-02T11:14:49.284Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-02T11:14:49.284Z"
             },
             {
               "$type": "Document",
@@ -177,8 +176,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\RendelesekController.cs",
               "ViewState": "AgIAAN0BAAAAAAAAAAAwwNsBAABbAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-07T09:23:09.001Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-07T09:23:09.001Z"
             },
             {
               "$type": "Document",
@@ -190,8 +188,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\RendelesElemek.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T09:43:21.256Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-09T09:43:21.256Z"
             },
             {
               "$type": "Document",
@@ -203,8 +200,7 @@
               "RelativeToolTip": "vizsgaremek\\Program.cs",
               "ViewState": "AgIAAF0AAAAAAAAAAAAowBIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T08:01:48.075Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T08:01:48.075Z"
             },
             {
               "$type": "Document",
@@ -214,7 +210,7 @@
               "RelativeDocumentMoniker": "vizsgaremek\\Modells\\BackEndAlapContext.cs",
               "ToolTip": "C:\\Users\\kulcs\\Documents\\GitHub\\itterem-back-end-\\vizsgaremek\\Modells\\BackEndAlapContext.cs",
               "RelativeToolTip": "vizsgaremek\\Modells\\BackEndAlapContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAQAAAAAAAAAA==",
+              "ViewState": "AgIAABwAAAAAAAAAAADwvysAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-17T09:54:48.278Z",
               "EditorCaption": ""
@@ -229,8 +225,7 @@
               "RelativeToolTip": "vizsgaremek\\Properties\\launchSettings.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-03-02T08:00:12.564Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-02T08:00:12.564Z"
             },
             {
               "$type": "Document",
@@ -242,8 +237,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\UditokController.cs",
               "ViewState": "AgIAAAsAAAAAAAAAAAAAwI0AAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-28T13:32:58.489Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-28T13:32:58.489Z"
             },
             {
               "$type": "Document",
@@ -255,8 +249,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Rendelesek.cs",
               "ViewState": "AgIAAAMAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-25T07:25:14.777Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-25T07:25:14.777Z"
             },
             {
               "$type": "Document",
@@ -268,8 +261,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Koretek.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAuwBEAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:35.497Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:35.497Z"
             },
             {
               "$type": "Document",
@@ -281,8 +273,7 @@
               "RelativeToolTip": "vizsgaremek\\appsettings.Development.json",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-18T08:09:44.235Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-18T08:09:44.235Z"
             },
             {
               "$type": "Document",
@@ -294,8 +285,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Menuk.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAIBJwBUAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:38.032Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:38.032Z"
             },
             {
               "$type": "Document",
@@ -307,8 +297,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Keszetelek.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAqwBMAAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:36:38.294Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:36:38.294Z"
             },
             {
               "$type": "Document",
@@ -320,8 +309,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Uditok.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAkAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:40.948Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:40.948Z"
             },
             {
               "$type": "Document",
@@ -333,8 +321,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\RegistrationController.cs",
               "ViewState": "AgIAAA8AAAAAAAAAAAAqwBsAAAA8AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T11:48:28.141Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T11:48:28.141Z"
             },
             {
               "$type": "Document",
@@ -346,8 +333,7 @@
               "RelativeToolTip": "vizsgaremek\\TEST\\index.html",
               "ViewState": "AgIAACkAAAAAAAAAAABRwDkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2026-02-18T07:43:55.308Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-18T07:43:55.308Z"
             },
             {
               "$type": "Document",
@@ -359,8 +345,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\KeszetelekController.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAAkwCMAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T10:14:30.362Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-22T10:14:30.362Z"
             },
             {
               "$type": "Document",
@@ -372,8 +357,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\MenukController.cs",
               "ViewState": "AgIAAE4AAAAAAAAAAAAYwIEAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T10:00:47.193Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-17T10:00:47.193Z"
             },
             {
               "$type": "Document",
@@ -385,8 +369,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\BejelentkezesController.cs",
               "ViewState": "AgIAACIAAAAAAAAAAAAQwLIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-12-15T11:08:55.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-12-15T11:08:55.726Z"
             },
             {
               "$type": "Document",
@@ -398,8 +381,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Kategoria.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-17T09:59:10.943Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-17T09:59:10.943Z"
             },
             {
               "$type": "Document",
@@ -411,8 +393,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\KoretekController.cs",
               "ViewState": "AgIAAAQAAAAAAAAAAIBJwGMAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:35:57.012Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T10:35:57.012Z"
             },
             {
               "$type": "Document",
@@ -424,8 +405,7 @@
               "RelativeToolTip": "vizsgaremek\\DTOs\\RegistrationDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-23T18:37:28.102Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-23T18:37:28.102Z"
             },
             {
               "$type": "Document",
@@ -437,8 +417,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\KategoriaController.cs",
               "ViewState": "AgIAAHYAAAAAAAAAAAAuwI0AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:25:44.201Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T10:25:44.201Z"
             },
             {
               "$type": "Document",
@@ -450,8 +429,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\HozzavalokController.cs",
               "ViewState": "AgIAAFYAAAAAAAAAAAAgwFsAAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-27T10:30:01.295Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-27T10:30:01.295Z"
             },
             {
               "$type": "Document",
@@ -463,8 +441,7 @@
               "RelativeToolTip": "vizsgaremek\\Controllers\\JogosultsagController.cs",
               "ViewState": "AgIAAEcAAAAAAAAAAAAgwF4AAAAlAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-26T09:18:30.453Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-26T09:18:30.453Z"
             },
             {
               "$type": "Document",
@@ -476,8 +453,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\User.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAXAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:44.608Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:44.608Z"
             },
             {
               "$type": "Document",
@@ -489,8 +465,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Hozzavalok.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:14.064Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:14.064Z"
             },
             {
               "$type": "Document",
@@ -502,8 +477,7 @@
               "RelativeToolTip": "vizsgaremek\\DTOs\\LoggedUser.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-19T08:31:22.25Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-19T08:31:22.25Z"
             },
             {
               "$type": "Document",
@@ -526,8 +500,7 @@
               "RelativeToolTip": "vizsgaremek\\DTOs\\LoginDTO.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAqAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-01-22T10:08:50.978Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-01-22T10:08:50.978Z"
             },
             {
               "$type": "Document",
@@ -539,8 +512,7 @@
               "RelativeToolTip": "vizsgaremek\\appsettings.json",
               "ViewState": "AgIAAAoAAAAAAAAAAIBZwA8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2026-02-18T08:09:32.6Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-18T08:09:32.6Z"
             },
             {
               "$type": "Document",
@@ -552,8 +524,7 @@
               "RelativeToolTip": "vizsgaremek\\DTOs\\OrderDto.cs",
               "ViewState": "AgIAABAAAAAAAAAAAIA+wBgAAAAnAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-09T06:51:31.232Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-09T06:51:31.232Z"
             },
             {
               "$type": "Document",
@@ -576,8 +547,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\KeszetelHozzavalokKapcsolo.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:32.694Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:32.694Z"
             },
             {
               "$type": "Document",
@@ -589,8 +559,7 @@
               "RelativeToolTip": "vizsgaremek\\Modells\\Jogok.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAAdAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-06T09:41:17.078Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-02-06T09:41:17.078Z"
             },
             {
               "$type": "Document",

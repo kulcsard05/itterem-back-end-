@@ -404,3 +404,5 @@ C:\Users\deepWIN\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0
 C:\Users\deepWIN\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgaremek.pdb
 C:\Users\deepWIN\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgaremek.genruntimeconfig.cache
 C:\Users\deepWIN\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\ref\vizsgaremek.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\DotNetEnv.dll
+C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\bin\Debug\net8.0\Sprache.dll
