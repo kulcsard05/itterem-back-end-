@@ -13,7 +13,7 @@ public partial class Uditok
 
     public int Ar { get; set; }
 
-    public byte[] Kep { get; set; } = null!;
+    public byte[]? Kep { get; set; }
 
     public virtual ICollection<Menuk> Menuks { get; set; } = new List<Menuk>();
 

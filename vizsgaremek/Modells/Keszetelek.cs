@@ -17,7 +17,7 @@ public partial class Keszetelek
 
     public int Ar { get; set; }
 
-    public byte[] Kep { get; set; } = null!;
+    public byte[]? Kep { get; set; }
 
     public virtual Kategoria Kategoria { get; set; } = null!;
 

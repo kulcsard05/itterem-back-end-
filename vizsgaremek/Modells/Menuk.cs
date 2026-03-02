@@ -19,7 +19,7 @@ public partial class Menuk
 
     public int Ar { get; set; }
 
-    public byte[] Kep { get; set; } = null!;
+    public byte[]? Kep { get; set; }
 
     public virtual Keszetelek Keszetel { get; set; } = null!;
 
