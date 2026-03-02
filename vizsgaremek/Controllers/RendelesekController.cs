@@ -473,13 +473,13 @@ namespace vizsgaremek.Controllers
 
             [Authorize(Policy = "Admin_Dolgozo")]
             [HttpPut("{id}")]
-            public IActionResult ModifyStatus(int id, [FromQuery] string status)
+            public async Task<IActionResult> ModifyStatus(int id, [FromQuery] string status)
             {
                 try
                 {
                     using (var cx = new BackEndAlapContext())
                     {
-                        var result = cx.Rendeleseks.FirstOrDefault(x => x.Id == id);
+                        var result = await cx.Rendeleseks.FirstOrDefaultAsync(x => x.Id == id);
                         if (result == null)
                         {
                             return NotFound("Nincs ilyen rendelés.");
@@ -494,11 +494,10 @@ namespace vizsgaremek.Controllers
                             return BadRequest("Érvénytelen státusz. Elfogadott értékek: Függőben, Folyamatban, Átvehető.");
                         }
 
-                        cx.SaveChanges();
+                        await cx.SaveChangesAsync();  // Changed to async
 
-                        _signalService.NotifyStatusChange(result.Id, result.Statusz).GetAwaiter().GetResult();
+                        await _signalService.NotifyStatusChange(result.Id, result.Statusz);  // Changed to await
                         return Ok(result);
-
                     }
                 }
                 catch (Exception ex)
