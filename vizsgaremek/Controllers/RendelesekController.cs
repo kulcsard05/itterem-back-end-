@@ -419,9 +419,9 @@ namespace vizsgaremek.Controllers
                             .SendAsync("OrderUpdated", result.Id, "Your specific order has been updated!");
 
                         await _hubContext.Clients.Group("EmployeesGroup")
-                            .SendAsync("OrderUpdated", result.Id, "An order has been updated.");
+                            .SendAsync("OrderUpdated", result.Id, status, "An order has been updated.");
 
-                        return Ok(new { message = $"Notification sent to User {ownerId}" });
+                        return Ok(new { message = $"Notification sent to User {ownerId} {status}" });
                     }
                 }
                 catch (Exception ex)
