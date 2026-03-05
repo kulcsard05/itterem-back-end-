@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>SignalR Order Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+</head>
+<body>
+    <h1>Order Notifications</h1>
+    <div id="status">Connecting...</div>
+    <ul id="messagesList"></ul>
+
+    <script>
+        // 1. Point this to your API's hub URL
+        // Match the path you defined in app.MapHub("/orderHub")
+       const connection = new signalR.HubConnectionBuilder()
+  .withUrl("https://localhost:7200/OrderHub", {
+        accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMiIsImVtYWlsIjoiYXNkQGFzZC5jb20iLCJqb2dvc3VsdHNhZyI6IjMiLCJuZXYiOiJzdHJpbmciLCJleHAiOjE3NzI3MDgwODksImlzcyI6InZpenNnYXJlbWVrIiwiYXVkIjoidml6c2dhcmVtZWsifQ.uGc0m2Heki7JFRANwrLeOwj8llgIG9-xjnodocy_ALE"
+    })
+  .build();
+
+        // 2. Listen for the "OrderUpdated" method triggered by the Controller
+        connection.on("OrderUpdated", (orderId, message) => {
+            const li = document.createElement("li");
+            li.textContent = `Order ${orderId}: ${message}`;
+            document.getElementById("messagesList").appendChild(li);
+        });
+        connection.on("OrderPlaced", (Response) => {
+    const li = document.createElement("li");
+    li.textContent = `Notification: ${Response}`;
+    document.getElementById("Response").appendChild(li);
+    console.log(Response);
+    
+});
+
+        // 3. Start the connection
+        connection.start()
+            .then(() => {
+                document.getElementById("status").innerText = "Connected! Waiting for updates...";
+            })
+            .catch(err => console.error("Connection failed: ", err));
+    </script>
+</body>
+</html>

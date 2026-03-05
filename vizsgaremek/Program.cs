@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Cryptography;
 using System.Text;
-using vizsgaremek.Controllers.BackEndAlap.Services;
+using vizsgaremek.Hubs;
 using vizsgaremek.Modells;
+using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace vizsgaremek
 {
@@ -53,6 +54,7 @@ namespace vizsgaremek
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddSignalR();
             // 1. Szolgáltatások regisztrálása
             builder.Services.AddControllers();
             builder.Services.AddEndpointsApiExplorer();
@@ -84,20 +86,17 @@ namespace vizsgaremek
                 });
             });
 
-            // SSE Szerviz regisztrálása (Singleton fontos!)
-            builder.Services.AddSingleton<OrderSignalService>();
-
             // CORS BEÁLLÍTÁS (Engedélyezi a Live Servert és a Reactot is)
             builder.Services.AddCors(options =>
             {
-                options.AddPolicy("AllowAll", policy =>
-                {
-                    policy.AllowAnyOrigin()
-                          .AllowAnyHeader()
-                          .AllowAnyMethod();
+              options.AddPolicy("AllowAll", policy =>
+               {
+                policy.SetIsOriginAllowed(_ => true)
+                          .AllowAnyMethod()
+                .AllowAnyHeader()
+                   .AllowCredentials();
                 });
-            });
-
+                });
             var jwtSection = builder.Configuration.GetSection("Jwt");
             var issuer = jwtSection["Issuer"];
             var audience = jwtSection["Audience"];
@@ -112,6 +111,7 @@ namespace vizsgaremek
                 .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
+
                     options.TokenValidationParameters = new TokenValidationParameters
                     {
                         ValidateIssuer = true,
@@ -122,6 +122,24 @@ namespace vizsgaremek
                         ValidAudience = audience,
                         IssuerSigningKey = new SymmetricSecurityKey(key)
                     };
+
+
+                    //-----------------------
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                path.StartsWithSegments("/OrderHub", StringComparison.OrdinalIgnoreCase))
+                            {
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
+                    //-----------------------
                 });
 
             builder.Services.AddAuthorization(options =>
@@ -160,18 +178,19 @@ namespace vizsgaremek
             // CORS-nak az elején kell lennie
             app.UseCors("AllowAll");
 
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+    if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger();
+       app.UseSwaggerUI();
+         }
 
             app.UseHttpsRedirection();
             app.UseAuthentication();
-            app.UseAuthorization();
+         app.UseAuthorization();
             app.MapControllers();
+       app.MapHub<OrderHub>("/OrderHub");
 
-            app.Run();
+       app.Run();
         }
     }
 }

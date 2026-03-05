@@ -1,0 +1,30 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
+
+namespace vizsgaremek.Hubs
+{
+    [Authorize]
+    public class OrderHub : Hub
+    {
+        public override async Task OnConnectedAsync()
+        {
+            // 1. Get User ID and Role from the JWT claims
+            var isUser = Context.User.IsInRole("Felhasznalo"); // Usually the 'sub' or NameIdentifier claim
+            var isEmployee = Context.User.IsInRole("Admin_Dolgozo"); // Or check your Policy
+
+            if (isEmployee)
+            {
+                // Add to the collective "Employees" group
+                await Groups.AddToGroupAsync(Context.ConnectionId, "EmployeesGroup");
+            }
+            else
+            {
+                // Add to a private group just for this specific user
+                // Format: "User_123"
+                await Groups.AddToGroupAsync(Context.ConnectionId, $"User_{isUser}");
+            }
+
+            await base.OnConnectedAsync();
+        }
+    }
+}

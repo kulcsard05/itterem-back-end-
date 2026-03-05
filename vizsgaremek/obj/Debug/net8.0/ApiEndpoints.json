@@ -806,38 +806,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
-    "Method": "GetStatusStream",
-    "RelativePath": "api/Rendelesek/status-stream",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
-    "ContainingType": "vizsgaremek.Controllers.BackEndAlap.Services.RendelesekController",
-    "Method": "GetRendelesStream",
-    "RelativePath": "api/Rendelesek/stream",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": [
-      {
-        "Type": "System.Void",
-        "MediaTypes": [],
-        "StatusCode": 200
-      }
-    ]
-  },
-  {
     "ContainingType": "vizsgaremek.Controllers.UditokController",
     "Method": "GetUditok",
     "RelativePath": "api/Uditok",

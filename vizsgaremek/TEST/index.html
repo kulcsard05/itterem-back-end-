@@ -1,72 +1,42 @@
 <!DOCTYPE html>
 <html>
+<head>
+    <title>SignalR Order Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+</head>
 <body>
-
-    <h3>SSE Teszt (Nyers Adatok)</h3>
-
-    <pre id="output" style="white-space: pre-wrap; word-wrap: break-word;"></pre>
+    <h1>Order Notifications</h1>
+    <div id="status">Connecting...</div>
+    <ul id="messagesList"></ul>
 
     <script>
-        const TEST_TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMSIsImVtYWlsIjoic3RyaW5nIiwiam9nb3N1bHRzYWciOiIzIiwibmV2Ijoic3RyaW5nIiwiZXhwIjoxNzcyNDUwMjUxLCJpc3MiOiJ2aXpzZ2FyZW1layIsImF1ZCI6InZpenNnYXJlbWVrIn0.uWBK3lXga5WU3d7alMg6dtDpE00Vvu_lkNguLxEXFxw';
-        const sseUrl = 'https://localhost:7200/api/Rendelesek/status-stream';        
+        // 1. Point this to your API's hub URL
+        // Match the path you defined in app.MapHub("/orderHub")
+       const connection = new signalR.HubConnectionBuilder()
+  .withUrl("https://localhost:7200/OrderHub", {
+        accessTokenFactory: () => "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIzMiIsImVtYWlsIjoiYXNkQGFzZC5jb20iLCJqb2dvc3VsdHNhZyI6IjMiLCJuZXYiOiJzdHJpbmciLCJleHAiOjE3NzI3MDgwODksImlzcyI6InZpenNnYXJlbWVrIiwiYXVkIjoidml6c2dhcmVtZWsifQ.uGc0m2Heki7JFRANwrLeOwj8llgIG9-xjnodocy_ALE"
+    })
+  .build();
 
-        let retryCount = 0;
-        const maxRetries = 10; // Limit retries to avoid infinite loops
-        const baseDelay = 1000; // 1 second base delay
+        // 2. Listen for the "OrderUpdated" method triggered by the Controller
+        connection.on("OrderUpdated", (orderId, message) => {
+            const li = document.createElement("li");
+            li.textContent = `Order ${orderId}: ${message}`;
+            document.getElementById("messagesList").appendChild(li);
+        });
+        connection.on("OrderPlaced", (payload) => {
+    const li = document.createElement("li");
+    li.textContent = `OrderPlaced: ${JSON.stringify(payload)}`;
+    document.getElementById("messagesList").appendChild(li);
+    console.log("OrderPlaced", payload);
+});
 
-        function connectSSE() {
-            fetch(sseUrl, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${TEST_TOKEN}`,
-                    'Accept': 'text/event-stream'
-                }
-            }).then(async response => {
-                if (!response.ok) throw new Error("Hálózati hiba vagy érvénytelen token: " + response.status);
-
-                console.log("SSE connected");
-                retryCount = 0; // Reset on success
-
-                const reader = response.body.getReader();
-                const decoder = new TextDecoder('utf-8');
-
-                while (true) {
-                    const { done, value } = await reader.read();
-                    if (done) {
-                        console.log("Stream ended, reconnecting...");
-                        throw new Error("Stream closed");
-                    }
-
-                    const chunk = decoder.decode(value, { stream: true });
-                    const lines = chunk.split('\n');
-
-                    for (let line of lines) {
-                        if (line.startsWith('data: ')) {
-                            const data = line.substring(6).trim();
-                            if (data) {
-                                const output = document.getElementById('output');
-                                output.innerText = "ÉRKEZETT (" + new Date().toLocaleTimeString() + "):\n"
-                                    + data + "\n\n"
-                                    + output.innerText;
-                                console.log("Új adat:", data);
-                            }
-                        }
-                    }
-                }
-            }).catch(err => {
-                console.error("SSE error:", err);
-                if (retryCount < maxRetries) {
-                    retryCount++;
-                    const delay = baseDelay * Math.pow(2, retryCount); // Exponential backoff
-                    console.log(`Retrying in ${delay}ms... (${retryCount}/${maxRetries})`);
-                    setTimeout(connectSSE, delay);
-                } else {
-                    console.error("Max retries reached, stopping reconnection.");
-                }
-            });
-        }
-        connectSSE();
+        // 3. Start the connection
+        connection.start()
+            .then(() => {
+                document.getElementById("status").innerText = "Connected! Waiting for updates...";
+            })
+            .catch(err => console.error("Connection failed: ", err));
     </script>
-
 </body>
-</html>
+</html></html>
