@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using DotNetEnv;
+﻿using Microsoft.EntityFrameworkCore;
+
 namespace vizsgaremek.Modells;
 
 public partial class BackEndAlapContext : DbContext
@@ -37,9 +35,15 @@ public partial class BackEndAlapContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
+
+
+    readonly string server = Environment.GetEnvironmentVariable("DB_SERVER");
+    readonly string db = Environment.GetEnvironmentVariable("DB_NAME");
+    readonly string user = Environment.GetEnvironmentVariable("DB_USER");
+    readonly string pass = Environment.GetEnvironmentVariable("DB_PASS");
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySQL("SERVER=localhost;PORT=3306;DATABASE=itterem;USER=root;PASSWORD=;");
+        => optionsBuilder.UseMySQL($"Server={server};Database={db};Uid={user};Pwd={pass}");
+
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -144,7 +148,7 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("int(11)")
                 .HasColumnName("kategoria_id");
             entity.Property(e => e.Kep)
-                .HasColumnType("blob")
+                .HasColumnType("mediumblob")
                 .HasColumnName("kep");
             entity.Property(e => e.Leiras)
                 .HasMaxLength(100)
@@ -174,7 +178,7 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
             entity.Property(e => e.Kep)
-                .HasColumnType("blob")
+                .HasColumnType("mediumblob")
                 .HasColumnName("kep");
             entity.Property(e => e.Leiras)
                 .HasMaxLength(100)
@@ -206,7 +210,7 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
             entity.Property(e => e.Kep)
-                .HasColumnType("blob")
+                .HasColumnType("mediumblob")
                 .HasColumnName("kep");
             entity.Property(e => e.KeszetelId)
                 .HasColumnType("int(11)")
@@ -353,7 +357,7 @@ public partial class BackEndAlapContext : DbContext
                 .HasColumnType("tinyint(4)")
                 .HasColumnName("elerheto");
             entity.Property(e => e.Kep)
-                .HasColumnType("blob")
+                .HasColumnType("mediumblob")
                 .HasColumnName("kep");
             entity.Property(e => e.Nev)
                 .HasMaxLength(20)

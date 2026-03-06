@@ -121,7 +121,6 @@ C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\s
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgare.3F44001E.Up2Date
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\vizsgaremek.dll
 C:\Users\kulcs\Documents\GitHub\itterem-back-end-\vizsgaremek\obj\Debug\net8.0\refint\vizsgaremek.dll

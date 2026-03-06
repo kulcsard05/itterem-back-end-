@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
@@ -10,7 +11,24 @@ namespace vizsgaremek.Controllers
     [ApiController]
     public class MenukController : ControllerBase
     {
+        private static bool HeaderMatches(string headerValue, string currentEtag)
+        {
+            if (string.IsNullOrWhiteSpace(headerValue))
+            {
+                return false;
+            }
+
+            var values = headerValue.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            return values.Any(v => v == "*" || string.Equals(v, currentEtag, StringComparison.Ordinal));
+        }
+
+        private bool IfNoneMatchMatches(string currentEtag)
+        {
+            return HeaderMatches(Request.Headers[HeaderNames.IfNoneMatch].ToString(), currentEtag);
+        }
+
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetMenuks()
         {
             using (var cx = new BackEndAlapContext())
@@ -18,6 +36,7 @@ namespace vizsgaremek.Controllers
                 try
                 {
                     var response = await cx.Menuks
+                        .AsNoTracking()
                         .Include(m => m.Keszetel)
                         .Include(m => m.Koret)
                         .Include(m => m.Udito)
@@ -28,11 +47,19 @@ namespace vizsgaremek.Controllers
                             m.Ar,
                             KeszetelId = m.Keszetel.Id,
                             KoretId = m.Koret.Id,
-                            UditoId = m.Udito.Id,
+                            UditoId = m.Udito != null ? m.Udito.Id : (int?)null,
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })
                         .ToListAsync();
+
+                    var etag = Program.CreateWeakEtag(response);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
 
                     return Ok(response);
                 }
@@ -42,7 +69,9 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [HttpGet("{id}")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -50,6 +79,7 @@ namespace vizsgaremek.Controllers
                 using (var cx = new BackEndAlapContext())
                 {
                     var response = await cx.Menuks
+                        .AsNoTracking()
                         .Include(m => m.Keszetel)
                         .Include(m => m.Koret)
                         .Include(m => m.Udito)
@@ -61,7 +91,7 @@ namespace vizsgaremek.Controllers
                             m.Ar,
                             Keszetelid = m.Keszetel.Id,
                             Koretid = m.Koret.Id,
-                            Uditoid= m.Udito.Id,
+                            Uditoid = m.Udito != null ? m.Udito.Id : (int?)null,
                             m.Elerheto,
                             Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
                         })
@@ -72,6 +102,14 @@ namespace vizsgaremek.Controllers
                         return NotFound("Nincs ilyen Menü!");
                     }
 
+                    var etag = Program.CreateWeakEtag(response);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
+
                     return Ok(response);
                 }
             }
@@ -80,6 +118,7 @@ namespace vizsgaremek.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostMenu(string menuNev, int ar, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
@@ -93,7 +132,6 @@ namespace vizsgaremek.Controllers
                         return Ok("Létezik ilyen Menü!");
                     }
 
-                    // Validate foreign keys
                     if (!await cx.Keszeteleks.AnyAsync(k => k.Id == keszetelId))
                     {
                         return BadRequest("Invalid KeszetelId");
@@ -112,7 +150,9 @@ namespace vizsgaremek.Controllers
                     menu.Ar = ar;
                     menu.KeszetelId = keszetelId.Value;
                     if (koretId.HasValue)
+                    {
                         menu.KoretId = koretId.Value;
+                    }
                     menu.UditoId = uditoId;
                     menu.Elerheto = elerheto ?? 0;
 
@@ -135,6 +175,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
         public async Task<IActionResult> PutMenu(int id, string? menuNev, int? ar, int? keszetelId, int? koretId, int? uditoId, int? elerheto, IFormFile? kep)
@@ -205,6 +246,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteMenu(int id)

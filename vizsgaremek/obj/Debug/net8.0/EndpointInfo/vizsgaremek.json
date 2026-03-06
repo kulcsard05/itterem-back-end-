@@ -705,27 +705,6 @@
         }
       }
     },
-    "/api/Login/GetSalt": {
-      "get": {
-        "tags": [
-          "Login"
-        ],
-        "parameters": [
-          {
-            "name": "nev",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/api/Login": {
       "post": {
         "tags": [

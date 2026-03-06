@@ -1,19 +1,29 @@
+using DotNetEnv;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Diagnostics;
 using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 using vizsgaremek.Hubs;
 using vizsgaremek.Modells;
 using static Org.BouncyCastle.Math.EC.ECCurve;
 
 namespace vizsgaremek
 {
+
     public class Program
     {
         public static Dictionary<string, User> LoggedUsers = new Dictionary<string, User>();
         const int SaltLength = 64;
 
         // --- SEGÉDFÜGGVÉNYEK ---
+        public static string CreateWeakEtag<T>(T value)
+        {
+            var json = JsonSerializer.Serialize(value);
+            var hash = SHA256.HashData(Encoding.UTF8.GetBytes(json));
+            return $"W/\"{Convert.ToHexString(hash)}\"";
+        }
         public static string GenerateSalt(int lengthInBytes = 16)
         {
             using (var rng = new RNGCryptoServiceProvider())
@@ -85,7 +95,7 @@ namespace vizsgaremek
                     }
                 });
             });
-
+            builder.Services.AddResponseCaching();
             // CORS BEÁLLÍTÁS (Engedélyezi a Live Servert és a Reactot is)
             builder.Services.AddCors(options =>
             {
@@ -189,8 +199,14 @@ namespace vizsgaremek
          app.UseAuthorization();
             app.MapControllers();
        app.MapHub<OrderHub>("/OrderHub");
-
-       app.Run();
+            app.Use(async (c, n) => {
+                var s = Stopwatch.StartNew();
+                await n();
+                Console.WriteLine($"{c.Request.Method} | {c.Request.Path} | {s.ElapsedMilliseconds}ms");
+            });
+            Env.Load();
+            app.UseResponseCaching();
+            app.Run();
         }
     }
 }

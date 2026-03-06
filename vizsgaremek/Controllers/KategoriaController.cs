@@ -2,9 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.Net.Http.Headers;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
@@ -13,6 +11,22 @@ namespace vizsgaremek.Controllers
     [ApiController]
     public class KategoriaController : ControllerBase
     {
+        private static bool HeaderMatches(string headerValue, string currentEtag)
+        {
+            if (string.IsNullOrWhiteSpace(headerValue))
+            {
+                return false;
+            }
+
+            var values = headerValue.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            return values.Any(v => v == "*" || string.Equals(v, currentEtag, StringComparison.Ordinal));
+        }
+
+        private bool IfNoneMatchMatches(string currentEtag)
+        {
+            return HeaderMatches(Request.Headers[HeaderNames.IfNoneMatch].ToString(), currentEtag);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetKategoria()
         {
@@ -20,14 +34,18 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var categories = await cx.Kategoria.ToListAsync();
-                    var dishes = await cx.Set<Keszetelek>().ToListAsync();
-                    
+                    var categories = await cx.Kategoria
+                        .AsNoTracking()
+                        .ToListAsync();
+
+                    var dishes = await cx.Keszeteleks
+                        .AsNoTracking()
+                        .ToListAsync();
+
                     var response = categories.Select(c => new
                     {
                         c.Id,
                         c.Nev,
-                        
                         Kesziteleks = dishes.Where(d => d.KategoriaId == c.Id).Select(d => new
                         {
                             d.Id,
@@ -37,7 +55,15 @@ namespace vizsgaremek.Controllers
                             Kep = d.Kep != null && d.Kep.Length > 0 ? Program.ImageConvert(d.Kep) : null
                         }).ToList()
                     }).ToList();
-                        
+
+                    var etag = Program.CreateWeakEtag(response);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
+
                     return Ok(response);
                 }
                 catch (Exception ex)
@@ -54,15 +80,23 @@ namespace vizsgaremek.Controllers
             {
                 try
                 {
-                    var categories = await cx.Kategoria.FirstOrDefaultAsync(f=>f.Id == id);
-                    var dishes =  await cx.Set<Keszetelek>().ToListAsync();
-                    if (categories == null) return BadRequest("nincs ilyen kategoria");
+                    var categories = await cx.Kategoria
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync(f => f.Id == id);
+
+                    var dishes = await cx.Keszeteleks
+                        .AsNoTracking()
+                        .ToListAsync();
+
+                    if (categories == null)
+                    {
+                        return BadRequest("nincs ilyen kategoria");
+                    }
 
                     var response = new
                     {
                         categories.Id,
                         categories.Nev,
-
                         Kesziteleks = dishes.Where(d => d.KategoriaId == categories.Id).Select(d => new
                         {
                             d.Id,
@@ -70,8 +104,16 @@ namespace vizsgaremek.Controllers
                             d.Leiras,
                             d.Elerheto,
                             Kep = d.Kep != null && d.Kep.Length > 0 ? Program.ImageConvert(d.Kep) : null
-                        }).ToList(),
+                        }).ToList()
                     };
+
+                    var etag = Program.CreateWeakEtag(response);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
 
                     return Ok(response);
                 }
@@ -81,14 +123,13 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public IActionResult PostKategoria(string nev)
         {
-
             using (var cx = new BackEndAlapContext())
             {
-
                 try
                 {
                     if (cx.Kategoria.FirstOrDefault(f => f.Nev == nev) != null)
@@ -106,13 +147,10 @@ namespace vizsgaremek.Controllers
                     return StatusCode(500, ex);
                 }
             }
-
-
         }
+
         [Authorize(Policy = "Admin")]
         [HttpPut]
-
-
         public async Task<IActionResult> Putkategoria(int id, string? nev)
         {
             using (var cx = new BackEndAlapContext())
@@ -139,9 +177,9 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-        [Authorize(Policy = "Admin")]
-        [HttpDelete("{id}")]
 
+                [Authorize(Policy = "Admin")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKategoria(int id)
         {
             using (var cx = new BackEndAlapContext())

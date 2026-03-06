@@ -1,15 +1,34 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]")]             
     [ApiController]
     public class KeszetelekController : ControllerBase
     {
+        private static bool HeaderMatches(string headerValue, string currentEtag)
+        {
+            if (string.IsNullOrWhiteSpace(headerValue))
+            {
+                return false;
+            }
+
+            var values = headerValue.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+            return values.Any(v => v == "*" || string.Equals(v, currentEtag, StringComparison.Ordinal));
+        }
+
+        private bool IfNoneMatchMatches(string currentEtag)
+        {
+            return HeaderMatches(Request.Headers[HeaderNames.IfNoneMatch].ToString(), currentEtag);
+        }
+
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> Getkeszeteleks()
         {
             try
@@ -17,13 +36,13 @@ namespace vizsgaremek.Controllers
                 using (var cx = new BackEndAlapContext())
                 {
                     var response = await cx.Keszeteleks
+                        .AsNoTracking()
                         .Include(f => f.Kategoria)
                         .Include(f => f.KeszetelHozzavalokKapcsolos)
                             .ThenInclude(khk => khk.Hozzavalok)
                         .ToListAsync();
 
-
-                    var result = response.Select(r=>new 
+                    var result = response.Select(r => new
                     {
                         r.Id,
                         r.Nev,
@@ -39,22 +58,27 @@ namespace vizsgaremek.Controllers
                         Kep = r.Kep != null && r.Kep.Length > 0
                             ? Program.ImageConvert(r.Kep)
                             : null
-                    });
+                    }).ToList();
+
+                    var etag = Program.CreateWeakEtag(result);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
 
                     return Ok(result);
-
                 }
             }
-
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        
-    
 
         [HttpGet("{id}")]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -62,12 +86,16 @@ namespace vizsgaremek.Controllers
                 using (var cx = new BackEndAlapContext())
                 {
                     var response = await cx.Keszeteleks
+                        .AsNoTracking()
                         .Include(f => f.Kategoria)
                         .Include(f => f.KeszetelHozzavalokKapcsolos)
                             .ThenInclude(khk => khk.Hozzavalok)
                         .FirstOrDefaultAsync(f => f.Id == id);
 
-                    if (response == null) return BadRequest("Nincs ilyen készétel.");
+                    if (response == null)
+                    {
+                        return BadRequest("Nincs ilyen készétel.");
+                    }
 
                     var result = new
                     {
@@ -87,15 +115,23 @@ namespace vizsgaremek.Controllers
                             : null
                     };
 
+                    var etag = Program.CreateWeakEtag(result);
+                    Response.Headers[HeaderNames.ETag] = etag;
+
+                    if (IfNoneMatchMatches(etag))
+                    {
+                        return StatusCode(StatusCodes.Status304NotModified);
+                    }
+
                     return Ok(result);
                 }
             }
             catch (Exception ex)
             {
-
                 return BadRequest(ex.Message);
             }
         }
+
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostKeszetelek(string nev, string leiras, int ar, int? elerheto, int kategoriaid, [FromQuery] List<int>? hozzavalokIds, IFormFile? kep)
@@ -131,10 +167,8 @@ namespace vizsgaremek.Controllers
 
                     if (hozzavalokIds != null && hozzavalokIds.Any())
                     {
-                        // remove duplicates to avoid PK violation
                         var distinctIds = hozzavalokIds.Distinct().ToList();
 
-                        // validate all ingredient IDs exist
                         var existingIds = await cx.Hozzavaloks
                             .Where(h => distinctIds.Contains(h.Id))
                             .Select(h => h.Id)
@@ -143,7 +177,6 @@ namespace vizsgaremek.Controllers
                         var missing = distinctIds.Except(existingIds).ToList();
                         if (missing.Any())
                         {
-                            // rollback and return error about missing ingredient IDs
                             await transaction.RollbackAsync();
                             return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
                         }
@@ -170,6 +203,7 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
+
         [Authorize(Policy = "Admin_Dolgozo")]
         [HttpPut]
         public async Task<IActionResult> PutKeszetelek(int id, string? nev, string? leiras, int? ar, int? elerheto, int? Kategoria, [FromQuery] List<int>? hozzavalokIds, IFormFile? kep)
@@ -224,7 +258,6 @@ namespace vizsgaremek.Controllers
                     {
                         var distinctIds = hozzavalokIds.Distinct().ToList();
 
-                        // validate ingredient IDs
                         var existingIds = await cx.Hozzavaloks
                             .Where(h => distinctIds.Contains(h.Id))
                             .Select(h => h.Id)
@@ -237,11 +270,9 @@ namespace vizsgaremek.Controllers
                             return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
                         }
 
-                        // remove current connections
                         cx.KeszetelHozzavalokKapcsolos.RemoveRange(keszetel.KeszetelHozzavalokKapcsolos);
                         await cx.SaveChangesAsync();
 
-                        // add new connections
                         foreach (var hId in distinctIds)
                         {
                             var kapcsolo = new KeszetelHozzavalokKapcsolo
@@ -264,8 +295,8 @@ namespace vizsgaremek.Controllers
                 }
             }
         }
-        [Authorize(Policy = "Admin")]
 
+        [Authorize(Policy = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteKEszetel(int id)
         {
@@ -285,7 +316,9 @@ namespace vizsgaremek.Controllers
 
                     var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
                     if (keszetel == null)
+                    {
                         return NotFound("Nincs ilyen készétel!");
+                    }
 
                     cx.Keszeteleks.Remove(keszetel);
 

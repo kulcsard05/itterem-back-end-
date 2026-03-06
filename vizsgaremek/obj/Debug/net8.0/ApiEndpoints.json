@@ -525,22 +525,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "vizsgaremek.Controllers.LoginController",
-    "Method": "GetSalt",
-    "RelativePath": "api/Login/GetSalt",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "nev",
-        "Type": "System.String",
-        "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "vizsgaremek.Controllers.MenukController",
     "Method": "GetMenuks",
     "RelativePath": "api/Menuk",

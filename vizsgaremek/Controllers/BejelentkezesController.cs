@@ -13,28 +13,7 @@ namespace vizsgaremek.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        [Authorize(Policy = "Admin")]
-        [HttpGet("GetSalt")]
-       
-        public IActionResult GetSalt(string nev)
-        {
-            using (var cx = new BackEndAlapContext())
-            {
-                try
-                {
-                    var response = cx.Users.FirstOrDefault(f => f.TeljesNev == nev);
-                    if (response == null)
-                    {
-                        return NotFound("Nincs ilyen nevű felhasználó.");
-                    }
-                    return StatusCode(StatusCodes.Status200OK, response.Salt);
-                }
-                catch (Exception ex)
-                {
-                    return StatusCode(400, ex.Message);
-                }
-            }
-        }
+        
         [HttpPost]
         public IActionResult Login(LoginDTO login)
         {
