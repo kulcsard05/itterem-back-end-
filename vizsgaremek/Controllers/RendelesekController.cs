@@ -416,7 +416,7 @@ namespace vizsgaremek.Controllers
                         var ownerGroup = $"User_{ownerId}";
 
                         await _hubContext.Clients.Group(ownerGroup)
-                            .SendAsync("OrderUpdated", result.Id, "Your specific order has been updated!");
+                            .SendAsync("OrderUpdated", result.Id, status, "Your specific order has been updated! ");
 
                         await _hubContext.Clients.Group("EmployeesGroup")
                             .SendAsync("OrderUpdated", result.Id, status, "An order has been updated.");
