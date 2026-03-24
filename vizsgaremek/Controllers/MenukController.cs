@@ -28,7 +28,7 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration =60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetMenuks()
         {
             using (var cx = new BackEndAlapContext())
@@ -49,7 +49,7 @@ namespace vizsgaremek.Controllers
                             KoretId = m.Koret.Id,
                             UditoId = m.Udito != null ? m.Udito.Id : (int?)null,
                             m.Elerheto,
-                            Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
+                            Kep = m.Kep != null && m.Kep.Length >0 ? Program.ImageConvert(m.Kep) : null
                         })
                         .ToListAsync();
 
@@ -61,17 +61,17 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
 
         [HttpGet("{id}")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration =60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -93,13 +93,13 @@ namespace vizsgaremek.Controllers
                             Koretid = m.Koret.Id,
                             Uditoid = m.Udito != null ? m.Udito.Id : (int?)null,
                             m.Elerheto,
-                            Kep = m.Kep != null && m.Kep.Length > 0 ? Program.ImageConvert(m.Kep) : null
+                            Kep = m.Kep != null && m.Kep.Length >0 ? Program.ImageConvert(m.Kep) : null
                         })
                         .FirstOrDefaultAsync();
 
                     if (response == null)
                     {
-                        return NotFound("Nincs ilyen Menü!");
+                        return StatusCode(404, "Nincs ilyen Menü!");
                     }
 
                     var etag = Program.CreateWeakEtag(response);
@@ -110,12 +110,12 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -129,20 +129,20 @@ namespace vizsgaremek.Controllers
                 {
                     if (await cx.Menuks.AnyAsync(m => m.MenuNev == menuNev))
                     {
-                        return Ok("Létezik ilyen Menü!");
+                        return StatusCode(409, "Létezik ilyen Menü!");
                     }
 
                     if (!await cx.Keszeteleks.AnyAsync(k => k.Id == keszetelId))
                     {
-                        return BadRequest("Invalid KeszetelId");
+                        return StatusCode(500, "Invalid KeszetelId");
                     }
                     if (koretId.HasValue && !await cx.Koreteks.AnyAsync(k => k.Id == koretId))
                     {
-                        return BadRequest("Invalid KoretId");
+                        return StatusCode(500, "Invalid KoretId");
                     }
                     if (!await cx.Uditoks.AnyAsync(u => u.Id == uditoId))
                     {
-                        return BadRequest("Invalid UditoId");
+                        return StatusCode(500, "Invalid UditoId");
                     }
 
                     Menuk menu = new Menuk();
@@ -154,9 +154,9 @@ namespace vizsgaremek.Controllers
                         menu.KoretId = koretId.Value;
                     }
                     menu.UditoId = uditoId;
-                    menu.Elerheto = elerheto ?? 0;
+                    menu.Elerheto = elerheto ??0;
 
-                    if (kep != null && kep.Length > 0)
+                    if (kep != null && kep.Length >0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -167,11 +167,11 @@ namespace vizsgaremek.Controllers
 
                     await cx.Menuks.AddAsync(menu);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Menü Mentés");
+                    return StatusCode(200, "Sikeres Menü Mentés");
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -187,7 +187,7 @@ namespace vizsgaremek.Controllers
                     var menu = await cx.Menuks.FirstOrDefaultAsync(m => m.Id == id);
                     if (menu == null)
                     {
-                        return NotFound("Nincs ilyen Menü!");
+                        return StatusCode(404, "Nincs ilyen Menü!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(menuNev))
@@ -204,7 +204,7 @@ namespace vizsgaremek.Controllers
                     {
                         if (!await cx.Keszeteleks.AnyAsync(k => k.Id == keszetelId))
                         {
-                            return BadRequest("Invalid KeszetelId");
+                            return StatusCode(500, "Invalid KeszetelId");
                         }
                         menu.KeszetelId = keszetelId.Value;
                     }
@@ -212,7 +212,7 @@ namespace vizsgaremek.Controllers
                     {
                         if (!await cx.Koreteks.AnyAsync(k => k.Id == koretId))
                         {
-                            return BadRequest("Invalid KoretId");
+                            return StatusCode(500, "Invalid KoretId");
                         }
                         menu.KoretId = koretId.Value;
                     }
@@ -220,7 +220,7 @@ namespace vizsgaremek.Controllers
                     {
                         if (!await cx.Uditoks.AnyAsync(u => u.Id == uditoId))
                         {
-                            return BadRequest("Invalid UditoId");
+                            return StatusCode(500, "Invalid UditoId");
                         }
                         menu.UditoId = uditoId.Value;
                     }
@@ -228,7 +228,7 @@ namespace vizsgaremek.Controllers
                     {
                         menu.Elerheto = elerheto.Value;
                     }
-                    if (kep != null && kep.Length > 0)
+                    if (kep != null && kep.Length >0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -238,11 +238,11 @@ namespace vizsgaremek.Controllers
                     }
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Menü módosítás");
+                    return StatusCode(200, "Sikeres Menü módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -258,11 +258,11 @@ namespace vizsgaremek.Controllers
                     Menuk menu = new Menuk { Id = id };
                     cx.Remove(menu);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Menü törlés.");
+                    return StatusCode(200, "Sikeres Menü törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

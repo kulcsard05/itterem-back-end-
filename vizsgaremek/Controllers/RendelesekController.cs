@@ -40,7 +40,7 @@ namespace vizsgaremek.Controllers
             {
                 if (!TryGetTokenUserId(out var tokenUserId))
                 {
-                    return Unauthorized("Nem sikerült azonosítani a felhasználót a token alapján.");
+                    return StatusCode(500, "Nem sikerült azonosítani a felhasználót a token alapján.");
                 }
 
                 using (var cx = new BackEndAlapContext())
@@ -74,7 +74,7 @@ namespace vizsgaremek.Controllers
                     })
                     .ToListAsync(ct);
 
-                    return Ok(responseData);
+                    return StatusCode(200, responseData);
                 }
             }
 
@@ -84,7 +84,7 @@ namespace vizsgaremek.Controllers
             {
                 if (!TryGetTokenUserId(out var tokenUserId))
                 {
-                    return Unauthorized("Nem sikerült azonosítani a felhasználót a token alapján.");
+                    return StatusCode(500, "Nem sikerült azonosítani a felhasználót a token alapján.");
                 }
 
                 using (var cx = new BackEndAlapContext())
@@ -119,10 +119,10 @@ namespace vizsgaremek.Controllers
 
                     if (response == null)
                     {
-                        return NotFound("A megadott rendelés nem található, vagy nem a sajátod.");
+                        return StatusCode(404, "A megadott rendelés nem található, vagy nem a sajátod.");
                     }
 
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
             }
 
@@ -159,7 +159,7 @@ namespace vizsgaremek.Controllers
                     })
                     .ToListAsync();
 
-                    return Ok(responseData);
+                    return StatusCode(200, responseData);
                 }
             }
             [Authorize(Policy = "Felhasznalo")]
@@ -172,13 +172,13 @@ namespace vizsgaremek.Controllers
                     {
                         if (orderDto == null || orderDto.Items == null || !orderDto.Items.Any())
                         {
-                            return BadRequest("A rendelés adatai érvénytelenek vagy hiányoznak.");
+                            return StatusCode(500, "A rendelés adatai érvénytelenek vagy hiányoznak.");
                         }
 
                         var user = await cx.Users.FindAsync(orderDto.FelhasznaloId);
                         if (user == null)
                         {
-                            return BadRequest("A megadott felhasználó nem található.");
+                            return StatusCode(404, "A megadott felhasználó nem található.");
                         }
 
                         foreach (var item in orderDto.Items)
@@ -190,27 +190,27 @@ namespace vizsgaremek.Controllers
 
                             if (idCount != 1)
                             {
-                                return BadRequest("Minden tételben pontosan egyet kell megadni az alábbiak közül: készétel, üdítő, menü vagy köret.");
+                                return StatusCode(500, "Minden tételben pontosan egyet kell megadni az alábbiak közül: készétel, üdítő, menü vagy köret.");
                             }
 
                             if (item.KeszetelId.HasValue && !await cx.Keszeteleks.AnyAsync(k => k.Id == item.KeszetelId))
                             {
-                                return BadRequest($"A(z) {item.KeszetelId} azonosítójú készétel nem található.");
+                                return StatusCode(404, $"A(z) {item.KeszetelId} azonosítójú készétel nem található.");
                             }
 
                             if (item.UditoId.HasValue && !await cx.Uditoks.AnyAsync(u => u.Id == item.UditoId))
                             {
-                                return BadRequest($"A(z) {item.UditoId} azonosítójú üdítő nem található.");
+                                return StatusCode(404, $"A(z) {item.UditoId} azonosítójú üdítő nem található.");
                             }
 
                             if (item.MenuId.HasValue && !await cx.Menuks.AnyAsync(m => m.Id == item.MenuId))
                             {
-                                return BadRequest($"A(z) {item.MenuId} azonosítójú menü nem található.");
+                                return StatusCode(404, $"A(z) {item.MenuId} azonosítójú menü nem található.");
                             }
 
                             if (item.KoretId.HasValue && !await cx.Koreteks.AnyAsync(k => k.Id == item.KoretId))
                             {
-                                return BadRequest($"A(z) {item.KoretId} azonosítójú köret nem található.");
+                                return StatusCode(404, $"A(z) {item.KoretId} azonosítójú köret nem található.");
                             }
                         }
 
@@ -222,12 +222,12 @@ namespace vizsgaremek.Controllers
                             targetOrder = await cx.Rendeleseks.FindAsync(orderDto.OrderId.Value);
                             if (targetOrder == null)
                             {
-                                return BadRequest($"A(z) {orderDto.OrderId.Value} azonosítójú rendelés nem található.");
+                                return StatusCode(404, $"A(z) {orderDto.OrderId.Value} azonosítójú rendelés nem található.");
                             }
 
                             if (targetOrder.FelhasznaloId != orderDto.FelhasznaloId)
                             {
-                                return BadRequest("A megadott rendelés azonosítója nem ehhez a felhasználóhoz tartozik.");
+                                return StatusCode(500, "A megadott rendelés azonosítója nem ehhez a felhasználóhoz tartozik.");
                             }
                         }
                         else
@@ -349,7 +349,7 @@ namespace vizsgaremek.Controllers
                         await _hubContext.Clients.Group("EmployeesGroup")
                               .SendAsync("OrderPlaced", orderPayload);
 
-                        return Ok(new { OrderId = targetOrder.Id, Message = "Sikeres rendelés." });
+                        return StatusCode(200, new { OrderId = targetOrder.Id, Message = "Sikeres rendelés." });
                     }
                 }
                 catch (Exception ex)
@@ -371,18 +371,18 @@ namespace vizsgaremek.Controllers
                         var result = cx.Rendeleseks.FirstOrDefault(f => f.Id == id);
                         if (result == null)
                         {
-                            return NotFound("A megadott azonosítójú rendelés nem található.");
+                            return StatusCode(404, "A megadott azonosítójú rendelés nem található.");
                         }
 
                         cx.Rendeleseks.Remove(result);
                         cx.SaveChanges();
-                        return Ok("Sikeres törlés.");
+                        return StatusCode(200, "Sikeres törlés.");
                     }
                 }
                 catch (Exception ex)
                 {
 
-                    return BadRequest($"Hiba történt: {ex.Message}");
+                    return StatusCode(500, $"Hiba történt: {ex.Message}");
                 }
             }
 
@@ -398,7 +398,7 @@ namespace vizsgaremek.Controllers
                         var result = await cx.Rendeleseks.FirstOrDefaultAsync(x => x.Id == id);
                         if (result == null)
                         {
-                            return NotFound("Nincs ilyen rendelés.");
+                            return StatusCode(404, "Nincs ilyen rendelés.");
                         }
 
                         if (status == "Függőben" || status == "Folyamatban" || status == "Átvehető" || status == "Átvett")
@@ -407,7 +407,7 @@ namespace vizsgaremek.Controllers
                         }
                         else
                         {
-                            return BadRequest("Érvénytelen státusz. Elfogadott értékek: Függőben, Folyamatban, Átvehető.");
+                            return StatusCode(500, "Érvénytelen státusz. Elfogadott értékek: Függőben, Folyamatban, Átvehető.");
                         }
 
                         await cx.SaveChangesAsync();
@@ -421,13 +421,13 @@ namespace vizsgaremek.Controllers
                         await _hubContext.Clients.Group("EmployeesGroup")
                             .SendAsync("OrderUpdated", result.Id, status, "An order has been updated.");
 
-                        return Ok(new { message = $"Notification sent to User {ownerId} {status}" });
+                        return StatusCode(200, new { message = $"Notification sent to User {ownerId} {status}" });
                     }
                 }
                 catch (Exception ex)
                 {
 
-                    return BadRequest($"Hiba történt: {ex.Message}");
+                    return StatusCode(500, $"Hiba történt: {ex.Message}");
                 }
 
             }

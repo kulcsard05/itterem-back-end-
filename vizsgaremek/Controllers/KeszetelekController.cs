@@ -7,7 +7,7 @@ using vizsgaremek.Modells;
 
 namespace vizsgaremek.Controllers
 {
-    [Route("api/[controller]")]             
+    [Route("api/[controller]")]
     [ApiController]
     public class KeszetelekController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace vizsgaremek.Controllers
         }
 
         [HttpGet]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration =60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> Getkeszeteleks()
         {
             try
@@ -55,7 +55,7 @@ namespace vizsgaremek.Controllers
                             khk.Hozzavalok.Id,
                             khk.Hozzavalok.HozzavaloNev
                         }).ToList(),
-                        Kep = r.Kep != null && r.Kep.Length > 0
+                        Kep = r.Kep != null && r.Kep.Length >0
                             ? Program.ImageConvert(r.Kep)
                             : null
                     }).ToList();
@@ -68,17 +68,17 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(result);
+                    return StatusCode(200, result);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
         [HttpGet("{id}")]
-        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any)]
+        [ResponseCache(Duration =60, Location = ResponseCacheLocation.Any)]
         public async Task<IActionResult> GetById(int id)
         {
             try
@@ -94,7 +94,7 @@ namespace vizsgaremek.Controllers
 
                     if (response == null)
                     {
-                        return BadRequest("Nincs ilyen készétel.");
+                        return StatusCode(404, "Nincs ilyen készétel.");
                     }
 
                     var result = new
@@ -110,7 +110,7 @@ namespace vizsgaremek.Controllers
                             khk.Hozzavalok.Id,
                             khk.Hozzavalok.HozzavaloNev
                         }).ToList(),
-                        Kep = response.Kep != null && response.Kep.Length > 0
+                        Kep = response.Kep != null && response.Kep.Length >0
                             ? Program.ImageConvert(response.Kep)
                             : null
                     };
@@ -123,12 +123,12 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(result);
+                    return StatusCode(200, result);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -143,17 +143,17 @@ namespace vizsgaremek.Controllers
                 {
                     if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
                     {
-                        return Ok("Létezik ilyen készétel!");
+                        return StatusCode(409, "Létezik ilyen készétel!");
                     }
 
                     Keszetelek keszetel = new Keszetelek();
                     keszetel.Nev = nev;
                     keszetel.Leiras = leiras;
                     keszetel.Ar = ar;
-                    keszetel.Elerheto = elerheto ?? 0;
+                    keszetel.Elerheto = elerheto ??0;
                     keszetel.KategoriaId = kategoriaid;
 
-                    if (kep != null && kep.Length > 0)
+                    if (kep != null && kep.Length >0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -178,7 +178,7 @@ namespace vizsgaremek.Controllers
                         if (missing.Any())
                         {
                             await transaction.RollbackAsync();
-                            return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
+                            return StatusCode(500, $"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
                         }
 
                         foreach (var hId in distinctIds)
@@ -194,7 +194,7 @@ namespace vizsgaremek.Controllers
                     }
 
                     await transaction.CommitAsync();
-                    return Ok("Sikeres készétel mentés.");
+                    return StatusCode(200, "Sikeres készétel mentés.");
                 }
                 catch (Exception ex)
                 {
@@ -219,7 +219,7 @@ namespace vizsgaremek.Controllers
 
                     if (keszetel == null)
                     {
-                        return NotFound("Nincs ilyen készétel!");
+                        return StatusCode(404, "Nincs ilyen készétel!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -245,7 +245,7 @@ namespace vizsgaremek.Controllers
                     {
                         keszetel.KategoriaId = Kategoria.Value;
                     }
-                    if (kep != null && kep.Length > 0)
+                    if (kep != null && kep.Length >0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -267,7 +267,7 @@ namespace vizsgaremek.Controllers
                         if (missing.Any())
                         {
                             await transaction.RollbackAsync();
-                            return BadRequest($"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
+                            return StatusCode(500, $"A következő hozzávalók nem találhatók: {string.Join(",", missing)}");
                         }
 
                         cx.KeszetelHozzavalokKapcsolos.RemoveRange(keszetel.KeszetelHozzavalokKapcsolos);
@@ -286,12 +286,12 @@ namespace vizsgaremek.Controllers
 
                     await cx.SaveChangesAsync();
                     await transaction.CommitAsync();
-                    return Ok("Sikeres készétel módosítás.");
+                    return StatusCode(200, "Sikeres készétel módosítás.");
                 }
                 catch (Exception ex)
                 {
                     await transaction.RollbackAsync();
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -317,17 +317,17 @@ namespace vizsgaremek.Controllers
                     var keszetel = await cx.Keszeteleks.FirstOrDefaultAsync(k => k.Id == id);
                     if (keszetel == null)
                     {
-                        return NotFound("Nincs ilyen készétel!");
+                        return StatusCode(404, "Nincs ilyen készétel!");
                     }
 
                     cx.Keszeteleks.Remove(keszetel);
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres készétel törlés.");
+                    return StatusCode(200, "Sikeres készétel törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

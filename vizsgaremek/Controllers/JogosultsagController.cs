@@ -18,11 +18,11 @@ namespace vizsgaremek.Controllers
                 try
                 {
                     var response = await cx.Jogoks.ToListAsync();
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -38,7 +38,7 @@ namespace vizsgaremek.Controllers
                 {
                     if (cx.Keszeteleks.FirstOrDefault(f => f.Nev == nev) != null)
                     {
-                        return Ok("Létezik ilyen Jogosultág!");
+                        return StatusCode(409, "Létezik ilyen Jogosultág!");
                     }
                     Jogok jog = new Jogok();
                     jog.Szint = szint;
@@ -47,11 +47,11 @@ namespace vizsgaremek.Controllers
 
                     cx.Jogoks.Add(jog);
                     cx.SaveChanges();
-                    return Ok("Sikeres Jogosultág Mentés");
+                    return StatusCode(200, "Sikeres Jogosultág Mentés");
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
 
@@ -70,7 +70,7 @@ namespace vizsgaremek.Controllers
                     var Jog = await cx.Jogoks.FirstOrDefaultAsync(k => k.Id == id);
                     if (Jog == null)
                     {
-                        return NotFound("Nincs ilyen Jogosultág!");
+                        return StatusCode(404, "Nincs ilyen Jogosultág!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -84,11 +84,11 @@ namespace vizsgaremek.Controllers
                     }
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág módosítás");
+                    return StatusCode(200, "Sikeres Jogosultág módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -104,11 +104,11 @@ namespace vizsgaremek.Controllers
                     Jogok jog = new Jogok { Id = id };
                     cx.Remove(jog);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Jogosultág törlés.");
+                    return StatusCode(200, "Sikeres Jogosultág törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

@@ -20,12 +20,12 @@ namespace BackendAlap.Controllers
                 {
                     if (dto == null)
                     {
-                        return BadRequest("Hiányzó adatok.");
+                        return StatusCode(500, "Hiányzó adatok.");
                     }
 
                     if (await cx.Users.AnyAsync(f => f.Email == dto.Email))
                     {
-                        return Ok("Már létezik ez az email cím!");
+                        return StatusCode(409, "Már létezik ez az email cím!");
                     }
 
                     var salt = Program.GenerateSalt();
@@ -44,11 +44,11 @@ namespace BackendAlap.Controllers
 
                     await cx.Users.AddAsync(user);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres regisztráció.");
+                    return StatusCode(200, "Sikeres regisztráció.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -63,26 +63,26 @@ namespace BackendAlap.Controllers
                     User? user = cx.Users.FirstOrDefault(f => f.Email == email);
                     if (user == null)
                     {
-                        return BadRequest("Sikertelen regisztráció");
+                        return StatusCode(404, "Sikertelen regisztráció");
                     }
                     else
                     {
                         if (user.Aktiv != 2)
                         {
-                            return Ok("A regisztráció már megtörtént!");
+                            return StatusCode(200, "A regisztráció már megtörtént!");
                         }
                         else
                         {
                             user.Aktiv = 1;
                             cx.Users.Update(user);
                             await cx.SaveChangesAsync();
-                            return Ok("Sikeres fiók aktiválás.");
+                            return StatusCode(200, "Sikeres fiók aktiválás.");
                         }
                     }
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

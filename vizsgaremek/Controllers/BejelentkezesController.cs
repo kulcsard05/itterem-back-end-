@@ -25,13 +25,13 @@ namespace vizsgaremek.Controllers
                     var response = cx.Users.FirstOrDefault(f => f.Email == login.email);
                     if (response == null)
                     {
-                        return Ok("Hibás név vagy jelszó");
+                        return StatusCode(404, "Hibás név vagy jelszó");
                     }
 
                     var computedHash = Program.CreateSHA256($"{response.Salt}:{login.passwd}");
                     if (response.Hash != computedHash)
                     {
-                        return Ok("Hibás név vagy jelszó");
+                        return StatusCode(404, "Hibás név vagy jelszó");
                     }
 
                     var jwt = HttpContext.RequestServices.GetRequiredService<IConfiguration>()
@@ -75,11 +75,11 @@ namespace vizsgaremek.Controllers
 
                     }
 
-                    return Ok(loggeduser);
+                    return StatusCode(200, loggeduser);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
 
@@ -90,65 +90,42 @@ namespace vizsgaremek.Controllers
         {
             try
             {
-                // SECURITY NOTE:
-                // This endpoint modifies user data. We must ensure that a normal user can't update someone else's record
-                // by simply passing a different `id`.
-                //
-                // We do this by comparing:
-                // - the target user id coming from the request (`id` parameter)
-                // - the authenticated user's id stored inside the JWT token (`sub` claim)
-                //
-                // Only admins are allowed to modify any user. Non-admin users can only modify themselves.
-
-                // `jogosultsag` is a custom claim you add to the JWT at login time. In your app:
-                // - "3" means Admin
-                // - other values are non-admin
                 var lvl = User.FindFirst("jogosultsag")?.Value;
 
-                // `sub` (subject) is a standard JWT claim. You put `response.Id` into it when generating the token.
-                // So it uniquely identifies the logged-in user.
-                // NOTE: depending on JWT handler settings, the `sub` claim can be mapped to ClaimTypes.NameIdentifier.
-                // For safety we check both.
                 var sub = User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value
                 ?? User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-                // Admin can edit any user record.
                 var isAdmin = lvl == "3";
 
-                // If the caller is NOT admin, enforce "ownership": token user id must match the requested id.
                 if (!isAdmin)
                 {
-                    // If token doesn't contain a usable user id, treat this as not authenticated properly.
                     if (!int.TryParse(sub, out var tokenUserId))
                     {
-                        return Unauthorized();
+                        return StatusCode(500, "Nem sikerült azonosítani a felhasználót a token alapján.");
                     }
 
-                    // If `sub` does not match the requested `id`, block the request.
                     if (tokenUserId != id)
                     {
-                        //403 Forbidden: authenticated, but not allowed to do this action.
-                        return Forbid();
+                        return StatusCode(500, "Nincs jogosultság a művelet végrehajtásához.");
                     }
                 }
 
                 using (var cx = new BackEndAlapContext())
                 {
                     var users = cx.Users.FirstOrDefault(k => k.Id == id);
-                    if (users == null) return BadRequest("Nincs ilyen felhasználó");
+                    if (users == null) return StatusCode(404, "Nincs ilyen felhasználó");
                     if (!string.IsNullOrEmpty(nev)) users.TeljesNev = nev;
                     if (email != null) users.Email = email;
                     if (!string.IsNullOrEmpty(telefonszam)) users.Telefonszam = telefonszam;
 
-                    // Persist the changes to the database
                     cx.SaveChanges();
 
-                    return Ok(users);
+                    return StatusCode(200, users);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 

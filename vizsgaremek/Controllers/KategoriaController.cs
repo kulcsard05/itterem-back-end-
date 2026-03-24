@@ -64,11 +64,11 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace vizsgaremek.Controllers
 
                     if (categories == null)
                     {
-                        return BadRequest("nincs ilyen kategoria");
+                        return StatusCode(404, "nincs ilyen kategoria");
                     }
 
                     var response = new
@@ -115,11 +115,11 @@ namespace vizsgaremek.Controllers
                         return StatusCode(StatusCodes.Status304NotModified);
                     }
 
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -134,17 +134,17 @@ namespace vizsgaremek.Controllers
                 {
                     if (cx.Kategoria.FirstOrDefault(f => f.Nev == nev) != null)
                     {
-                        return Ok("Létezik ilyen Kategória!");
+                        return StatusCode(409, "Létezik ilyen Kategória!");
                     }
                     Kategoria kat = new Kategoria();
                     kat.Nev = nev;
                     cx.Kategoria.Add(kat);
                     cx.SaveChanges();
-                    return Ok("Sikeres kategória  Mentés");
+                    return StatusCode(200, "Sikeres kategória  Mentés");
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -160,7 +160,7 @@ namespace vizsgaremek.Controllers
                     var kat = await cx.Kategoria.FirstOrDefaultAsync(k => k.Id == id);
                     if (kat == null)
                     {
-                        return NotFound("Nincs ilyen kategória!");
+                        return StatusCode(404, "Nincs ilyen kategória!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -169,11 +169,11 @@ namespace vizsgaremek.Controllers
                     }
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Kategória módosítás");
+                    return StatusCode(200, "Sikeres Kategória módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -189,11 +189,11 @@ namespace vizsgaremek.Controllers
                     Kategoria kat = new Kategoria { Id = id };
                     cx.Remove(kat);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Kategória törlés.");
+                    return StatusCode(200, "Sikeres Kategória törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

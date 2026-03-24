@@ -32,11 +32,11 @@ namespace vizsgaremek.Controllers
                             : null
                     }).ToList();
 
-                    return Ok(result);
+                    return StatusCode(200, result);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -48,14 +48,14 @@ namespace vizsgaremek.Controllers
             {
                 using (var cx = new BackEndAlapContext()) {
                     var response = await cx.Koreteks.FirstOrDefaultAsync(f=>f.Id == id);
-                    if (response == null) return BadRequest("nincs ilyen");
-                    return Ok(response);
+                    if (response == null) return StatusCode(404, "nincs ilyen");
+                    return StatusCode(200, response);
             }
             }
             catch (Exception ex)
             {
 
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
         [Authorize(Policy = "Admin")]
@@ -68,7 +68,7 @@ namespace vizsgaremek.Controllers
                 {
                     if (await cx.Koreteks.AnyAsync(f => f.Nev == nev))
                     {
-                        return Ok("Létezik ilyen Köret!");
+                        return StatusCode(409, "Létezik ilyen Köret!");
                     }
 
                     Koretek koret = new Koretek();
@@ -89,11 +89,11 @@ namespace vizsgaremek.Controllers
 
                     await cx.Koreteks.AddAsync(koret);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Köret mentés");
+                    return StatusCode(200, "Sikeres Köret mentés");
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace vizsgaremek.Controllers
                     var koret = await cx.Koreteks.FirstOrDefaultAsync(k => k.Id == id);
                     if (koret == null)
                     {
-                        return NotFound("Nincs ilyen Köret!");
+                        return StatusCode(404, "Nincs ilyen Köret!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -137,11 +137,11 @@ namespace vizsgaremek.Controllers
                     }
 
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Köret módosítás");
+                    return StatusCode(200, "Sikeres Köret módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -156,11 +156,11 @@ namespace vizsgaremek.Controllers
                     Koretek koret = new Koretek { Id = id };
                     cx.Remove(koret);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Köret törlés.");
+                    return StatusCode(200, "Sikeres Köret törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

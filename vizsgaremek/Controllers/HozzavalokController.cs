@@ -22,14 +22,15 @@ namespace vizsgaremek.Controllers
                 try
                 {
                     var response = await cx.Hozzavaloks.ToListAsync();
-                    return Ok(response);
+                    return StatusCode(200, response);
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
+
         [Authorize(Policy = "Admin")]
         [HttpPost]
         public IActionResult PostHozzavalok(string nev)
@@ -44,17 +45,17 @@ namespace vizsgaremek.Controllers
                 {
                     if (cx.Hozzavaloks.FirstOrDefault(f => f.HozzavaloNev == nev) != null)
                     {
-                        return Ok("Létezik ilyen Hozzávaló!");
+                        return StatusCode(409, "Létezik ilyen Hozzávaló!");
                     }
                     hozzavalo.HozzavaloNev = nev;
 
                     cx.Hozzavaloks.Add(hozzavalo);
                     cx.SaveChanges();
-                    return Ok("Sikeres Hozzávaló Mentés");
+                    return StatusCode(200, "Sikeres Hozzávaló Mentés");
                 }
                 catch (Exception ex)
                 {
-                    return StatusCode(500, ex);
+                    return StatusCode(500, ex.Message);
                 }
             }
 
@@ -73,7 +74,7 @@ namespace vizsgaremek.Controllers
                     var hozzavalo = await cx.Hozzavaloks.FirstOrDefaultAsync(k => k.Id == id);
                     if (hozzavalo == null)
                     {
-                        return NotFound("Nincs ilyen Hozzávaló!");
+                        return StatusCode(404, "Nincs ilyen Hozzávaló!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -81,11 +82,11 @@ namespace vizsgaremek.Controllers
                         hozzavalo.HozzavaloNev = nev;
                     }
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Hozzávaló módosítás");
+                    return StatusCode(200, "Sikeres Hozzávaló módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -101,11 +102,11 @@ namespace vizsgaremek.Controllers
                     Hozzavalok hozzavalo = new Hozzavalok { Id = id };
                     cx.Remove(hozzavalo);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres Hozzávaló törlés.");
+                    return StatusCode(200, "Sikeres Hozzávaló törlés.");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }

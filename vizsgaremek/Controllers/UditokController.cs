@@ -30,12 +30,12 @@ namespace vizsgaremek.Controllers
                             : null
                     }).ToList();
 
-                    return Ok(result);
+                    return StatusCode(200, result);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
         [Authorize(Policy = "Admin")]
@@ -48,7 +48,7 @@ namespace vizsgaremek.Controllers
                 {
                     if (cx.Uditoks.FirstOrDefault(u => u.Nev == nev) != null)
                     {
-                        return Ok("Létezik ilyen Üdítő!");
+                        return StatusCode(409, "Létezik ilyen Üdítő!");
                     }
 
                     Uditok udito = new Uditok();
@@ -67,12 +67,12 @@ namespace vizsgaremek.Controllers
 
                     await cx.Uditoks.AddAsync(udito);
                     await cx.SaveChangesAsync();
-                    return Ok("Sikeres üdítő mentés");
+                    return StatusCode(200, "Sikeres üdítő mentés");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
         [Authorize(Policy = "Admin_Dolgozo")]
@@ -86,7 +86,7 @@ namespace vizsgaremek.Controllers
                     var udito = cx.Uditoks.FirstOrDefault(k => k.Id == id);
                     if (udito == null)
                     {
-                        return NotFound("Nincs ilyen üdítő!");
+                        return StatusCode(404, "Nincs ilyen üdítő!");
                     }
 
                     if (!string.IsNullOrWhiteSpace(nev))
@@ -114,11 +114,11 @@ namespace vizsgaremek.Controllers
                     }
 
                     cx.SaveChanges();
-                    return Ok("Sikeres üdítő módosítás");
+                    return StatusCode(200, "Sikeres üdítő módosítás");
                 }
                 catch (Exception ex)
                 {
-                    return BadRequest(ex.Message);
+                    return StatusCode(500, ex.Message);
                 }
             }
         }
@@ -131,15 +131,15 @@ namespace vizsgaremek.Controllers
                 using (var cx = new BackEndAlapContext())
                 {
                     var res = cx.Uditoks.FirstOrDefault(f => f.Id == id);
-                    if (res == null) return BadRequest("Nincs ilyen üdítő");
+                    if (res == null) return StatusCode(404, "Nincs ilyen üdítő");
                     cx.Uditoks.Remove(res);
                     cx.SaveChanges();
-                    return Ok("Sikeres törlés");
+                    return StatusCode(200, "Sikeres törlés");
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
 
@@ -153,7 +153,7 @@ namespace vizsgaremek.Controllers
                     var udito = await cx.Uditoks.FirstOrDefaultAsync(u => u.Id == id);
                     if (udito == null)
                     {
-                        return NotFound("Nincs ilyen üdítő!");
+                        return StatusCode(404, "Nincs ilyen üdítő!");
                     }
 
                     var result = new
@@ -167,12 +167,12 @@ namespace vizsgaremek.Controllers
                             : null
                     };
 
-                    return Ok(result);
+                    return StatusCode(200, result);
                 }
             }
             catch (Exception ex)
             {
-                return BadRequest(ex.Message);
+                return StatusCode(500, ex.Message);
             }
         }
     }
