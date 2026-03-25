@@ -58,6 +58,7 @@ namespace vizsgaremek.Controllers
                         r.Id,
                         r.FelhasznaloId,
                         FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                        Telefonszam = r.Felhasznalo.Telefonszam,
                         r.Datum,
                         r.Statusz,
                         r.OsszesAr,
@@ -101,6 +102,7 @@ namespace vizsgaremek.Controllers
                         r.Id,
                         r.FelhasznaloId,
                         FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                        Telefonszam = r.Felhasznalo.Telefonszam,
                         r.Datum,
                         r.Statusz,
                         r.OsszesAr,
@@ -144,6 +146,7 @@ namespace vizsgaremek.Controllers
                         r.Id,
                         r.FelhasznaloId,
                         FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                        Telefonszam = r.Felhasznalo.Telefonszam,
                         r.Datum,
                         r.Statusz,
                         RendelesElemeks = r.RendelesElemeks.Select(e => new
@@ -317,6 +320,7 @@ namespace vizsgaremek.Controllers
                         var orderPayload = await cx.Rendeleseks
                             .Where(r => r.Id == targetOrder.Id)
                             .Include(r => r.RendelesElemeks).ThenInclude(e => e.Keszetel).ThenInclude(k => k.KeszetelHozzavalokKapcsolos).ThenInclude(kh => kh.Hozzavalok)
+                            .Include(r=>r.Felhasznalo)
                             .Include(r => r.RendelesElemeks).ThenInclude(e => e.Udito)
                             .Include(r => r.RendelesElemeks).ThenInclude(e => e.Menu)
                             .Include(r => r.RendelesElemeks).ThenInclude(e => e.Koret)
@@ -324,6 +328,8 @@ namespace vizsgaremek.Controllers
                             {
                                 r.Id,
                                 r.FelhasznaloId,
+                                FelhasznaloNev = r.Felhasznalo.TeljesNev,
+                                Telefonszam = r.Felhasznalo.Telefonszam,
                                 r.Datum,
                                 r.Statusz,
                                 r.OsszesAr,
