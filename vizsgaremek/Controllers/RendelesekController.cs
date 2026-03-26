@@ -365,7 +365,7 @@ namespace vizsgaremek.Controllers
             }
 
 
-            [Authorize(Policy = "Admin")]
+            [Authorize(Policy = "Admin_Dolgozo")]
             [HttpDelete]
 
             public IActionResult Delete(int id)
